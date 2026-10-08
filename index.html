@@ -1,0 +1,322 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapel In-Charge Cleaning and Preparation List</title>
+<meta name="theme-color" content="#4b2a6b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chapel List">
+<style>
+:root{--bg:#f3f1f6;--card:#fff;--ink:#241d2b;--mut:#6f6678;--ac:#4b2a6b;--acs:#ece4f4;--ln:#ddd6e6;--ok:#2f7d4f;--gd:#9a7217;--hd:#4b2a6b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root.feast{--hd:#9a7217}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16131b;--card:#211c29;--ink:#efeaf4;--mut:#a79eb3;--ac:#c9a9e8;--acs:#33283f;--ln:#383044;--ok:#5fc08a;--gd:#e0b24f}}
+:root[data-theme="dark"]{--bg:#16131b;--card:#211c29;--ink:#efeaf4;--mut:#a79eb3;--ac:#c9a9e8;--acs:#33283f;--ln:#383044;--ok:#5fc08a;--gd:#e0b24f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:var(--hd);color:#fff}
+h1{font:600 18px "Palatino Linotype",Palatino,Georgia,serif;margin:0}
+header select,header button{font:inherit;background:#ffffff2e;color:#fff;border:0;border-radius:8px;padding:6px 10px}
+header option{color:#000}
+main{padding:12px 14px 96px;max-width:640px;margin:auto}
+section{margin:18px 0}
+h2{font:600 18px "Palatino Linotype",Palatino,Georgia,serif;color:var(--ac);margin:0 0 6px}
+.nt,small{color:var(--mut);font-size:13px;display:block;margin:2px 0}
+.it{background:var(--card);border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:10px 12px}
+.it.dn>label b,.sb.dn span{text-decoration:line-through;color:var(--mut)}
+label{display:flex;gap:10px;align-items:flex-start}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--ac);flex:none;margin:1px 0 0}
+.tg{font-style:normal;font-size:11px;background:var(--acs);color:var(--ac);border-radius:6px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+details{margin:6px 0 0 32px}summary{color:var(--ac);font-size:13px;cursor:pointer}
+.sb{margin:7px 0;font-size:14px}.sb input{width:18px;height:18px}
+.pb{height:8px;background:var(--ln);border-radius:4px;overflow:hidden;margin-top:8px}.pb i{display:block;height:100%;background:var(--ok);transition:width .2s}
+button{font:inherit;cursor:pointer}
+.dt{display:flex;justify-content:space-between;align-items:center;text-align:center;margin:4px 0}
+.dt button{background:var(--card);border:1px solid var(--ln);color:var(--ink);border-radius:50%;width:42px;height:42px;font-size:20px}
+.lk{display:block;width:100%;background:none;border:0;color:var(--ac);padding:8px;font-weight:600}
+.big{background:var(--acs);border-radius:12px;margin:14px 0;padding:12px}
+.ctl{display:flex;gap:10px;align-items:center;margin:10px 0}
+.ctl select{flex:1;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--ink)}
+.sw{white-space:nowrap;align-items:center}.sw input{margin:0}
+.seg{display:flex;gap:6px;margin:6px 0}.seg button{flex:1;padding:8px 4px;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:10px}.seg .on{background:var(--ac);color:var(--card);border-color:var(--ac)}
+.su{display:flex;justify-content:space-between;width:100%;padding:12px;margin:6px 0;background:var(--card);border:1px solid var(--ln);border-radius:12px;color:var(--ink)}
+.s0 b{color:var(--ok)}.s1 b{color:var(--gd)}.s2 b{color:#c0392b}
+.pl{padding:8px 4px;border-bottom:1px solid var(--ln)}.pl.now{background:var(--acs);border-radius:8px;padding-left:10px}.pl b{color:var(--ac)}
+ol{padding-left:20px}li{margin:6px 0}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;padding:8px 0;background:none;border:0;color:var(--mut);font-size:12px}nav button.on{color:var(--ac);font-weight:700}nav span{display:block;font-size:18px}
+a.lk{text-align:center;text-decoration:none}.ctl .lk{width:auto;padding:8px 12px}
+.nm{flex:1;min-width:0;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--ink)}textarea.nm{width:100%;display:block}.ms{max-height:320px;overflow:auto;background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:8px;margin-bottom:8px}.mg{margin:6px 0;padding:6px 10px;border-radius:10px;background:var(--acs);max-width:85%;overflow-wrap:anywhere}.mg.me{margin-left:auto;background:var(--ac);color:var(--card)}.mg small{display:block;color:inherit;opacity:.7}.x{background:none;border:0;color:inherit;opacity:.6}.ctl .su{width:auto;margin:0;padding:8px 12px}
+.su{text-align:left}.hl{outline:2px solid var(--gd);outline-offset:2px;border-radius:12px}input[type=search]{-webkit-appearance:none}
+.pr{display:block;width:100%;padding:12px;border:0;border-radius:12px;background:var(--ac);color:var(--card);font-weight:600;margin:8px 0}.pr:disabled,.su:disabled{opacity:.5}.er{color:#c0392b;font-size:14px;margin:6px 0}.ok{color:var(--ok);font-size:14px;margin:6px 0}.lo nav,.lo header select{display:none}
+</style></head><body>
+<header><h1>Chapel In-Charge</h1><div><select id="ch"><option>CITE</option><option>SAC</option></select> <button data-a="th" aria-label="Toggle theme">◐</button></div></header>
+<main></main>
+<nav><button data-tab="today"><span>☀</span>Today</button><button data-tab="prep"><span>✚</span>Prepare</button><button data-tab="plan"><span>▤</span>Plan</button><button data-tab="sup"><span>▣</span>Supplies</button><button data-tab="find"><span>🔍</span>Search</button><button data-tab="acct"><span>👤</span>Account</button></nav>
+<script>
+const $=s=>document.querySelector(s),ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+let S={ch:'CITE',tab:'today',pt:'mass',date:'',d:{},o:{},u:{},th:'',n:{},hc:0,hr:0,f:'',rb:{},lm:[]};
+try{Object.assign(S,JSON.parse(localStorage.getItem('cic')||'{}'))}catch(e){}
+S.date=ymd(new Date());S.tab='today';S.q='';
+{const c=ymd(new Date(Date.now()-60*864e5));for(const m of['d','o','n','rb'])for(const k in S[m])if(k<c)delete S[m][k]}
+if(!S.f)S.f=ymd(new Date());
+const sv=()=>{try{localStorage.setItem('cic',JSON.stringify(S))}catch(e){}};
+const O=()=>S.o[S.date]||(S.o[S.date]=(i=>({m:'mass',f:i.f,c:i.f?'':i.c}))(lit(new Date(S.date+'T00:00')))),D=()=>S.d[S.date]||(S.d[S.date]={});
+const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAILY=[
+["Wipe surfaces","Use the designated cloth on the sacristy table, credence tables (oratory and sacristy), lectern, small tables and pews. Do this before placing any liturgical items."],
+["Clean and refill lamps and candles","Vegetable oil for the vigil lamp; paraffin oil for the oil candles, as needed."],
+["Clean the floors","Chapel, sacristy and confessional room."],
+["Clean the bases","Missal stand and altar microphone stand."],
+["Clean, dry and fill the cruets","Fresh wine and water every morning before Holy Mass."],
+["Hands clean and dry; white gloves","Before handling any liturgical items."]];
+const WEEK={
+1:["Liturgical vessels","Wipe and polish the chalices and ciboria with the designated cloth. No metal polish: use a clean cloth dampened with clean water. No fingerprints, stains or marks."],
+2:["Microphones","Clean and inspect all microphones: clean, in good condition, working properly."],
+3:["Air fresheners and humidity","Check the air fresheners in the chapel, sacristy, confessional and chaplain's office. Check the sacristy dehumidifier is working (protects vestments and books)."],
+4:["Oratory supplies inventory","Check large and small hosts, Mass wine (Mompo), air fresheners, dehumidifier, cleaning rags, vegetable oil and paraffin oil. Log them in the Supplies tab."],
+5:["Vestment laundry","Inspect and collect vestments that need laundering; coordinate with the authorized administrative personnel to submit them."],
+6:["Wash rags and gloves","Wash the used cleaning rags and gloves this afternoon in the dormitory."]};
+const MON=[
+{wd:1,n:1,l:'1st Monday',t:'Tabernacle (priest)',x:()=>'The priest cleans the tabernacle and replaces its corporal.'},
+{wd:6,n:1,l:'1st Saturday',t:'Sacristy drawers and altar linen',x:c=>'Clean all drawers and cabinets in the sacristy. '+(c=='CITE'?'Replace the front altar linen':'Replace the altar linen')+' (Ordinary or Feast Days).'},
+{wd:6,n:2,l:'2nd Saturday',t:'Chapel and Room 105 cabinets',x:()=>'Clean all drawers and cabinets in the chapel and Room 105.'},
+{wd:6,n:3,l:'3rd Saturday',t:"Chaplain's office",x:()=>"General cleaning: floors, bookshelves, cabinets. General Services staff clean the chapel's glass windows, doors and restrooms."},
+{wd:6,n:4,l:'4th Saturday',t:'Gymnasium liturgical items',x:()=>'Clean, organize and properly arrange all liturgical items stored in the gymnasium.'}];
+const CLOSE=[
+["Lights, sound system and A/C off","After 5:00 PM, after CITE office hours, or when all activities in the chapel or Room 105 end."],
+["Fans and appliances off and unplugged","Only the vigil lamp stays lit at all times."],
+["Doors locked, windows closed","Protects the Blessed Sacrament and liturgical items. If in doubt, ask the Security Guard on duty to check the premises."]];
+const a=(t,w,x,s)=>({t,w,x,s}),C=f=>f?'Gold':(O().c||'White, Violet, Green or Red (per Ordo)');
+const PM=f=>[
+a('Liturgical vestments','Day before','Complete if possible; be ready in the sacristy.',['Chasuble: '+C(f),'Stole: '+C(f),'Cincture','Alb (one short ribbon)','Amice (two long ribbons)']),
+a('Chalice set and two handkerchiefs','Day before','Ready for pickup from the sacristy the morning before Mass.',['Chalice','Purificator','Paten','Large host','Pall','Chalice veil: '+C(f),'Burse: '+C(f),'Corporal']),
+a('Liturgical books','Day before','Ready for pickup from the sacristy the morning before Mass.',['Roman Missal (Cebuano, English or Latin): check the Ordo for the Mass of the day, prayers and color','Missal ribbons: Entrance Antiphon, Collect, Prayer over the Offerings, Preface, Prayer before Communion, Prayer after Communion, Solemn Blessing (if needed)','Lectionary: mark the readings of the day','Prayers of the Faithful: weekday, Sunday, feast or solemnity']),
+a('Cruet set','Before Mass','Fill with the appropriate amounts of wine and water.',['Tray','Small spoon','Wine cruet (wine)','Water cruet (water)','Hand towel','Ablution glass']),
+a('Ciborium with small hosts','Before Mass','Estimate the communicants and subtract the hosts left in the tabernacle, or ask the priest how many to prepare.'),
+a('Altar linen','Day before','If needed.'),
+a('Bell','Morning','Pick up from the cabinet.'),
+a('Communion plate','Morning','Pick up from the cabinet.'),
+a('Communion cloth','Morning','Pick up from the cabinet.'),
+a('Triptych image','Morning','Put it on the small table in the chapel with a handkerchief for handling. Five minutes before Mass, place it on the back altar to cover the tabernacle.'),
+a('Microphones (altar and lectern)','Before Mass','Place in the proper location.'),
+a('Missal stand','Morning','Place on the credence table in the chapel with a handkerchief for handling.'),
+a('Tray with lighter or matches and candle snuffer','Before Mass','Place in the proper location.'),
+a('Flowers (if needed)','Day before','Complete if possible.'),
+a('Tabernacle key (if needed)','Before Mass','Place in the proper location.'),
+a('Altar candles','Before Mass',f?'Feast day: light all candles.':'Ordinary day: light two candles.'),
+a('Air-conditioning on','Before Mass','Turn on about 30 minutes before Mass or any related activity in the chapel or Room 105.')];
+const PB=()=>[a('Surplice','','Ordinary or feast days.'),a('Stole','','Ordinary or feast days.'),a('Corporals','','Front and rear altars, as applicable.'),a('Book and Benediction guide','','The book with the selected Scripture texts and the guide for Benediction of the Blessed Sacrament.'),a('Bell'),a('Humeral veil'),a('Tabernacle key'),a('Altar candles','',S.ch=='CITE'?'CITE: light the candles on both the front and back altars.':'Prepare the altar candle lighting arrangements.'),a('Tabernacle veil','','Use the white tabernacle veil (ordinary or feast days).'),...(S.ch=='CITE'?[a('Altar crucifix','CITE','Remove before Benediction; return it to its original position afterward.')]:[])];
+const PMED=['Meditation table','Meditation cloth','Chair','Microphone','Crucifix','Lamp'].map(t=>a(t));
+const SUP=['Large communion hosts','Small communion hosts','Mass wine (Mompo)','Air fresheners','Dehumidifier','Cleaning rags','Vegetable oil','Paraffin oil'],ST=['OK','Low','Out'];
+
+function it(id,t,x,tag,subs){const k=D()[id];
+return `<div class="it${k?' dn':''}"><label><input type=checkbox data-id="${id}"${k?' checked':''}><span><b>${t}</b>${tag?`<i class=tg>${tag}</i>`:''}<small>${x||''}</small></span></label>${subs?`<details><summary>Item list</summary>${subs.map((s,j)=>`<label class="sb${D()[id+'_'+j]?' dn':''}"><input type=checkbox data-id="${id}_${j}"${D()[id+'_'+j]?' checked':''}><span>${s}</span></label>`).join('')}</details>`:''}</div>`}
+const sec=(h,n,b)=>`<section><h2>${h}</h2>${n?`<p class=nt>${n}</p>`:''}${b}</section>`;
+function dbar(){const d=new Date(S.date+'T00:00');return `<div class=dt><button data-a=prev aria-label="Previous day">‹</button><div><b>${DN[d.getDay()]}</b><br>${d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}</div><button data-a=next aria-label="Next day">›</button></div>`+(S.date!=ymd(new Date())?`<button class=lk data-a=now>Back to today</button>`:'')}
+function opts(){const o=O();return `<div class=ctl><select data-s=m aria-label="Day type">${[['mass','Holy Mass today'],['none','No Holy Mass'],['break','School break']].map(([v,l])=>`<option value=${v}${o.m==v?' selected':''}>${l}</option>`).join('')}</select><label class=sw><input type=checkbox data-s=f${o.f?' checked':''}> Feast day</label></div>`}
+function today(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7);
+let h=dbar()+ordo()+opts()+'<div id=pg></div>';
+if(S.date==ymd(new Date()))h+=missed();
+const dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3));
+h+=sec('Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'');
+if(o.m=='mass')h+='<button class="lk big" data-a=prep>Open the Mass preparation checklist</button>';
+h+=sec('Weekly task: '+DN[w],'',WEEK[w]?it('w',WEEK[w][0],WEEK[w][1]):'<p class=nt>No weekly task on Sundays.</p>');
+const m=MON.filter(x=>x.wd==w&&x.n==n);
+if(m.length)h+=sec('Monthly task','',m.map((x,i)=>it('mo'+i,x.t,x.x(S.ch),x.l)).join(''));
+return h+sec('Closing, after 5:00 PM','',CLOSE.map((x,i)=>it('c'+i,x[0],x[1])).join(''))+sec('Chat','','<div id=chat></div>')+"<button class=lk data-a=reset>Reset this day's checklist</button>"}
+function prep(){const f=O().f,t=S.pt;
+const L=t=='mass'?PM(f):t=='ben'?PB():PMED;
+return dbar()+ordo()+`<div class=seg>${[['mass','Holy Mass'],['ben','Benediction'],['med','Meditation']].map(([v,l])=>`<button data-pt=${v} class="${t==v?'on':''}">${l}</button>`).join('')}</div>`+opts()+(t=='mass'?extra(f):'')+'<div id=pg></div>'+L.map((x,i)=>it('P'+t+i,x.t,x.x,x.w,x.s)).join('')}
+function plan(){const w=new Date(S.date+'T00:00').getDay();
+return sec('Daily','Done whenever Holy Mass is celebrated, Monday to Sunday. No Mass, no daily cleaning. During school breaks the chapel is cleaned every Wednesday and Sunday.',`<ol>${DAILY.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join('')}</ol>`)
++sec('Weekly','',[1,2,3,4,5,6].map(i=>`<div class="pl${i==w?' now':''}"><b>${DN[i]}</b> ${WEEK[i][0]}<small>${WEEK[i][1]}</small></div>`).join(''))
++sec('Monthly ('+S.ch+')','',MON.map(x=>`<div class=pl><b>${x.l}</b> ${x.t}<small>${x.x(S.ch)}</small></div>`).join(''))
++sec('Closing, after 5:00 PM','',CLOSE.map(x=>`<div class=pl><b>${x[0]}</b><small>${x[1]}</small></div>`).join(''))+hist()+rem()+sec('Offline status','','<p class=nt id=off>Checking...</p>')}
+const ics=()=>{const t=(S.rt||'06:00').replace(':',''),d=ymd(new Date()).replace(/-/g,'');
+return 'data:text/calendar;charset=utf-8,'+encodeURIComponent(['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ChapelList//EN','BEGIN:VEVENT','UID:chapel-'+t+'@chapel-list','DTSTAMP:'+d+'T000000Z','DTSTART:'+d+'T'+t+'00','DURATION:PT15M','RRULE:FREQ=DAILY','SUMMARY:Chapel List: daily cleaning and Mass prep','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Chapel List','TRIGGER:PT0S','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n'))};
+function rem(){const t=S.rt||'06:00';
+return sec('Daily reminder','Pick a time, tap Add to calendar, then open the downloaded file to save a repeating daily reminder. For a ringing alarm, use your phone Clock app.',`<div class=ctl><input type=time id=rt value="${t}" style="flex:1;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--ink)"><a class="lk big" id=ra download="chapel-reminder.ics" href="${ics()}">Add to calendar</a></div>`)}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function extra(f){const c=O().c||'';
+return (f?'':`<div class=ctl><span>Vestment color</span><select data-s=c>${['','White','Violet','Green','Red'].map(v=>`<option value="${v}"${c==v?' selected':''}>${v||'Per Ordo'}</option>`).join('')}</select></div>`)
++`<div class=it><b>Small hosts to prepare</b><small>Expected communicants minus consecrated hosts left in the tabernacle.</small><div class=ctl><input class=nm type=number inputmode=numeric min=0 data-h=hc value="${S.hc||''}" placeholder="Communicants"><input class=nm type=number inputmode=numeric min=0 data-h=hr value="${S.hr||''}" placeholder="In tabernacle"><b id=hn style="font-size:24px;min-width:44px;text-align:center">${Math.max(0,S.hc-S.hr)}</b></div></div>`+rib()}
+function hist(){let h='';for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const x=S.d[ymd(d)]||{},c=[0,1,2,3,4,5].filter(j=>x['d'+j]).length;h+=`<div class=pl><b>${DN[d.getDay()].slice(0,3)} ${d.getDate()}</b> ${c?c+' of 6 daily tasks done':'No record'}</div>`}return sec('Last 7 days','',h)}
+const U=(y,m,d)=>Date.UTC(y,m,d),DY=864e5;
+const easter=y=>{const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),n=h+l-7*m+114;return U(y,Math.floor(n/31)-1,n%31+1)};
+const advent=y=>{const w=new Date(y,11,25).getDay();return U(y,11,25)-(w?w+21:28)*DY};
+const bapt=y=>U(y,0,6)+(7-new Date(y,0,6).getDay())*DY;
+const SP={'0-1':['Mary, Mother of God','White'],'1-2':['Presentation of the Lord','White'],'2-19':['St. Joseph','White'],'2-25':['The Annunciation','White'],'5-24':['Nativity of St. John the Baptist','White'],'5-29':['Sts. Peter and Paul','Red'],'7-6':['The Transfiguration','White'],'7-15':['The Assumption','White'],'8-14':['Exaltation of the Holy Cross','Red'],'10-1':['All Saints','White'],'11-8':['Immaculate Conception','White'],'11-25':['The Nativity of the Lord','White']};
+function lit(d){const y=d.getFullYear(),t=U(y,d.getMonth(),d.getDate()),w=d.getDay(),E=easter(y),A=advent(y),B=bapt(y),L=t>=A?y+1:y;let s,c='Green',nm='',f=0;
+if(t>=A&&t<U(y,11,25)){s='Advent';c='Violet'}
+else if(t>=U(y,11,25)||t<=B){s='Christmas Time';c='White'}
+else if(t>=E-46*DY&&t<E-3*DY){s='Lent';c='Violet'}
+else if(t>=E-3*DY&&t<E){s='Sacred Triduum';c='White'}
+else if(t>=E&&t<=E+49*DY){s='Easter Time';c='White'}
+else s='Ordinary Time, week '+(t<E?Math.floor((t-B)/(7*DY))+1:35-Math.ceil((A-t)/(7*DY)));
+const x=SP[d.getMonth()+'-'+d.getDate()];if(x){nm=x[0];c=x[1];f=1}
+const mv={[E-46*DY]:['Ash Wednesday','Violet',0],[E-7*DY]:['Palm Sunday','Red',0],[E-3*DY]:['Holy Thursday','White',1],[E-2*DY]:['Good Friday','Red',0],[E-1*DY]:['Holy Saturday','White',0],[E]:['Easter Sunday','White',1],[E+49*DY]:['Pentecost','Red',1],[E+56*DY]:['Most Holy Trinity','White',1],[A-7*DY]:['Christ the King','White',1]};
+if(mv[t])[nm,c,f]=mv[t];
+return{s,nm,c,f,y:w?'Weekday Year '+(L%2?'I':'II'):'Sunday Year '+'ABC'[(L%3+2)%3]}}
+function ordo(){const i=lit(new Date(S.date+'T00:00'));return `<div class=it><b>${i.nm||i.s}</b>${i.nm?`<i class=tg>${i.s}</i>`:''}<small>${i.y}. Color: ${i.f?'Gold (feast)':i.c}. Worked out by the app; confirm with your official Ordo (saints' memorials and local transfers are not included).</small></div>`}
+function missed(){const r=[];
+for(let i=1;i<=7;i++){const d=new Date();d.setDate(d.getDate()-i);const k=ymd(d);if(k<S.f)break;
+const w=d.getDay(),o=S.o[k]||{m:'mass'},x=S.d[k]||{},dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3)),nd=dn?[0,1,2,3,4,5].filter(j=>!x['d'+j]).length:0,nw=WEEK[w]&&!x.w?1:0;
+if(nd||nw)r.push([k,DN[w].slice(0,3)+' '+d.getDate()+': '+[nd?nd+' daily':'',nw?'weekly task':''].filter(Boolean).join(', ')])}
+return r.length?sec('Missed from earlier days','Tap a day to catch up.',r.map(m=>`<button class="su s1" data-go="${m[0]}"><span>${m[1]}</span><b>Open</b></button>`).join('')):''}
+const RB=['Entrance Antiphon','Collect','Prayer over the Offerings','Preface','Prayer before Communion','Prayer after Communion','Solemn Blessing','Lectionary readings'];
+const rib=()=>`<div class=it><b>Ribbons and readings</b><small>Note the page for each Missal ribbon and the Lectionary readings.</small>${RB.map((l,j)=>`<div class=ctl><span style="flex:1">${l}</span><input class=nm data-r=${j} value="${esc((S.rb[S.date]||[])[j]||'')}" placeholder="Page"></div>`).join('')}<a class=lk target=_blank rel=noopener href="https://bible.usccb.org/daily-bible-reading">Today's readings online (needs internet)</a></div>`;
+const SB=null; /* paste {url:"https://xxxx.supabase.co",key:"your anon public key"} */
+let sb=null,mk=null,CU=null,ME=null,MS=[],cs='idle',ch=null,wid,rdy=false,OFF=false,LE='',LU='',AU=null,AL=50,AE='',AB=false,NT='';
+const EM=u=>u.includes('@')?u:u+'@example.com',YL=['','1st year','2nd year','3rd year','4th year','5th year'],yl=v=>YL[+v]||'Not set',val=id=>($('#'+id)||{}).value||'';
+const fmt=t=>new Date(t).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+const locked=()=>!!SB&&!ME;
+const cch=()=>{try{return JSON.parse(localStorage.getItem('cic_me')||'null')}catch(e){return null}};
+const cset=m=>{try{m?localStorage.setItem('cic_me',JSON.stringify(m)):localStorage.removeItem('cic_me')}catch(e){}};
+async function authInit(){if(!SB||sb||cs=='load')return;cs='load';
+try{const m=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');mk=m.createClient;sb=mk(SB.url,SB.key);cs='ready';
+sb.auth.onAuthStateChange((ev,ses)=>{const id=ses?ses.user.id:null;if(id===wid)return;wid=id;setTimeout(()=>who(ses),0)})}
+catch(e){cs='off';const c=cch();if(c){ME=c;CU={id:c.id};OFF=true}rdy=true;R()}}
+async function who(ses){CU=ses?ses.user:null;ME=null;MS=[];OFF=false;if(ch){sb.removeChannel(ch);ch=null}
+if(CU){let r;try{r=await sb.from('profiles').select('*').eq('id',CU.id).maybeSingle()}catch(e){r={error:e}}
+ME=r.data||null;const c=cch();if(r.error&&c&&c.id==CU.id){ME=c;OFF=true}
+if(ME)cset(ME);else if(!r.error)cset(null);
+if(ME&&!OFF){await load();ch=sb.channel('chat').on('postgres_changes',{event:'*',schema:'public',table:'messages'},load).subscribe()}}
+else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
+else cset(null);
+rdy=true;R()}
+async function load(){try{const {data}=await sb.from('messages').select('*').order('created_at',{ascending:false}).limit(100);MS=(data||[]).reverse()}catch(e){}chatDraw()}
+function chatDraw(){const el=$('#chat');if(!el)return;
+if(!SB){if(!$('#lm'))el.innerHTML=`<div id=lm class=ms></div><div class=ctl><input class=nm id=cin placeholder="Type a message" maxlength=1000><button class=su data-c=lsend>Send</button></div><p class=nt>Saved on this phone only until online chat is set up.</p>`;
+const m=$('#lm');m.innerHTML=S.lm.map((x,j)=>`<div class="mg me"><small>You, ${fmt(x.t)}</small>${esc(x.x)} <button class=x data-c=ldel data-i="${j}" aria-label="Delete">✕</button></div>`).join('')||'<p class=nt>No messages yet.</p>';m.scrollTop=m.scrollHeight;return}
+if(!ME||OFF){el.innerHTML='<p class=nt>Online chat needs an internet connection.</p>';return}
+if(!$('#msgs'))el.innerHTML=`<div id=msgs class=ms></div><div class=ctl><input class=nm id=cin placeholder="Message" maxlength=1000><button class=su data-c=send>Send</button></div>`;
+const m=$('#msgs'),bot=m.scrollTop+m.clientHeight>=m.scrollHeight-40;
+m.innerHTML=MS.map(x=>`<div class="mg${x.user_id==CU.id?' me':''}"><small>${esc(x.name||'')}, ${fmt(x.created_at)}</small>${esc(x.text||'')}${x.user_id==CU.id||ME.is_admin?` <button class=x data-c=del data-i="${x.id}" aria-label="Delete">✕</button>`:''}</div>`).join('')||'<p class=nt>No messages yet.</p>';
+if(bot)m.scrollTop=m.scrollHeight}
+async function chatAct(a){
+if(a.c=='lsend'){const i=$('#cin'),t=i.value.trim();if(!t)return;i.value='';S.lm=[...S.lm,{x:t,t:Date.now()}].slice(-100);sv();chatDraw();return}
+if(a.c=='ldel'){S.lm.splice(+a.i,1);sv();chatDraw();return}
+if(!sb||!ME||OFF)return;
+try{if(a.c=='send'){const i=$('#cin'),t=i.value.trim();if(!t)return;i.value='';const {error}=await sb.from('messages').insert({name:ME.name,text:t});if(error){i.value=t;alert('Message not sent. Check your internet connection.')}else load()}
+else if(a.c=='del'){await sb.from('messages').delete().eq('id',a.i);load()}}
+catch(e){alert('Chat error: '+e.message)}}
+/* ---- Login, account panel, admin panel ---- */
+function gate(){let h;
+if(cs=='off')h='<p class=nt>Cannot reach the sign-in server. Connect to the internet, then reopen the app.</p>';
+else if(!rdy)h='<p class=nt>Loading...</p>';
+else if(CU&&!ME)h='<p class=nt>This account has no profile yet. Ask the admin to check it.</p><button class=lk data-x=out>Log out</button>';
+else h=`<small>Username</small><div class=ctl><input class=nm id=lu value="${esc(LU)}" placeholder="Username or email" autocapitalize=none autocomplete=username></div><small>Password</small><div class=ctl><input class=nm id=lp type=password placeholder="Password" autocomplete=current-password></div>${LE?`<p class=er>${esc(LE)}</p>`:''}<button class=pr data-x=in>Sign in</button><p class=nt>Accounts are created by your admin.</p>`;
+return sec('Sign in','Chapel In-Charge Cleaning and Preparation List',h)}
+const pform=(p,u={})=>`<small>Full name</small><div class=ctl><input class=nm id=${p}n value="${esc(u.name||'')}" autocomplete=name></div><small>Course</small><div class=ctl><input class=nm id=${p}c value="${esc(u.course||'')}" placeholder="e.g. BSIT"></div><small>Section</small><div class=ctl><input class=nm id=${p}s value="${esc(u.section||'')}" placeholder="e.g. A"></div><small>Year level</small><div class=ctl><select id=${p}y><option value="">Select year</option>${[1,2,3,4,5].map(i=>`<option value=${i}${u.year==i?' selected':''}>${YL[i]}</option>`).join('')}</select></div>`;
+function acct(){if(!SB)return sec('Account','',`<p class=nt>Login is not turned on yet. Add your Supabase details in index.html (see SETUP.md) to enable accounts, the admin panel and the user limit.</p>`);
+if(!ME)return '';const t=NT;NT='';
+return (t?`<p class=ok>${esc(t)}</p>`:'')+sec('My account',OFF?'Offline: connect to the internet to edit your profile.':'',`<div class=it><b>${esc(ME.name)}</b>${ME.is_admin?'<i class=tg>Admin</i>':''}<small>@${esc(ME.username)}</small><small>Course: ${esc(ME.course||'Not set')}</small><small>Section: ${esc(ME.section||'Not set')}</small><small>Year: ${yl(ME.year)}</small></div>`)
++(ME.is_admin?'<button class="lk big" data-x=adm>Open admin panel</button>':'')
++sec('Change profile','',pform('p',ME)+'<button class=pr data-x=sp>Save profile</button>')
++sec('Change password','',`<small>New password</small><div class=ctl><input class=nm id=np type=password autocomplete=new-password></div><small>Confirm new password</small><div class=ctl><input class=nm id=nq type=password autocomplete=new-password></div><button class=pr data-x=pw>Change password</button>`)
++'<button class=lk data-x=out>Log out</button>'}
+const ucard=u=>AE==u.id
+?`<div class=it><b>Edit @${esc(u.username)}</b>${pform('e',u)}${u.id==CU.id?'':`<div class=ctl><label class=sw><input type=checkbox id=ea${u.is_admin?' checked':''}> Admin account</label></div>`}<div class=ctl><button class=su data-x=sv data-i="${u.id}">Save</button><button class=su data-x=ec>Cancel</button></div></div>`
+:`<div class=it><b>${esc(u.name||u.username)}</b>${u.is_admin?'<i class=tg>Admin</i>':''}<small>@${esc(u.username)}</small><small>${esc(u.course||'No course')} · Section ${esc(u.section||'-')} · ${yl(u.year)}</small><div class=ctl><button class=su data-x=ed data-i="${u.id}">Edit</button><button class=su data-x=pr data-i="${u.id}">Password</button>${u.id==CU.id?'':`<button class="su s2" data-x=del data-i="${u.id}"><b>Delete</b></button>`}</div></div>`;
+function adm(){if(!ME||!ME.is_admin)return sec('Admin','','<p class=nt>Admins only.</p>');
+if(OFF)return '<button class=lk data-x=back>‹ Back to account</button><p class=nt>The admin panel needs an internet connection.</p>';
+if(!AU)return '<button class=lk data-x=back>‹ Back to account</button><p class=nt>Loading...</p>';
+const n=AU.filter(u=>!u.is_admin).length;
+return '<button class=lk data-x=back>‹ Back to account</button>'
++sec('User limit',`${n} of ${AL} user accounts used. Admin accounts do not count toward the limit.`,`<div class=ctl><input class=nm id=ul type=number inputmode=numeric min=1 value="${AL}"><button class=su data-x=lim>Save</button></div>`)
++sec('Add user','',`<small>Username (letters, numbers, . _ -)</small><div class=ctl><input class=nm id=au autocapitalize=none autocomplete=off></div><small>Temporary password (6+ characters)</small><div class=ctl><input class=nm id=ap type=text autocomplete=off></div>${pform('a')}<div class=ctl><label class=sw><input type=checkbox id=aa> Admin account</label></div><button class=pr data-x=add>Create user</button>`)
++sec('Users ('+AU.length+')','',AU.map(ucard).join(''))}
+async function admLoad(){if(!sb||!ME||!ME.is_admin||OFF)return;
+try{const [p,s]=await Promise.all([sb.from('profiles').select('*').order('name'),sb.from('app_settings').select('user_limit').eq('id',1).maybeSingle()]);AU=p.data||[];if(s.data)AL=s.data.user_limit}catch(e){AU=AU||[]}
+if(S.tab=='adm')R()}
+async function acctAct(a,b){const x=a.x;
+if(x=='adm'){S.tab='adm';R();scrollTo(0,0);admLoad();return}
+if(x=='back'){S.tab='acct';R();scrollTo(0,0);return}
+if(x=='ed'){AE=a.i;R();return}
+if(x=='ec'){AE='';R();return}
+if(x=='out'){cset(null);try{if(ch&&sb){sb.removeChannel(ch);ch=null}if(sb)await sb.auth.signOut()}catch(e){}ME=null;CU=null;OFF=false;AU=null;AE='';LE='';S.tab='today';rdy=true;R();return}
+if(AB||!sb)return;
+if(OFF){alert('You are offline. Connect to the internet and try again.');return}
+AB=true;if(b)b.disabled=true;
+try{
+if(x=='in'){const u=val('lu').trim().toLowerCase(),p=val('lp');LU=u;
+if(!u||!p){LE='Enter your username and password.';R();return}
+const {error}=await sb.auth.signInWithPassword({email:EM(u),password:p});
+if(error){LE=/fetch|network/i.test(error.message)?'Cannot reach the server. Check your internet.':/confirm/i.test(error.message)?'This account is not confirmed yet. In Supabase, open the user and confirm it (or turn Confirm email off).':'Wrong username or password.';R()}else{LE='';LU=''}}
+else if(x=='sp'){const n=val('pn').trim();if(!n){alert('Name is required.');return}
+const {data,error}=await sb.from('profiles').update({name:n,course:val('pc').trim(),section:val('ps').trim(),year:val('py')}).eq('id',CU.id).select().maybeSingle();
+if(error)throw error;if(data){ME=data;cset(ME)}NT='Profile saved.';R();scrollTo(0,0)}
+else if(x=='pw'){const p=val('np'),q=val('nq');if(p.length<6){alert('Use at least 6 characters.');return}if(p!=q){alert('The two passwords do not match.');return}
+const {error}=await sb.auth.updateUser({password:p});if(error)throw error;NT='Password changed.';R();scrollTo(0,0)}
+else if(x=='lim'){const n=Math.floor(+val('ul'));if(!(n>=1)){alert('Enter a number of 1 or more.');return}
+const {error}=await sb.from('app_settings').update({user_limit:n}).eq('id',1);if(error)throw error;AL=n;R()}
+else if(x=='add'){const u=val('au').trim().toLowerCase(),p=val('ap'),n=val('an').trim(),ad=$('#aa').checked;
+if(!/^[a-z0-9._-]{3,30}$/.test(u)){alert('Username: 3 to 30 characters, letters, numbers, . _ -');return}
+if(!n){alert('Name is required.');return}if(p.length<6){alert('Password needs at least 6 characters.');return}
+if(AU.some(z=>z.username==u)){alert('That username is already taken.');return}
+if(!ad&&AU.filter(z=>!z.is_admin).length>=AL){alert('User limit reached. Raise the limit first.');return}
+const r=await sb.from('pending_users').upsert({username:u,name:n,course:val('ac').trim(),section:val('as').trim(),year:val('ay'),is_admin:ad});if(r.error)throw r.error;
+const t=mk(SB.url,SB.key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'cic-tmp'}});
+const {error}=await t.auth.signUp({email:EM(u),password:p});
+if(error){await sb.from('pending_users').delete().eq('username',u);alert('Could not create user: '+error.message);return}
+await admLoad();alert('User @'+u+' created.')}
+else if(x=='sv'){const n=val('en').trim();if(!n){alert('Name is required.');return}
+const row={name:n,course:val('ec').trim(),section:val('es').trim(),year:val('ey')};if(a.i!=CU.id)row.is_admin=$('#ea').checked;
+const {error}=await sb.from('profiles').update(row).eq('id',a.i);if(error)throw error;AE='';await admLoad();if(S.tab=='adm')R()}
+else if(x=='pr'){const u=(AU||[]).find(z=>z.id==a.i);if(!u)return;const p=prompt('New password for @'+u.username+' (6+ characters):');if(!p)return;if(p.length<6){alert('Use at least 6 characters.');return}
+const {error}=await sb.rpc('admin_set_password',{uid:a.i,pw:p});if(error)throw error;alert('Password changed for @'+u.username+'.')}
+else if(x=='del'){const u=(AU||[]).find(z=>z.id==a.i);if(!u)return;if(!confirm('Delete @'+u.username+' and their chat messages? This cannot be undone.'))return;
+const {error}=await sb.rpc('admin_delete_user',{uid:a.i});if(error)throw error;await admLoad()}
+}catch(e){alert('Something went wrong: '+e.message)}
+finally{AB=false;if(b)b.disabled=false}}
+let HL='',RES=[];
+function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t});
+DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','today'));
+for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'plan');
+MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'plan'));
+CLOSE.forEach(x=>add(x[0],x[1],'Closing','today'));
+[['mass',PM(f),'Holy Mass prep'],['ben',PB(),'Benediction'],['med',PMED,'Meditation']].forEach(([p,A,n])=>A.forEach(x=>{add(x.t,x.x,n,'prep',p);(x.s||[]).forEach(y=>add(y,'',n+', '+x.t,'prep',p,x.t))}));
+SUP.forEach(x=>add(x,'','Supplies','sup'));return L}
+const find=()=>`<div class=ctl><input class=nm id=q type=search placeholder="Search items, tasks, supplies" autocomplete=off value="${esc(S.q||'')}"></div><div id=res></div>`;
+function res(){const q=(S.q||'').trim().toLowerCase(),el=$('#res');if(!el)return;
+if(!q){el.innerHTML='<p class=nt>Type to search checklists, daily and weekly tasks, and supplies.</p>';return}
+RES=idx().filter(x=>(x.t+' '+x.x).toLowerCase().includes(q)).slice(0,40);
+el.innerHTML=RES.length?RES.map((x,i)=>`<button class=su data-f="${i}"><span>${esc(x.t)}<small>${esc(x.sec+(x.x?': '+x.x.slice(0,80):''))}</small></span></button>`).join(''):'<p class=nt>Nothing found.</p>'}
+function hlGo(){if(!HL)return;const k=HL;HL='';setTimeout(()=>{const e=[...document.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k));if(e){const d=e.querySelector('details');if(d)d.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
+async function offChk(){const e=$('#off');if(!e)return;
+try{const k=await caches.keys(),n=k.length?(await(await caches.open(k[0])).keys()).length:0;
+e.textContent=!navigator.serviceWorker||!navigator.serviceWorker.controller?'Offline mode is not active yet. Close and reopen the app while online, then check again.':n?'Offline ready ('+n+' files saved).':'Offline mode is on but nothing is saved yet. Reopen the app while online.'}
+catch(x){e.textContent='Offline check is not available here.'}}
+function sup(){const n=SUP.filter((_,i)=>S.u[i]>0).length;
+return sec('Supplies','Thursday inventory. Tap an item to cycle OK, Low, Out.'+(n?` ${n} to restock.`:''),SUP.map((s,i)=>`<button class="su s${S.u[i]||0}" data-su=${i}><span>${s}</span><b>${ST[S.u[i]||0]}</b></button>`).join('')+(n?'<button class=lk data-a=share>Share restock list</button>':''))}
+function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><small>${c} of ${a.length} done</small>`}
+function R(){const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{today,prep,plan,sup,find,acct,adm}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')));if(lk)return;upd();if(S.tab=='today')chatDraw();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='plan')offChk();hlGo()}
+function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+if(a.go){S.date=a.go;S.tab='today'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl}else if(a.tab)S.tab=a.tab;else if(a.pt)S.pt=a.pt;else if(a.su!=null)S.u[a.su]=((S.u[a.su]||0)+1)%3;
+else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='prep')S.tab='prep';
+else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?'))S.d[S.date]={}}
+else if(a.a=='share'){const t='Chapel restock list:\n'+SUP.map((s,i)=>S.u[i]>0?'- '+s+' ('+ST[S.u[i]]+')':'').filter(Boolean).join('\n');if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t);return}
+else if(a.a=='th'){const r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';S.th=r.dataset.theme=dk?'light':'dark'}else return;
+sv();R();scrollTo(0,0)});
+document.addEventListener('change',e=>{const t=e.target,k=t.dataset.id;
+if(k){const d=D();if(t.checked)d[k]=1;else delete d[k];t.closest('.sb,.it').classList.toggle('dn',t.checked);upd()}
+else if(t.dataset.s=='m'){O().m=t.value;R()}
+else if(t.dataset.s=='f'){O().f=t.checked?1:0;R()}
+else if(t.dataset.s=='c'){O().c=t.value;R()}
+else if(t.id=='ch'){S.ch=t.value;R()}
+else if(t.id=='rt'){S.rt=t.value;$('#ra').href=ics()}
+sv()});
+document.addEventListener('input',e=>{const t=e.target;
+if(t.dataset.h){S[t.dataset.h]=+t.value||0;$('#hn').textContent=Math.max(0,S.hc-S.hr);sv()}
+else if(t.dataset.n!=null){S.n[S.date]=t.value;sv()}
+else if(t.dataset.r!=null){(S.rb[S.date]||(S.rb[S.date]=[]))[+t.dataset.r]=t.value;sv()}
+else if(t.id=='q'){S.q=t.value;res()}});
+document.addEventListener('keydown',e=>{const i=e.target.id;if(e.key=='Enter'&&(i=='cin'||i=='lp')){e.preventDefault();if(i=='lp')acctAct({x:'in'},document.querySelector('[data-x=in]'));else chatAct({c:SB?'send':'lsend'})}});
+if(S.th)document.documentElement.dataset.theme=S.th;
+R();authInit();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script></body></html>

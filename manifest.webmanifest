@@ -1,0 +1,31 @@
+{
+ "name": "Chapel In-Charge Cleaning and Preparation List",
+ "short_name": "Chapel List",
+ "description": "Daily schedule and preparation checklists for the CITE and SAC chapels.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#f3f1f6",
+ "theme_color": "#4b2a6b",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
