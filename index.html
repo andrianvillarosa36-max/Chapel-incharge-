@@ -168,7 +168,7 @@ if(nd||nw)r.push([k,DN[w].slice(0,3)+' '+d.getDate()+': '+[nd?nd+' daily':'',nw?
 return r.length?sec('Missed from earlier days','Tap a day to catch up.',r.map(m=>`<button class="su s1" data-go="${m[0]}"><span>${m[1]}</span><b>Open</b></button>`).join('')):''}
 const RB=['Entrance Antiphon','Collect','Prayer over the Offerings','Preface','Prayer before Communion','Prayer after Communion','Solemn Blessing','Lectionary readings'];
 const rib=()=>`<div class=it><b>Ribbons and readings</b><small>Note the page for each Missal ribbon and the Lectionary readings.</small>${RB.map((l,j)=>`<div class=ctl><span style="flex:1">${l}</span><input class=nm data-r=${j} value="${esc((S.rb[S.date]||[])[j]||'')}" placeholder="Page"></div>`).join('')}<a class=lk target=_blank rel=noopener href="https://bible.usccb.org/daily-bible-reading">Today's readings online (needs internet)</a></div>`;
-const SB=null; /* paste {url:"https://xxxx.supabase.co",key:"your anon public key"} */
+const SB={url:"https://sqckoqgbiiifzmfxwfoy.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxY2tvcWdiaWlpZnptZnh3Zm95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0NTQyOTEsImV4cCI6MjEwNzAzMDI5MX0.T7W1SqB_L1Ks5L-BW17jClx9rGYeih4kXtMs27Q6j-U"};
 let sb=null,mk=null,CU=null,ME=null,MS=[],cs='idle',ch=null,wid,rdy=false,OFF=false,LE='',LU='',AU=null,AL=50,AE='',AB=false,NT='';
 const EM=u=>u.includes('@')?u:u+'@example.com',YL=['','1st year','2nd year','3rd year','4th year','5th year'],yl=v=>YL[+v]||'Not set',val=id=>($('#'+id)||{}).value||'';
 const fmt=t=>new Date(t).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
