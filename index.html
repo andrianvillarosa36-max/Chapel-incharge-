@@ -219,15 +219,16 @@ else cset(null);
 rdy=true;R()}
 let PT='today',PUSH=false;
 const u8=b=>{const r=atob((b+'='.repeat((4-b.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0))};
+async function fnErr(e){try{const j=await e.context.json();return j.error||j.message||e.message}catch(x){return e.message}}
 async function pushState(){try{const r=await navigator.serviceWorker.ready;return !!(await r.pushManager.getSubscription())&&Notification.permission=='granted'}catch(e){return false}}
 async function pushOn(){try{if(!sbOK()){alert('Connect to the internet and sign in first.');return}if(!('PushManager' in window)){alert('This browser does not support notifications.');return}
 if(await Notification.requestPermission()!='granted'){alert('Notifications are blocked. Allow them in your browser or phone settings.');return}
-const {data,error}=await sb.functions.invoke('push',{body:{action:'key'}});if(error||!data||!data.key)throw error||new Error('Push is not set up on the server yet.');
+const {data,error}=await sb.functions.invoke('push',{body:{action:'key'}});if(error)throw new Error(await fnErr(error));if(!data||!data.key)throw new Error('Push is not set up on the server yet.');
 const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(data.key)});
 const j=sub.toJSON(),{error:e2}=await sb.from('push_subs').upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,user_id:CU.id},{onConflict:'endpoint'});if(e2)throw e2;PUSH=true;R()}
 catch(e){alert('Could not turn on notifications: '+(e.message||e))}}
 async function pushOff(){try{const r=await navigator.serviceWorker.ready,s=await r.pushManager.getSubscription();if(s){await sb.from('push_subs').delete().eq('endpoint',s.endpoint);await s.unsubscribe()}}catch(e){}PUSH=false;R()}
-async function pushSend(){const t=(($('#pt')||{}).value||'').trim();if(!t||!sbOK())return;const {data,error}=await sb.functions.invoke('push',{body:{to:$('#pa').value,title:'Chapel In-Charge',body:t}});if(error){alert('Could not send: '+error.message);return}$('#pt').value='';alert('Sent to '+((data&&data.sent)||0)+' device(s).')}
+async function pushSend(){const t=(($('#pt')||{}).value||'').trim();if(!t||!sbOK())return;const {data,error}=await sb.functions.invoke('push',{body:{to:$('#pa').value,title:'Chapel In-Charge',body:t}});if(error){alert('Could not send: '+await fnErr(error));return}$('#pt').value='';alert('Sent to '+((data&&data.sent)||0)+' device(s).')}
 function pushv(){if(!(SB&&ME))return '';const ok='PushManager' in window&&'serviceWorker' in navigator;
 return sec('Notifications',ok?(PUSH?'Notifications are on for this device.':'Get alerts from the priest, founder and admin.'):'This browser does not support notifications.',ok?`<button class=pr data-x=${PUSH?'poff':'pon'}>${PUSH?'Turn off notifications':'Turn on notifications'}</button>`:'')
 +((isLead()||ME.is_admin)?sec('Send a notification','',`<div class=ctl><select id=pa class=nm><option value=all>Everyone</option><option value=crew>Crew</option><option value=leads>Priest and founder</option></select></div><div class=ctl><textarea class=nm id=pt rows=2 maxlength=200 placeholder="Message"></textarea></div><button class=pr data-x=psend>Send</button>`):'')}
