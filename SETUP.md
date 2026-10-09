@@ -10,10 +10,11 @@
 5. **Connect the app**: Project Settings > API. In `index.html` find the line
    `const SB=null;` and replace it with:
    `const SB={url:"https://YOUR-PROJECT.supabase.co",key:"YOUR-ANON-PUBLIC-KEY"};`
-6. Open the app, sign in, then Account > Open admin panel to add users and set the user limit.
+6. **Run `patch.sql`** the same way (SQL Editor > paste > Run). It makes the database set each chat message's sender name itself.
+7. Open the app, sign in, then Account > Open admin panel to add users and set the user limit.
 
 Notes
 - Add all later users from the admin panel (not the Supabase dashboard).
 - The user limit counts normal users only; admins are not counted.
 - If `SB` stays `null`, the app works as before (no login).
-- The service worker cache is now `chapel-v3`, so installed copies update on next online open.
+- The service worker cache is now `chapel-v6`, so installed copies update on next online open.
