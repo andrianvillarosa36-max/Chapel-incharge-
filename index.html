@@ -55,6 +55,10 @@ a.lk{text-align:center;text-decoration:none}.ctl .lk{width:auto;padding:8px 12px
 .seg{flex-wrap:wrap}.seg button{flex:1 1 30%}#chat .ms{max-height:min(60vh,520px)}.lo header button{display:none}
 .ly-compact .it{padding:6px 10px;margin:4px 0}.ly-compact .it>label small,.ly-grid .it>label small{display:none}.ly-compact section{margin:10px 0}
 .ly-grid main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:start}.ly-grid main>*{grid-column:1/-1}.ly-grid main>.it{grid-column:auto}.ly-grid main>section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:start}.ly-grid main>section>*{grid-column:1/-1}.ly-grid main>section>.it{grid-column:auto}.ly-grid .it{margin:0;min-width:0;overflow-wrap:anywhere}.ly-grid main>.it.wide,.ly-grid main>section>.it.wide{grid-column:1/-1}
+.cv{height:110px;border-radius:16px;background:linear-gradient(135deg,var(--hd),var(--ac))}.pf{display:flex;flex-direction:column;align-items:center;margin-top:-52px;text-align:center}.pn{margin:8px 0 0;color:var(--ink)}.pf .tg{white-space:normal;display:inline-block;margin:6px 3px 0}
+.av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--ac);color:var(--card);font-weight:700;overflow:hidden;flex:none;vertical-align:middle}.av img{width:100%;height:100%;object-fit:cover}
+.avb{position:relative;display:block;border:4px solid var(--bg);border-radius:50%;cursor:pointer}.cam{position:absolute;right:-4px;bottom:-2px;width:32px;height:32px;border-radius:50%;background:var(--card);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font-size:15px}
+.st{display:grid;grid-template-columns:repeat(3,1fr);margin:14px 0;background:var(--card);border:1px solid var(--ln);border-radius:14px}.st div{text-align:center;padding:10px 4px}.st b{display:block;font-size:20px}.ab{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--ln)}.ab span{color:var(--mut)}.ab b{text-align:right;font-weight:600}.ctl .pr{flex:1}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat">💬</button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -215,27 +219,38 @@ else if(!rdy)h='<p class=nt>Loading...</p>';
 else if(CU&&!ME)h='<p class=nt>This account has no profile yet. Ask the admin to check it.</p><button class=lk data-x=out>Log out</button>';
 else h=`<small>Username</small><div class=ctl><input class=nm id=lu value="${esc(LU)}" placeholder="Username or email" autocapitalize=none autocomplete=username></div><small>Password</small><div class=ctl><input class=nm id=lp type=password placeholder="Password" autocomplete=current-password></div>${LE?`<p class=er>${esc(LE)}</p>`:''}<button class=pr data-x=in>Sign in</button><p class=nt>Accounts are created by your admin.</p>`;
 return sec('Sign in','Chapel In-Charge Cleaning and Preparation List',h)}
-const pform=(p,u={})=>`<small>Full name</small><div class=ctl><input class=nm id=${p}n value="${esc(u.name||'')}" autocomplete=name></div><small>Course</small><div class=ctl><input class=nm id=${p}c value="${esc(u.course||'')}" placeholder="e.g. BSIT"></div><small>Section</small><div class=ctl><input class=nm id=${p}s value="${esc(u.section||'')}" placeholder="e.g. A"></div><small>Year level</small><div class=ctl><select id=${p}y><option value="">Select year</option>${[1,2,3,4,5].map(i=>`<option value=${i}${u.year==i?' selected':''}>${YL[i]}</option>`).join('')}</select></div>`;
+const pform=(p,u={},rl)=>`<small>Full name</small><div class=ctl><input class=nm id=${p}n value="${esc(u.name||'')}" autocomplete=name></div><small>Course</small><div class=ctl><input class=nm id=${p}c value="${esc(u.course||'')}" placeholder="e.g. BSIT"></div><small>Section</small><div class=ctl><input class=nm id=${p}s value="${esc(u.section||'')}" placeholder="e.g. A"></div><small>Year level</small><div class=ctl><select id=${p}y><option value="">Select year</option>${[1,2,3,4,5].map(i=>`<option value=${i}${u.year==i?' selected':''}>${YL[i]}</option>`).join('')}</select></div>`+(rl?`<small>Role in the chapel</small><div class=ctl><select id=${p}r><option value="">Select role</option>${RO.map(([k,l])=>`<option value=${k}${u.role==k?' selected':''}>${l}</option>`).join('')}</select></div>`:'');
+const RO=[['crew','Chapel Preparation and Cleaning Crew'],['oratory','Oratory Crew'],['priest','Priest']],rlab=k=>(RO.find(x=>x[0]==k)||['',''])[1],okAv=v=>/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(v||'');
+const av=(u,z)=>`<span class=av style="width:${z}px;height:${z}px;font-size:${Math.round(z/2.3)}px">${okAv(u.avatar)?`<img src="${u.avatar}" alt="">`:esc(((u.name||u.username||'?').trim()[0]||'?').toUpperCase())}</span>`;
+async function setAv(f){if(!f)return;if(OFF||!sb){alert('Connect to the internet to change your photo.');return}
+try{const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=URL.createObjectURL(f)});
+const c=document.createElement('canvas');c.width=c.height=192;const m=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,192,192);
+const {data,error}=await sb.from('profiles').update({avatar:c.toDataURL('image/jpeg',.78)}).eq('id',CU.id).select().maybeSingle();if(error)throw error;if(data){ME=data;cset(ME)}NT='Photo updated.';R()}
+catch(e){alert('Could not use that photo: '+e.message)}}
 function acct0(){if(!SB)return sec('Account','',`<p class=nt>Login is not turned on yet. Add your Supabase details in index.html (see SETUP.md) to enable accounts, the admin panel and the user limit.</p>`);
-if(!ME)return '';
-return sec('My account','',`<div class=it><b>${esc(ME.name)}</b>${ME.is_admin?'<i class=tg>Admin</i>':''}<small>@${esc(ME.username)}</small><small>Course: ${esc(ME.course||'Not set')}</small><small>Section: ${esc(ME.section||'Not set')}</small><small>Year: ${yl(ME.year)}</small></div>`)
-+(ME.is_admin?'<button class="lk big" data-x=adm>Open admin panel</button>':'')
-+'<button class=lk data-tab=set>Edit profile or password in Settings</button><button class=lk data-x=out>Log out</button>'}
+if(!ME)return '';const t=NT;NT='';
+const dn=Object.keys(S.d[ymd(new Date())]||{}).filter(k=>!k.includes('_')).length;let ac=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);if(Object.keys(S.d[ymd(d)]||{}).length)ac++}
+const mc=MS.filter(x=>x.user_id==CU.id).length;
+return (t?`<p class=ok>${esc(t)}</p>`:'')+`<div class=cv></div><div class=pf><label class=avb><input type=file id=pf accept="image/*" hidden>${av(ME,96)}<span class=cam>📷</span></label><h2 class=pn>${esc(ME.name)}</h2><small>@${esc(ME.username)}</small><div>${ME.is_admin?'<i class=tg>Admin</i>':''}${ME.role?`<i class=tg>${rlab(ME.role)}</i>`:''}</div>${okAv(ME.avatar)?'<button class=lk data-x=rmav>Remove photo</button>':''}</div>`
++`<div class=st><div><b>${dn}</b><small>Done today</small></div><div><b>${ac}/7</b><small>Active days</small></div><div><b>${mc}</b><small>Messages</small></div></div>`
++`<div class=ctl><button class=pr data-tab=set>Edit profile</button>${ME.is_admin?'<button class=pr data-x=adm>Admin panel</button>':''}</div>`
++sec('About','',`<div class=ab><span>Role</span><b>${ME.role?esc(rlab(ME.role)):'Not assigned'}</b></div><div class=ab><span>Course</span><b>${esc(ME.course||'Not set')}</b></div><div class=ab><span>Section</span><b>${esc(ME.section||'Not set')}</b></div><div class=ab><span>Year level</span><b>${yl(ME.year)}</b></div>`)
++'<button class=lk data-x=out>Log out</button>'}
 function setv(){let h='';if(SB&&ME){const t=NT;NT='';h=t?`<p class=ok>${esc(t)}</p>`:''}
 h+=appr();
 if(SB&&ME)h+=sec('Change profile',OFF?'Offline: connect to the internet to edit your profile.':'',pform('p',ME)+'<button class=pr data-x=sp>Save profile</button>')
 +sec('Change password','',`<small>New password</small><div class=ctl><input class=nm id=np type=password autocomplete=new-password></div><small>Confirm new password</small><div class=ctl><input class=nm id=nq type=password autocomplete=new-password></div><button class=pr data-x=pw>Change password</button>`);
 return h}
 const ucard=u=>AE==u.id
-?`<div class=it><b>Edit @${esc(u.username)}</b>${pform('e',u)}${u.id==CU.id?'':`<div class=ctl><label class=sw><input type=checkbox id=ea${u.is_admin?' checked':''}> Admin account</label></div>`}<div class=ctl><button class=su data-x=sv data-i="${u.id}">Save</button><button class=su data-x=ec>Cancel</button></div></div>`
-:`<div class=it><b>${esc(u.name||u.username)}</b>${u.is_admin?'<i class=tg>Admin</i>':''}<small>@${esc(u.username)}</small><small>${esc(u.course||'No course')} · Section ${esc(u.section||'-')} · ${yl(u.year)}</small><div class=ctl><button class=su data-x=ed data-i="${u.id}">Edit</button><button class=su data-x=pr data-i="${u.id}">Password</button>${u.id==CU.id?'':`<button class="su s2" data-x=del data-i="${u.id}"><b>Delete</b></button>`}</div></div>`;
+?`<div class=it><b>Edit @${esc(u.username)}</b>${pform('e',u,1)}${u.id==CU.id?'':`<div class=ctl><label class=sw><input type=checkbox id=ea${u.is_admin?' checked':''}> Admin account</label></div>`}<div class=ctl><button class=su data-x=sv data-i="${u.id}">Save</button><button class=su data-x=ec>Cancel</button></div></div>`
+:`<div class=it><b>${av(u,28)} ${esc(u.name||u.username)}</b>${u.is_admin?'<i class=tg>Admin</i>':''}${u.role?`<i class=tg>${rlab(u.role)}</i>`:''}<small>@${esc(u.username)}</small><small>${esc(u.course||'No course')} · Section ${esc(u.section||'-')} · ${yl(u.year)}</small><div class=ctl><button class=su data-x=ed data-i="${u.id}">Edit</button><button class=su data-x=pr data-i="${u.id}">Password</button>${u.id==CU.id?'':`<button class="su s2" data-x=del data-i="${u.id}"><b>Delete</b></button>`}</div></div>`;
 function adm(){if(!ME||!ME.is_admin)return sec('Admin','','<p class=nt>Admins only.</p>');
 if(OFF)return '<button class=lk data-x=back>‹ Back to account</button><p class=nt>The admin panel needs an internet connection.</p>';
 if(!AU)return '<button class=lk data-x=back>‹ Back to account</button><p class=nt>Loading...</p>';
 const n=AU.filter(u=>!u.is_admin).length;
 return '<button class=lk data-x=back>‹ Back to account</button>'
 +sec('User limit',`${n} of ${AL} user accounts used. Admin accounts do not count toward the limit.`,`<div class=ctl><input class=nm id=ul type=number inputmode=numeric min=1 value="${AL}"><button class=su data-x=lim>Save</button></div>`)
-+sec('Add user','',`<small>Username (letters, numbers, . _ -)</small><div class=ctl><input class=nm id=au autocapitalize=none autocomplete=off></div><small>Temporary password (6+ characters)</small><div class=ctl><input class=nm id=ap type=text autocomplete=off></div>${pform('a')}<div class=ctl><label class=sw><input type=checkbox id=aa> Admin account</label></div><button class=pr data-x=add>Create user</button>`)
++sec('Add user','',`<small>Username (letters, numbers, . _ -)</small><div class=ctl><input class=nm id=au autocapitalize=none autocomplete=off></div><small>Temporary password (6+ characters)</small><div class=ctl><input class=nm id=ap type=text autocomplete=off></div>${pform('a',{},1)}<div class=ctl><label class=sw><input type=checkbox id=aa> Admin account</label></div><button class=pr data-x=add>Create user</button>`)
 +sec('Users ('+AU.length+')','',AU.map(ucard).join(''))}
 async function admLoad(){if(!sb||!ME||!ME.is_admin||OFF)return;
 try{const [p,s]=await Promise.all([sb.from('profiles').select('*').order('name'),sb.from('app_settings').select('user_limit').eq('id',1).maybeSingle()]);AU=p.data||[];if(s.data)AL=s.data.user_limit}catch(e){AU=AU||[]}
@@ -257,6 +272,7 @@ if(error){LE=/fetch|network/i.test(error.message)?'Cannot reach the server. Chec
 else if(x=='sp'){const n=val('pn').trim();if(!n){alert('Name is required.');return}
 const {data,error}=await sb.from('profiles').update({name:n,course:val('pc').trim(),section:val('ps').trim(),year:val('py')}).eq('id',CU.id).select().maybeSingle();
 if(error)throw error;if(data){ME=data;cset(ME)}NT='Profile saved.';R();scrollTo(0,0)}
+else if(x=='rmav'){const {data,error}=await sb.from('profiles').update({avatar:null}).eq('id',CU.id).select().maybeSingle();if(error)throw error;if(data){ME=data;cset(ME)}R()}
 else if(x=='pw'){const p=val('np'),q=val('nq');if(p.length<6){alert('Use at least 6 characters.');return}if(p!=q){alert('The two passwords do not match.');return}
 const {error}=await sb.auth.updateUser({password:p});if(error)throw error;NT='Password changed.';R();scrollTo(0,0)}
 else if(x=='lim'){const n=Math.floor(+val('ul'));if(!(n>=1)){alert('Enter a number of 1 or more.');return}
@@ -268,11 +284,11 @@ if(AU.some(z=>z.username==u)){alert('That username is already taken.');return}
 if(!ad&&AU.filter(z=>!z.is_admin).length>=AL){alert('User limit reached. Raise the limit first.');return}
 const r=await sb.from('pending_users').upsert({username:u,name:n,course:val('ac').trim(),section:val('as').trim(),year:val('ay'),is_admin:ad});if(r.error)throw r.error;
 const t=mk(SB.url,SB.key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'cic-tmp'}});
-const {error}=await t.auth.signUp({email:EM(u),password:p});
+const {data:sd,error}=await t.auth.signUp({email:EM(u),password:p});
 if(error){await sb.from('pending_users').delete().eq('username',u);alert('Could not create user: '+error.message);return}
-await admLoad();alert('User @'+u+' created.')}
+{const q=val('ar');if(q&&sd&&sd.user)await sb.from('profiles').update({role:q}).eq('id',sd.user.id)}await admLoad();alert('User @'+u+' created.')}
 else if(x=='sv'){const n=val('en').trim();if(!n){alert('Name is required.');return}
-const row={name:n,course:val('ec').trim(),section:val('es').trim(),year:val('ey')};if(a.i!=CU.id)row.is_admin=$('#ea').checked;
+const row={name:n,course:val('ec').trim(),section:val('es').trim(),year:val('ey'),role:val('er')||null};if(a.i!=CU.id)row.is_admin=$('#ea').checked;
 const {error}=await sb.from('profiles').update(row).eq('id',a.i);if(error)throw error;AE='';await admLoad();if(S.tab=='adm')R()}
 else if(x=='pr'){const u=(AU||[]).find(z=>z.id==a.i);if(!u)return;const p=prompt('New password for @'+u.username+' (6+ characters):');if(!p)return;if(p.length<6){alert('Use at least 6 characters.');return}
 const {error}=await sb.rpc('admin_set_password',{uid:a.i,pw:p});if(error)throw error;alert('Password changed for @'+u.username+'.')}
@@ -326,6 +342,7 @@ if(k){const d=D();if(t.checked)d[k]=1;else delete d[k];t.closest('.sb,.it').clas
 else if(t.dataset.s=='m'){O().m=t.value;R()}
 else if(t.dataset.s=='f'){O().f=t.checked?1:0;R()}
 else if(t.dataset.s=='c'){O().c=t.value;R()}
+else if(t.id=='pf'){setAv(t.files[0])}
 else if(t.id=='ch'){S.ch=t.value;R()}
 else if(t.id=='rt'){S.rt=t.value;$('#ra').href=ics()}
 sv()});
