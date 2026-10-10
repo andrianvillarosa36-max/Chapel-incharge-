@@ -315,6 +315,8 @@ nav button.nd:after{top:3px;left:calc(50% + 8px)}
 .an p{margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere}
 .an .x{position:absolute;top:8px;right:8px;font-size:16px;padding:6px 9px}
 .an{position:relative}
+.wn{margin:8px 0 0;padding-left:20px}
+.wn li{margin:5px 0}
 @media(max-width:390px){.hm{padding:19px 14px 17px}.qt{padding:14px 13px}.qa{gap:10px}}
 
 </style></head><body>
@@ -475,17 +477,21 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.3.0';
-let UP={chk:0,live:null,rel:[],cm:[],repo:'',err:''};
+const APP_VERSION='1.3.1';
+let UP={chk:0,live:null,err:''};
 async function chkUpd(){UP.chk=Date.now();
-try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(r.ok)UP.live=await r.json()}catch(e){}
-try{if(location.hostname.endsWith('github.io')){const o=location.hostname.split('.')[0],p=location.pathname.split('/')[1],u=`https://api.github.com/repos/${o}/${p}`,r=await fetch(u+'/releases?per_page=30');UP.repo=o+'/'+p;if(r.ok){UP.rel=await r.json();UP.err='';UP.cm=[];if(!UP.rel.length){const c=await fetch(u+'/commits?per_page=30');if(c.ok)UP.cm=await c.json();else UP.err='Could not load the update history right now. Try again later.'}}else UP.err='Could not load the version list right now. Try again later.'}else UP.err='The version list is available when the app is opened from its GitHub address.'}catch(e){UP.err='The version list needs an internet connection.'}
+try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;UP.live=await r.json();UP.err=''}catch(e){if(!UP.live)UP.err='Connect to the internet to see what is new.'}
 const b=$('nav [data-tab=updates]');if(b)b.classList.toggle('nd',!!(UP.live&&UP.live.version!=APP_VERSION));if(S.tab=='updates')R()}
 async function goUpd(){if(!navigator.onLine){alert('Connect to the internet to update.');return}try{for(const r of await navigator.serviceWorker.getRegistrations())await r.update();for(const k of await caches.keys())await caches.delete(k)}catch(e){}location.reload()}
 function updv(){const L=UP.live,nw=L&&L.version!=APP_VERSION;
-return sec('App version','',`<div class="it${nw?' ok2':''}"><b>${nw?'New version '+esc(L.version)+' is ready':'You are up to date'}</b><small>Installed: ${APP_VERSION}${L?'. Latest: '+esc(L.version):''}${UP.chk?'. Checked '+fmt(UP.chk):''}</small>${nw&&L.notes?`<small>${esc(L.notes)}</small>`:''}<div class=ctl>${nw?'<button class=pr data-u=go>Restart to update</button>':''}<button class=pr data-u=chk>Check for updates</button></div></div>`)
-+sec('Versions',UP.rel.length||!UP.cm.length?'Latest and past versions. Download an APK to install that version on this phone.':'No releases are published on GitHub yet, so this lists the recent updates to the app, newest first.',UP.rel.length?UP.rel.map((x,i)=>{const ap=(x.assets||[]).filter(a=>/\.apk$/i.test(a.name)&&/^https:\/\/github\.com\//.test(a.browser_download_url)),cur=[APP_VERSION,'v'+APP_VERSION].includes(x.tag_name);
-return `<div class="it"><b>${esc(x.name||x.tag_name)}</b>${i==0?'<i class=tg>Latest</i>':''}${cur?'<i class=tg>Installed</i>':''}<small>${x.published_at?fmt(x.published_at):''}</small><small>${esc((x.body||'').slice(0,300))}</small>${ap.map(a=>`<a class=lk target=_blank rel=noopener href="${a.browser_download_url}">Download ${esc(a.name)} (${(a.size/1048576).toFixed(1)} MB)</a>`).join('')||'<small>No APK attached to this version.</small>'}</div>`}).join(''):UP.cm.length?UP.cm.map((x,i)=>{const c=x.commit||{},m=(c.message||'').split('\n'),b=m.slice(1).join(' ').trim(),d=c.author&&c.author.date;return `<div class="it"><b>${esc(m[0]||'Update')}</b>${i==0?'<i class=tg>Latest</i>':''}<small>${d?esc(new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})+', '+tm(d)):''}</small>${b?`<small>${esc(b.slice(0,300))}</small>`:''}</div>`}).join(''):`<p class=nt>${UP.err||'No published versions yet.'}${UP.repo&&!UP.err?' (Checked '+esc(UP.repo)+'.)':''}</p>`)}
+return sec('App version','',`<div class="it${nw?' ok2':''}"><b>${nw?'New version '+esc(L.version)+' is ready':'You are up to date'}</b><small>Installed: ${APP_VERSION}${L?'. Latest: '+esc(L.version):''}${UP.chk?'. Checked '+fmt(UP.chk):''}</small>${nw&&L.notes?`<small>${esc(L.notes)}</small>`:''}<div class=ctl>${nw?'<button class=pr data-u=go>Restart to update</button>':''}<button class=pr data-u=chk>Check for updates</button></div></div>`)+wnew()}
+/* What's new: the New and Changed lists of the latest version, read from version.json */
+const WN=[['new','New'],['changed','Changed']];
+function wnew(){const L=UP.live;
+if(!L)return sec("What's new",'',`<p class=nt>${UP.err?esc(UP.err):'Checking...'}</p>`);
+const g=WN.filter(([k])=>Array.isArray(L[k])&&L[k].length),dt=L.date?new Date(L.date+'T00:00'):null;
+return sec("What's new in "+esc(L.version),dt&&!isNaN(dt)?'Released '+dt.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})+'.':'',
+g.length?g.map(([k,l])=>`<div class=it><b>${l}</b><ul class=wn>${L[k].map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join(''):`<div class=it><small>${esc(L.notes||'No details for this version.')}</small></div>`)}
 let PT='home',PUSH=false;
 const u8=b=>{const r=atob((b+'='.repeat((4-b.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0))};
 async function fnErr(e){if(e&&e.name=='FunctionsFetchError')return 'Cannot reach the "push" function. In Supabase, check Edge Functions: a function named push must be deployed.';try{const j=await e.context.json();return j.error||j.message||e.message}catch(x){return e.message}}
