@@ -72,16 +72,26 @@ a.lk{text-align:center;text-decoration:none}.ctl .lk{width:auto;padding:8px 12px
 .ck{display:flex;gap:10px;align-items:center;margin:8px 0}.ck.dn span{text-decoration:line-through;color:var(--mut)}.it.ds{opacity:.6}.it.ok2{border-color:var(--ok)}.it.alert{border-color:#e5484d}.why{display:block;color:var(--gd);font-size:12px;font-style:normal}.lg{display:flex;justify-content:space-between;margin:8px 0}
 .eye{flex:none;width:46px;height:46px;border:1px solid var(--ln);background:var(--card);border-radius:12px;font-size:18px}
 nav button{font-size:11px;position:relative}nav button.nd::after{content:"";position:absolute;top:6px;left:calc(50% + 8px);width:9px;height:9px;border-radius:50%;background:#e5484d}
+.ph{font-size:24px;margin:4px 0 0}
+.jp{display:flex;gap:6px;overflow-x:auto;margin:8px -14px 4px;padding:2px 14px;scrollbar-width:none}.jp::-webkit-scrollbar{display:none}
+.jp button{flex:none;padding:7px 13px;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:16px;font-size:13px}
+[id^=j-]{scroll-margin-top:calc(72px + env(safe-area-inset-top,0px))}
+.hero{border-radius:20px;padding:34px 22px 30px;margin:6px 0 14px;color:#fff;background:var(--hd);background:linear-gradient(150deg,var(--hd),color-mix(in srgb,var(--hd) 60%,#000))}
+.hero h2{font:600 32px/1.15 "Palatino Linotype",Palatino,Georgia,serif;color:#fff;margin:0}
+.vc{background:var(--card);border:1px solid var(--ln);border-left:5px solid var(--ac);border-radius:16px;padding:20px 18px 16px}
+.vt{font:italic 400 20px/1.55 "Palatino Linotype",Palatino,Georgia,serif;margin:0 0 14px}
+.vr{display:block;color:var(--ac);font-size:15px}.vc small{color:var(--mut);font-size:12px;margin-top:2px}
+nav button{line-height:1.15}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb">💬<i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
 <main></main>
-<nav><button data-tab="today"><span>☀</span>Today</button><button data-tab="prep"><span>✚</span>Prepare</button><button data-tab="plan"><span>▤</span>Plan</button><button data-tab="sup"><span>▣</span>Supplies</button><button data-tab="find"><span>🔍</span>Search</button><button data-tab="acct"><span>👤</span>Account</button><button data-tab="updates"><span>🔄</span>Updates</button></nav>
+<nav><button data-tab="home"><span>🏠</span>Home</button><button data-tab="chap"><span>⛪</span>Chapel preparation</button><button data-tab="find"><span>🔍</span>Search</button><button data-tab="acct"><span>👤</span>Account</button><button data-tab="updates"><span>🔄</span>Updates</button></nav>
 <script>
 const $=s=>document.querySelector(s),ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-let S={ch:'CITE',tab:'today',pt:'mass',date:'',d:{},o:{},u:{},th:'',n:{},hc:0,hr:0,f:'',rb:{},lm:[],tm:'auto',ly:'detailed',fin:{},qu:[]};
+let S={ch:'CITE',tab:'home',pt:'mass',date:'',d:{},o:{},u:{},th:'',n:{},hc:0,hr:0,f:'',rb:{},lm:[],tm:'auto',ly:'detailed',fin:{},qu:[]};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cic')||'{}'))}catch(e){}
-S.date=ymd(new Date());S.tab='today';S.q='';
+S.date=ymd(new Date());S.tab='home';S.q='';
 {const c=ymd(new Date(Date.now()-60*864e5));for(const m of['d','o','n','rb'])for(const k in S[m])if(k<c)delete S[m][k]}
 if(!S.f)S.f=ymd(new Date());
 const sv=()=>{try{localStorage.setItem('cic',JSON.stringify(S))}catch(e){}};
@@ -98,7 +108,7 @@ const WEEK={
 1:["Liturgical vessels","Wipe and polish the chalices and ciboria with the designated cloth. No metal polish: use a clean cloth dampened with clean water. No fingerprints, stains or marks."],
 2:["Microphones","Clean and inspect all microphones: clean, in good condition, working properly."],
 3:["Air fresheners and humidity","Check the air fresheners in the chapel, sacristy, confessional and chaplain's office. Check the sacristy dehumidifier is working (protects vestments and books)."],
-4:["Oratory supplies inventory","Check large and small hosts, Mass wine (Mompo), air fresheners, dehumidifier, cleaning rags, vegetable oil and paraffin oil. Log them in the Supplies tab."],
+4:["Oratory supplies inventory","Check large and small hosts, Mass wine (Mompo), air fresheners, dehumidifier, cleaning rags, vegetable oil and paraffin oil. Log them in the Supplies section."],
 5:["Vestment laundry","Inspect and collect vestments that need laundering; coordinate with the authorized administrative personnel to submit them."],
 6:["Wash rags and gloves","Wash the used cleaning rags and gloves this afternoon in the dormitory."]};
 const MON=[
@@ -143,24 +153,25 @@ return `<div class="it${k?' dn':''}${off?' ds':''}"><label><input type=checkbox 
 const sec=(h,n,b)=>`<section><h2>${h}</h2>${n?`<p class=nt>${n}</p>`:''}${b}</section>`;
 function dbar(){const d=new Date(S.date+'T00:00');return `<div class=dt><button data-a=prev aria-label="Previous day">‹</button><div><b>${DN[d.getDay()]}</b><br>${d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}</div><button data-a=next aria-label="Next day">›</button></div>`+(S.date!=ymd(new Date())?`<button class=lk data-a=now>Back to today</button>`:'')}
 function opts(){const o=O();return `<div class=ctl><select data-s=m aria-label="Day type">${[['mass','Holy Mass today'],['none','No Holy Mass'],['break','School break']].map(([v,l])=>`<option value=${v}${o.m==v?' selected':''}>${l}</option>`).join('')}</select><label class=sw><input type=checkbox data-s=f${o.f?' checked':''}> Feast day</label></div>`}
-function today(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7);FIN=S.date<=ymd(new Date())&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};
-let h=(ME?`<h2>${gr()}, ${esc((ME.name||'').split(' ')[0])}</h2>`:'')+dbar()+ordo()+opts()+'<div id=pg></div>'+fbanner()+'@@CREW@@';
+const sec2=(id,...x)=>sec(...x).replace('<section>','<section id='+id+'>');
+const JMP=[['j-clean','Cleaning'],['j-prep','Preparation'],['j-close','Closing'],['j-sup','Supplies'],['j-plan','Schedule']];
+function chap(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
+FIN=S.date<=ymd(new Date())&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};
+let h='<h2 class=ph>Chapel preparation</h2>'+dbar()+ordo()+opts()+`<div class=jp>${JMP.map(([i,l])=>`<button data-j=${i}>${l}</button>`).join('')}</div><div id=pg></div>`+fbanner()+'@@CREW@@';
 if(S.date==ymd(new Date()))h+=missed();
 const dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3));
-h+=sec('Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'');
-if(o.m=='mass')h+='<button class="lk big" data-a=prep>Open the Mass preparation checklist</button>';
+h+=sec2('j-clean','Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'');
 h+=sec('Weekly task: '+DN[w],'',WEEK[w]?it('w',WEEK[w][0],WEEK[w][1]):'<p class=nt>No weekly task on Sundays.</p>');
 const m=MON.filter(x=>x.wd==w&&x.n==n);
 if(m.length)h+=sec('Monthly task','',m.map((x,i)=>it('mo'+i,x.t,x.x(S.ch),x.l)).join(''));
-return (h+sec('Closing, after 5:00 PM','',CLOSE.map((x,i)=>it('c'+i,x[0],x[1])).join(''))+(SB?'':"<button class=lk data-a=reset>Reset this day's checklist</button>")).replace('@@CREW@@',crew())}
-function prep(){FIN=S.date<=ymd(new Date())&&S.pt=='mass'&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};const f=O().f,t=S.pt;
-const L=t=='mass'?PM(f):t=='ben'?PB():PMED;
-return dbar()+ordo()+`<div class=seg>${[['mass','Holy Mass'],['ben','Benediction'],['med','Meditation']].map(([v,l])=>`<button data-pt=${v} class="${t==v?'on':''}">${l}</button>`).join('')}</div>`+opts()+fbanner()+pq(t)+(t=='mass'?extra(f):'')+'<div id=pg></div>'+L.map((x,i)=>it('P'+t+i,x.t,x.x,x.w,x.s)).join('')}
+{const L=t=='mass'?PM(f):t=='ben'?PB():PMED,fin=FIN,ord=ORD;ORD=[];if(t!='mass')FIN=false;
+h+=sec2('j-prep','Preparation checklist','',`<div class=seg>${[['mass','Holy Mass'],['ben','Benediction'],['med','Meditation']].map(([v,l])=>`<button data-pt=${v} class="${t==v?'on':''}">${l}</button>`).join('')}</div>`+pq(t)+(t=='mass'?extra(f):'')+L.map((x,i)=>it('P'+t+i,x.t,x.x,x.w,x.s)).join(''));FIN=fin;ORD=ord}
+h+=sec2('j-close','Closing, after 5:00 PM','',CLOSE.map((x,i)=>it('c'+i,x[0],x[1])).join(''))+(SB?'':"<button class=lk data-a=reset>Reset this day's checklist</button>");
+return (h+'<div id=j-sup>'+sup()+'</div>'+plan()).replace('@@CREW@@',crew())}
 function plan(){const w=new Date(S.date+'T00:00').getDay();
-return sec('Daily','Done whenever Holy Mass is celebrated, Monday to Sunday. No Mass, no daily cleaning. During school breaks the chapel is cleaned every Wednesday and Sunday.',`<ol>${DAILY.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join('')}</ol>`)
-+sec('Weekly','',[1,2,3,4,5,6].map(i=>`<div class="pl${i==w?' now':''}"><b>${DN[i]}</b> ${WEEK[i][0]}<small>${WEEK[i][1]}</small></div>`).join(''))
-+sec('Monthly ('+S.ch+')','',MON.map(x=>`<div class=pl><b>${x.l}</b> ${x.t}<small>${x.x(S.ch)}</small></div>`).join(''))
-+sec('Closing, after 5:00 PM','',CLOSE.map(x=>`<div class=pl><b>${x[0]}</b><small>${x[1]}</small></div>`).join(''))+prayv()+hist()+rem()+sec('Offline status','','<p class=nt id=off>Checking...</p>')}
+return '<div id=j-plan>'+sec('Daily schedule','Done whenever Holy Mass is celebrated, Monday to Sunday. No Mass, no daily cleaning. During school breaks the chapel is cleaned every Wednesday and Sunday.',`<ol>${DAILY.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join('')}</ol>`)
++sec('Weekly schedule','',[1,2,3,4,5,6].map(i=>`<div class="pl${i==w?' now':''}"><b>${DN[i]}</b> ${WEEK[i][0]}<small>${WEEK[i][1]}</small></div>`).join(''))
++sec('Monthly schedule ('+S.ch+')','',MON.map(x=>`<div class=pl><b>${x.l}</b> ${x.t}<small>${x.x(S.ch)}</small></div>`).join(''))+'</div>'+prayv()+hist()+rem()+sec('Offline status','','<p class=nt id=off>Checking...</p>')}
 const ics=()=>{const t=(S.rt||'06:00').replace(':',''),d=ymd(new Date()).replace(/-/g,'');
 return 'data:text/calendar;charset=utf-8,'+encodeURIComponent(['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ChapelList//EN','BEGIN:VEVENT','UID:chapel-'+t+'@chapel-list','DTSTAMP:'+d+'T000000Z','DTSTART:'+d+'T'+t+'00','DURATION:PT15M','RRULE:FREQ=DAILY','SUMMARY:Chapel List: daily cleaning and Mass prep','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Chapel List','TRIGGER:PT0S','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n'))};
 function rem(){const t=S.rt||'06:00';
@@ -229,7 +240,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();ch=sb.channel('chat',{c
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.1.0';
+const APP_VERSION='1.2.0';
 let UP={chk:0,live:null,rel:[],err:''};
 async function chkUpd(){UP.chk=Date.now();
 try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(r.ok)UP.live=await r.json()}catch(e){}
@@ -240,7 +251,7 @@ function updv(){const L=UP.live,nw=L&&L.version!=APP_VERSION;
 return sec('App version','',`<div class="it${nw?' ok2':''}"><b>${nw?'New version '+esc(L.version)+' is ready':'You are up to date'}</b><small>Installed: ${APP_VERSION}${L?'. Latest: '+esc(L.version):''}${UP.chk?'. Checked '+fmt(UP.chk):''}</small>${nw&&L.notes?`<small>${esc(L.notes)}</small>`:''}<div class=ctl>${nw?'<button class=pr data-u=go>Restart to update</button>':''}<button class=pr data-u=chk>Check for updates</button></div></div>`)
 +sec('Versions','Latest and past versions. Download an APK to install that version on this phone.',UP.rel.length?UP.rel.map((x,i)=>{const ap=(x.assets||[]).filter(a=>/\.apk$/i.test(a.name)&&/^https:\/\/github\.com\//.test(a.browser_download_url)),cur=[APP_VERSION,'v'+APP_VERSION].includes(x.tag_name);
 return `<div class="it"><b>${esc(x.name||x.tag_name)}</b>${i==0?'<i class=tg>Latest</i>':''}${cur?'<i class=tg>Installed</i>':''}<small>${x.published_at?fmt(x.published_at):''}</small><small>${esc((x.body||'').slice(0,300))}</small>${ap.map(a=>`<a class=lk target=_blank rel=noopener href="${a.browser_download_url}">Download ${esc(a.name)} (${(a.size/1048576).toFixed(1)} MB)</a>`).join('')||'<small>No APK attached to this version.</small>'}</div>`}).join(''):`<p class=nt>${UP.err||'No published versions yet.'}</p>`)}
-let PT='today',PUSH=false;
+let PT='home',PUSH=false;
 const u8=b=>{const r=atob((b+'='.repeat((4-b.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0))};
 async function fnErr(e){if(e&&e.name=='FunctionsFetchError')return 'Cannot reach the "push" function. In Supabase, check Edge Functions: a function named push must be deployed.';try{const j=await e.context.json();return j.error||j.message||e.message}catch(x){return e.message}}
 async function pushState(){try{const r=await navigator.serviceWorker.ready;return !!(await r.pushManager.getSubscription())&&Notification.permission=='granted'}catch(e){return false}}
@@ -262,8 +273,8 @@ function tIds(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil
 const sbOK=()=>SB&&sb&&ME&&!OFF;
 async function pullDone(){if(!sbOK())return;try{const {data,error}=await sb.from('task_done').select('task,user_id').eq('day',S.date).eq('chapel',S.ch);if(error||!data)return;const d=D();Object.keys(d).forEach(k=>{if(!k.includes('_'))delete d[k]});DW={};data.forEach(x=>{d[x.task]=1;DW[x.task]=x.user_id});sv()}catch(e){}}
 async function loadPlan(){if(!sbOK())return;try{const {data}=await sb.from('day_plan').select('*').eq('day',S.date).maybeSingle();PLAN[S.date]=data||{}}catch(e){}}
-function syncView(){if(!sbOK()||!['today','prep'].includes(S.tab))return;const k=S.date+S.ch;if(k==PK)return;PK=k;Promise.all([pullDone(),loadPlan()]).then(()=>{PK=k;R()})}
-const rt=()=>{if(sbOK()&&['today','prep'].includes(S.tab))Promise.all([pullDone(),loadPlan()]).then(R)};
+function syncView(){if(!sbOK()||S.tab!='chap')return;const k=S.date+S.ch;if(k==PK)return;PK=k;Promise.all([pullDone(),loadPlan()]).then(()=>{PK=k;R()})}
+const rt=()=>{if(sbOK()&&S.tab=='chap')Promise.all([pullDone(),loadPlan()]).then(R)};
 async function pushDone(id,on){if(!SB||!ME)return;const r={day:S.date,chapel:S.ch,task:id};try{if(!sb||OFF)throw {};const q=on?await sb.from('task_done').upsert(r,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(r);if(q.error)throw q.error}catch(e){if(e&&e.code)return;S.qu=[...(S.qu||[]),{...r,on}];sv()}}
 async function flushQ(){const q=S.qu||[];if(!q.length||!sbOK())return;S.qu=[];sv();for(const x of q){const {on,...k}=x;try{on?await sb.from('task_done').upsert(k,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(k)}catch(e){}}}
 async function savePlan(p){if(!sbOK()||!isLead()){alert('Connect to the internet to save this.');return}const o=PLAN[S.date]||{},row={day:S.date,lang:o.lang||null,note:o.note||null,...p},{error}=await sb.from('day_plan').upsert(row);if(error){alert('Could not save: '+error.message);return}PLAN[S.date]=row;R()}
@@ -347,7 +358,7 @@ if(x=='adm'){S.tab='adm';R();scrollTo(0,0);admLoad();return}
 if(x=='back'){S.tab='acct';R();scrollTo(0,0);return}
 if(x=='ed'){AE=a.i;R();return}
 if(x=='ec'){AE='';R();return}
-if(x=='out'){cset(null);try{if(ch&&sb){sb.removeChannel(ch);ch=null}if(sb)await sb.auth.signOut()}catch(e){}ME=null;CU=null;OFF=false;AU=null;AE='';LE='';S.tab='today';rdy=true;R();return}
+if(x=='out'){cset(null);try{if(ch&&sb){sb.removeChannel(ch);ch=null}if(sb)await sb.auth.signOut()}catch(e){}ME=null;CU=null;OFF=false;AU=null;AE='';LE='';S.tab='home';rdy=true;R();return}
 if(AB||!sb)return;
 if(OFF){alert('You are offline. Connect to the internet and try again.');return}
 AB=true;if(b)b.disabled=true;
@@ -385,7 +396,72 @@ const {error}=await sb.rpc('admin_delete_user',{uid:a.i});if(error)throw error;a
 finally{AB=false;if(b)b.disabled=false}}
 const PAL={Violet:['#4b2a6b','#ece4f4','#c9a9e8','#33283f'],Green:['#1f5c3a','#dff0e5','#8fd4a8','#1f3a2a'],Red:['#8c1d2c','#f6e0e3','#f0a3ad','#432127'],White:['#44546a','#e4e9f0','#b7c4d8','#2b3442'],Gold:['#8a6410','#f5ecd2','#e0b24f','#3d3318']};
 const TH=[['','System'],['light','Light'],['dark','Dark']],TN=['Auto','Violet','Green','Red','White','Gold'],LY=[['detailed','Detailed'],['compact','Compact'],['grid','Grid']];
-const gr=()=>{const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening'};
+const VERSES=[
+["Genesis 28:17","How dreadful is this place! this is none other but the house of God, and this is the gate of heaven."],
+["Exodus 3:5","Put off thy shoes from off thy feet, for the place whereon thou standest is holy ground."],
+["Deuteronomy 31:6","Be strong and of a good courage, fear not, nor be afraid of them: for the LORD thy God, he it is that doth go with thee; he will not fail thee, nor forsake thee."],
+["Joshua 1:9","Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest."],
+["1 Samuel 3:9","Speak, LORD; for thy servant heareth."],
+["1 Chronicles 16:29","Give unto the LORD the glory due unto his name: bring an offering, and come before him: worship the LORD in the beauty of holiness."],
+["Psalm 19:14","Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer."],
+["Psalm 23:1-2","The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters."],
+["Psalm 26:8","LORD, I have loved the habitation of thy house, and the place where thine honour dwelleth."],
+["Psalm 27:4","One thing have I desired of the LORD, that will I seek after; that I may dwell in the house of the LORD all the days of my life, to behold the beauty of the LORD, and to enquire in his temple."],
+["Psalm 34:8","O taste and see that the LORD is good: blessed is the man that trusteth in him."],
+["Psalm 37:5","Commit thy way unto the LORD; trust also in him; and he shall bring it to pass."],
+["Psalm 46:10","Be still, and know that I am God."],
+["Psalm 51:10","Create in me a clean heart, O God; and renew a right spirit within me."],
+["Psalm 84:10","For a day in thy courts is better than a thousand. I had rather be a doorkeeper in the house of my God, than to dwell in the tents of wickedness."],
+["Psalm 90:17","And let the beauty of the LORD our God be upon us: and establish thou the work of our hands upon us; yea, the work of our hands establish thou it."],
+["Psalm 96:9","O worship the LORD in the beauty of holiness: fear before him, all the earth."],
+["Psalm 100:4","Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name."],
+["Psalm 118:24","This is the day which the LORD hath made; we will rejoice and be glad in it."],
+["Psalm 121:1-2","I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth."],
+["Psalm 122:1","I was glad when they said unto me, Let us go into the house of the LORD."],
+["Proverbs 3:5-6","Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths."],
+["Proverbs 16:3","Commit thy works unto the LORD, and thy thoughts shall be established."],
+["Isaiah 6:8","Also I heard the voice of the Lord, saying, Whom shall I send, and who will go for us? Then said I, Here am I; send me."],
+["Isaiah 40:31","But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."],
+["Isaiah 41:10","Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness."],
+["Lamentations 3:22-23","It is of the LORD'S mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness."],
+["Micah 6:8","He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?"],
+["Matthew 5:8","Blessed are the pure in heart: for they shall see God."],
+["Matthew 5:16","Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."],
+["Matthew 6:33","But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you."],
+["Matthew 7:7","Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you."],
+["Matthew 11:28","Come unto me, all ye that labour and are heavy laden, and I will give you rest."],
+["Matthew 18:20","For where two or three are gathered together in my name, there am I in the midst of them."],
+["Matthew 25:21","His lord said unto him, Well done, thou good and faithful servant: thou hast been faithful over a few things, I will make thee ruler over many things: enter thou into the joy of thy lord."],
+["Matthew 28:20","And, lo, I am with you alway, even unto the end of the world."],
+["Luke 1:38","Behold the handmaid of the Lord; be it unto me according to thy word."],
+["Luke 1:46-47","My soul doth magnify the Lord, and my spirit hath rejoiced in God my Saviour."],
+["Luke 16:10","He that is faithful in that which is least is faithful also in much."],
+["Luke 22:19","And he took bread, and gave thanks, and brake it, and gave unto them, saying, This is my body which is given for you: this do in remembrance of me."],
+["John 6:35","I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst."],
+["John 8:12","I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life."],
+["John 14:27","Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid."],
+["John 15:5","I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing."],
+["John 15:12","This is my commandment, That ye love one another, as I have loved you."],
+["Romans 12:12","Rejoicing in hope; patient in tribulation; continuing instant in prayer."],
+["1 Corinthians 10:31","Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God."],
+["1 Corinthians 15:58","Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord."],
+["2 Corinthians 12:9","My grace is sufficient for thee: for my strength is made perfect in weakness."],
+["Galatians 6:9","And let us not be weary in well doing: for in due season we shall reap, if we faint not."],
+["Ephesians 6:7","With good will doing service, as to the Lord, and not to men."],
+["Philippians 4:6-7","Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus."],
+["Colossians 3:23","And whatsoever ye do, do it heartily, as to the Lord, and not unto men."],
+["1 Thessalonians 5:16-18","Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you."],
+["James 4:8","Draw nigh to God, and he will draw nigh to you."],
+["1 Peter 5:7","Casting all your care upon him; for he careth for you."],
+["Revelation 3:20","Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me."]];
+const GREET={m:['Good morning','Blessed morning','Rise and shine','A peaceful morning to you','God bless your morning'],a:['Good afternoon','Blessed afternoon','Peace this afternoon','God bless your afternoon'],e:['Good evening','Blessed evening','Peace this evening','God bless your evening'],x:['Peace be with you','Welcome back','God bless you','Pax Christi','Grace and peace']};
+const tband=()=>{const h=new Date().getHours();return h<12?'m':h<18?'a':'e'};
+let HV=0,HG='',HB='',HID=0;
+function newGreet(){const b=tband(),L=[...GREET[b],...GREET.x].filter(g=>g!=S.hg);HB=b;HG=L[Math.floor(Math.random()*L.length)];S.hg=HG;sv()}
+function newHome(){const n=VERSES.length;let i=Math.floor(Math.random()*n);if(n>1&&i==S.hv)i=(i+1+Math.floor(Math.random()*(n-1)))%n;HV=S.hv=i;newGreet()}
+function home(){if(HB!=tband())newGreet();const v=VERSES[HV],n=ME?esc((ME.name||'').trim().split(' ')[0]):'';
+return `<div class=hero><h2>${esc(HG)}${n?',<br>'+n:''}</h2></div><div class=vc><p class=vt>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])}</b><small>King James Version</small></div>`}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newHome();if(S.tab=='home'&&!locked())R()}HID=0});
 function applyTheme(){const o=O(),k=S.tm=='auto'?(o.f?'Gold':(o.c||'Violet')):S.tm,p=PAL[k]||PAL.Violet,r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';
 r.style.setProperty('--ac',dk?p[2]:p[0]);r.style.setProperty('--acs',dk?p[3]:p[1]);r.style.setProperty('--hd',p[0]);
 document.querySelector('meta[name=theme-color]').content=p[0];
@@ -394,20 +470,20 @@ function appr(){const cur=S.tm=='auto'?'Auto':S.tm;
 return sec('Theme','Light, dark, or follow your phone.',`<div class=seg>${TH.map(([v,l])=>`<button data-sh="${v}" class="${(S.th||'')==v?'on':''}">${l}</button>`).join('')}</div>`)+sec('App color','Auto follows the vestment color of the day. Or pick one yourself.',`<div class=seg>${TN.map(v=>`<button data-st="${v}" class="${cur==v?'on':''}"${PAL[v]?` style="border-left:8px solid ${PAL[v][0]}"`:''}>${v}</button>`).join('')}</div>`)
 +sec('Layout','Detailed shows descriptions, Compact is tighter, Grid shows two columns.',`<div class=seg>${LY.map(([v,l])=>`<button data-sl="${v}" class="${S.ly==v?'on':''}">${l}</button>`).join('')}</div>`)}
 const acct=()=>acct0(),chatv=()=>'<div id=chat></div>';
-let HL='',RES=[];
-function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t});
-DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','today'));
-for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'plan');
-MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'plan'));
-CLOSE.forEach(x=>add(x[0],x[1],'Closing','today'));
-[['mass',PM(f),'Holy Mass prep'],['ben',PB(),'Benediction'],['med',PMED,'Meditation']].forEach(([p,A,n])=>A.forEach(x=>{add(x.t,x.x,n,'prep',p);(x.s||[]).forEach(y=>add(y,'',n+', '+x.t,'prep',p,x.t))}));
-SUP.forEach(x=>add(x,'','Supplies','sup'));return L}
+let HL='',HS='',RES=[];
+function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl,sc)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t,sc});
+DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','chap',0,0,'j-clean'));
+for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'chap',0,0,'j-plan');
+MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'chap',0,0,'j-plan'));
+CLOSE.forEach(x=>add(x[0],x[1],'Closing','chap',0,0,'j-close'));
+[['mass',PM(f),'Holy Mass prep'],['ben',PB(),'Benediction'],['med',PMED,'Meditation']].forEach(([p,A,n])=>A.forEach(x=>{add(x.t,x.x,n,'chap',p,0,'j-prep');(x.s||[]).forEach(y=>add(y,'',n+', '+x.t,'chap',p,x.t,'j-prep'))}));
+SUP.forEach(x=>add(x,'','Supplies','chap',0,0,'j-sup'));return L}
 const find=()=>`<div class=ctl><input class=nm id=q type=search placeholder="Search items, tasks, supplies" autocomplete=off value="${esc(S.q||'')}"></div><div id=res></div>`;
 function res(){const q=(S.q||'').trim().toLowerCase(),el=$('#res');if(!el)return;
 if(!q){el.innerHTML='<p class=nt>Type to search checklists, daily and weekly tasks, and supplies.</p>';return}
 RES=idx().filter(x=>(x.t+' '+x.x).toLowerCase().includes(q)).slice(0,40);
 el.innerHTML=RES.length?RES.map((x,i)=>`<button class=su data-f="${i}"><span>${esc(x.t)}<small>${esc(x.sec+(x.x?': '+x.x.slice(0,80):''))}</small></span></button>`).join(''):'<p class=nt>Nothing found.</p>'}
-function hlGo(){if(!HL)return;const k=HL;HL='';setTimeout(()=>{const e=[...document.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k));if(e){const d=e.querySelector('details');if(d)d.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
+function hlGo(){if(!HL)return;const k=HL,sc=HS;HL='';HS='';setTimeout(()=>{const q=r=>[...r.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k)),e=(sc&&$('#'+sc)&&q($('#'+sc)))||q(document);if(e){const d=e.querySelector('details');if(d)d.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
 async function offChk(){const e=$('#off');if(!e)return;
 try{const k=await caches.keys(),n=k.length?(await(await caches.open(k[0])).keys()).length:0;
 e.textContent=!navigator.serviceWorker||!navigator.serviceWorker.controller?'Offline mode is not active yet. Close and reopen the app while online, then check again.':n?'Offline ready ('+n+' files saved).':'Offline mode is on but nothing is saved yet. Reopen the app while online.'}
@@ -415,15 +491,15 @@ catch(x){e.textContent='Offline check is not available here.'}}
 function sup(){const n=SUP.filter((_,i)=>S.u[i]>0).length;
 return sec('Supplies','Thursday inventory. Tap an item to cycle OK, Low, Out.'+(n?` ${n} to restock.`:''),SUP.map((s,i)=>`<button class="su s${S.u[i]||0}" data-su=${i}><span>${s}</span><b>${ST[S.u[i]||0]}</b></button>`).join('')+(n?'<button class=lk data-a=share>Share restock list</button>':''))}
 function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><small>${c} of ${a.length} done</small>`}
-function R(){applyTheme();syncView();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{today,prep,plan,sup,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')));if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='plan')offChk();hlGo()}
+function R(){applyTheme();syncView();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')));if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd();return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
-if(a.go){S.date=a.go;S.tab='today'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl}else if(a.tab){if(a.tab=='set'&&S.tab!='set')PT=S.tab;S.tab=a.tab}else if(a.pt)S.pt=a.pt;else if(a.su!=null)S.u[a.su]=((S.u[a.su]||0)+1)%3;
-else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'today';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='prep';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;else if(a.a=='prep')S.tab='prep';
-else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?'))S.d[S.date]={}}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd();return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+let K=0;if(a.go){S.date=a.go;S.tab='chap'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl;HS=x.sc||''}else if(a.tab){if(a.tab=='set'&&S.tab!='set')PT=S.tab;S.tab=a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
+else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;
+else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
 else if(a.a=='share'){const t='Chapel restock list:\n'+SUP.map((s,i)=>S.u[i]>0?'- '+s+' ('+ST[S.u[i]]+')':'').filter(Boolean).join('\n');if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t);return}
 else if(a.a=='th'){const r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';S.th=r.dataset.theme=dk?'light':'dark'}else return;
-sv();R();scrollTo(0,0)});
+const y=scrollY;sv();R();scrollTo(0,K?y:0)});
 document.addEventListener('change',e=>{const t=e.target,k=t.dataset.id;
 if(k){if(!perm(k)){t.checked=!t.checked;return}const d=D();if(t.checked)d[k]=1;else delete d[k];t.closest('.sb,.ck,.it').classList.toggle('dn',t.checked);upd();if(!k.includes('_')){pushDone(k,t.checked);if(SB&&ME&&isCrew())R()}}
 else if(t.dataset.s=='m'){O().a=0;O().m=t.value;R()}
@@ -445,6 +521,6 @@ if(S.th)document.documentElement.dataset.theme=S.th;
 if(ok||e>7000){clearInterval(iv);b.style.width='100%';setTimeout(()=>{x.classList.add('out');setTimeout(()=>x.remove(),500)},250)}},60)}
 setTimeout(chkUpd,3000);setInterval(chkUpd,30*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-UP.chk>600000)chkUpd()});
 fetch('ordo.json').then(x=>x.ok?x.json():null).then(j=>{if(j){ORDO=j;for(const k in S.o){const e=S.o[k];if(e&&e.a){const i=litx(k);e.f=i.f;e.c=i.f?'':i.c}}R()}}).catch(()=>{});
-R();authInit();
+newHome();R();authInit();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
