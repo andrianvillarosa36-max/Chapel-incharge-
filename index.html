@@ -320,6 +320,86 @@ nav button.nd:after{top:3px;left:calc(50% + 8px)}
 @media(max-width:390px){.hm{padding:19px 14px 17px}.qt{padding:14px 13px}.qa{gap:10px}}
 
 .mo12 button{flex:1 1 22%}.mdl{position:fixed;inset:0;z-index:120;background:#0009;display:flex;align-items:center;justify-content:center;padding:24px}.mbx{background:var(--card);color:var(--ink);border:1px solid var(--ln);border-radius:18px;padding:20px;max-width:360px;width:100%;box-shadow:0 12px 40px #0006}.mbx b{display:block;font:600 19px "Palatino Linotype",Palatino,Georgia,serif;margin-bottom:6px}.mbx p{margin:0 0 16px;color:var(--mut)}.mbx .ctl{display:flex;gap:8px;margin:0}.mbx .pr{flex:1}.mbx .sc{flex:1;padding:12px;border-radius:12px;border:1px solid var(--ln);background:none;color:var(--ink)}
+
+/* ===== Chapel In-Charge usability polish (CSS-only; behavior unchanged) ===== */
+:root{
+  --bg:#f5f4f1;--card:#ffffff;--ink:#202b3d;--mut:#5d6675;
+  --ac:#263b56;--acs:#e9edf2;--ln:#d9dee6;--ok:#31845b;--gd:#c49b43;--hd:#202d42;
+  color-scheme:light;
+}
+:root.feast{--hd:#8d6b24}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#17151d;--card:#24212e;--ink:#f0eaf4;--mut:#b8b1c2;
+    --ac:#d5b56d;--acs:#343044;--ln:#40394c;--ok:#70c99a;--gd:#d5b56d;--hd:#202d42;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17151d;--card:#24212e;--ink:#f0eaf4;--mut:#b8b1c2;
+  --ac:#d5b56d;--acs:#343044;--ln:#40394c;--ok:#70c99a;--gd:#d5b56d;--hd:#202d42;
+  color-scheme:dark;
+}
+body{line-height:1.5;-webkit-tap-highlight-color:transparent}
+header{background:linear-gradient(115deg,#1b2739,#293b53);border-bottom:1px solid #d5b56d;box-shadow:0 5px 18px #10182718;padding-top:max(10px,env(safe-area-inset-top,0px))}
+header h1{letter-spacing:-.015em}
+header select,header button{min-height:42px;border:1px solid #ffffff20;border-radius:13px;background:#ffffff16}
+main{width:100%;max-width:760px;padding-top:16px;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))}
+section{margin:16px 0 22px}
+h2{line-height:1.25;letter-spacing:-.012em}
+.ph{margin:8px 0 14px}
+.it{border-radius:17px;padding:13px 14px;margin:9px 0;box-shadow:0 3px 12px #11182708;transition:border-color .16s,box-shadow .16s}
+.it.dn>label b,.sb.dn span{color:var(--mut);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:currentColor;opacity:.9}
+.it label{gap:11px}
+.it label b{line-height:1.4}
+.it label small{font-size:14px;line-height:1.55;margin-top:5px}
+input[type=checkbox]{width:23px;height:23px;min-width:23px;accent-color:var(--ok);cursor:pointer}
+.tg{border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;vertical-align:middle}
+summary{padding:5px 0;font-size:14px;font-weight:650}
+.dt{gap:10px;margin:5px 0 12px;padding:10px 12px;border:1px solid var(--ln);border-radius:20px;background:var(--card);box-shadow:0 3px 12px #11182708}
+.dt button{width:44px;height:44px;min-width:44px;border-radius:14px;font-weight:700}
+.dt>div{min-width:0;line-height:1.35}
+.ctl{gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.ctl select,.nm,textarea.nm{min-height:44px;border-radius:13px;padding:10px 12px}
+.ctl>select{min-width:0}
+.sw{white-space:normal;display:flex;gap:8px;line-height:1.3}
+.sw input{width:21px;height:21px;flex:none}
+.jp{margin:12px -4px 12px;padding:3px 4px 8px;gap:8px;scroll-snap-type:x proximity}
+.jp button{min-height:42px;padding:9px 15px;border-radius:999px;font-size:13px;font-weight:650;scroll-snap-align:start}
+.jp button:active{transform:scale(.98)}
+.pb{height:10px;border-radius:999px;margin-top:12px}
+.pb i{border-radius:999px}
+.big{border:1px solid color-mix(in srgb,var(--ok) 65%,var(--ln));background:color-mix(in srgb,var(--ok) 10%,var(--card));border-radius:18px;padding:14px 15px;line-height:1.45}
+.lk{border-radius:12px}
+.pr{background:linear-gradient(135deg,#263b56,#354b67);color:#fff;border:1px solid #ffffff10;min-height:48px;border-radius:14px}
+nav{padding-left:max(7px,env(safe-area-inset-left,0px));padding-right:max(7px,env(safe-area-inset-right,0px));padding-bottom:calc(7px + env(safe-area-inset-bottom,0px))}
+nav button{min-height:56px;gap:5px;font-size:11px}
+nav button.on{background:var(--acs);border-color:color-mix(in srgb,var(--ac) 20%,var(--ln));box-shadow:inset 0 2px 0 color-mix(in srgb,var(--gd) 75%,transparent)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--gd);outline-offset:3px}
+button:disabled{cursor:not-allowed}
+#sp{background:linear-gradient(145deg,#1b2739,#293b53)}
+#sp .cr i,#sp .spbar i{background:#d5b56d}
+/* Preserve comfortable reading on small screens and prevent controls from squeezing. */
+@media(max-width:430px){
+  main{padding-left:12px;padding-right:12px}
+  header{gap:6px;padding-left:12px;padding-right:12px}
+  header h1{font-size:17px}
+  header select,header button{padding:7px 9px;min-height:40px}
+  .dt{padding:9px 10px;gap:7px}
+  .dt button{width:40px;height:40px;min-width:40px}
+  .ctl{align-items:stretch}
+  .ctl>select{flex:1 1 100%;width:100%}
+  .ctl .sw{flex:1 1 auto;min-height:38px;align-items:center}
+  .it{padding:12px}
+  .it label small{font-size:13.5px}
+  .jp{gap:7px}
+  nav button{font-size:10px;min-height:53px}
+}
+@media(min-width:700px){
+  main{padding-left:22px;padding-right:22px}
+  .it{padding:15px 17px}
+}
+@media(prefers-reduced-motion:reduce){.it,.jp button{transition:none}}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
