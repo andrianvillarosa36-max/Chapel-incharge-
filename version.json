@@ -1,3 +1,1 @@
-{"version":"1.2.0","date":"2026-10-10","notes":"New Home tab with a greeting and a Bible verse that change each time you open the app. Today, Prepare, Plan and Supplies are now one tab called Chapel preparation."}
-{"version":"1.1.0","date":"2026-10-10","notes":"The Ordo now follows Fr. Belmonte's 2025-2026 liturgical calendar (colors, readings, notes), plus Pocket Prayer Book links."}
-
+{"version":"1.2.1","date":"2026-10-10","notes":"The chat icon now opens and closes the chat. The Updates tab now lists past updates even when no GitHub release has been published."}
