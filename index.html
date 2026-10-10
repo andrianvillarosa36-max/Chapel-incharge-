@@ -319,6 +319,7 @@ nav button.nd:after{top:3px;left:calc(50% + 8px)}
 .wn li{margin:5px 0}
 @media(max-width:390px){.hm{padding:19px 14px 17px}.qt{padding:14px 13px}.qa{gap:10px}}
 
+.mo12 button{flex:1 1 22%}.mdl{position:fixed;inset:0;z-index:120;background:#0009;display:flex;align-items:center;justify-content:center;padding:24px}.mbx{background:var(--card);color:var(--ink);border:1px solid var(--ln);border-radius:18px;padding:20px;max-width:360px;width:100%;box-shadow:0 12px 40px #0006}.mbx b{display:block;font:600 19px "Palatino Linotype",Palatino,Georgia,serif;margin-bottom:6px}.mbx p{margin:0 0 16px;color:var(--mut)}.mbx .ctl{display:flex;gap:8px;margin:0}.mbx .pr{flex:1}.mbx .sc{flex:1;padding:12px;border-radius:12px;border:1px solid var(--ln);background:none;color:var(--ink)}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -477,11 +478,17 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.3.1';
+const APP_VERSION='1.3.2';
 let UP={chk:0,live:null,err:''};
-async function chkUpd(){UP.chk=Date.now();
-try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;UP.live=await r.json();UP.err=''}catch(e){if(!UP.live)UP.err='Connect to the internet to see what is new.'}
-const b=$('nav [data-tab=updates]');if(b)b.classList.toggle('nd',!!(UP.live&&UP.live.version!=APP_VERSION));if(S.tab=='updates')R()}
+const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
+function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
+o.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('button[data-pop]');if(b){o.remove();ok(+b.dataset.pop)}else if(e.target==o){o.remove();ok(-1)}});document.body.appendChild(o)})}
+async function chkUpd(manual){UP.chk=Date.now();let got=false;
+try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;UP.live=await r.json();UP.err='';got=true}catch(e){if(!UP.live)UP.err='Connect to the internet to see what is new.'}
+const b=$('nav [data-tab=updates]');if(b)b.classList.toggle('nd',!!(UP.live&&UP.live.version!=APP_VERSION));if(S.tab=='updates')R();
+if(manual){if(!got)await popup('Could not check','We could not reach the update server. Connect to the internet and try again.',[['OK']]);
+else if(newerV(UP.live.version,APP_VERSION)){if(await popup('Update available','Version '+UP.live.version+' is available. Do you want to update?',[['Not now','sc'],['Update','pr']])==1)goUpd()}
+else await popup("You're up to date","You're on the latest version of the app ("+APP_VERSION+"). There is nothing to update right now.",[['OK']])}}
 async function goUpd(){if(!navigator.onLine){alert('Connect to the internet to update.');return}try{for(const r of await navigator.serviceWorker.getRegistrations())await r.update();for(const k of await caches.keys())await caches.delete(k)}catch(e){}location.reload()}
 function updv(){const L=UP.live,nw=L&&L.version!=APP_VERSION;
 return sec('App version','',`<div class="it${nw?' ok2':''}"><b>${nw?'New version '+esc(L.version)+' is ready':'You are up to date'}</b><small>Installed: ${APP_VERSION}${L?'. Latest: '+esc(L.version):''}${UP.chk?'. Checked '+fmt(UP.chk):''}</small>${nw&&L.notes?`<small>${esc(L.notes)}</small>`:''}<div class=ctl>${nw?'<button class=pr data-u=go>Restart to update</button>':''}<button class=pr data-u=chk>Check for updates</button></div></div>`)+wnew()}
@@ -722,7 +729,7 @@ return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE<
 +`</div></div>`}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newGreet();if(S.tab=='home'&&!locked())R()}HID=0});
 /* ---- Mass schedule: this month and the next ---- */
-let MM={m:0,sel:'',t:0};
+let MM={y:new Date().getFullYear(),mo:new Date().getMonth(),sel:'',t:0};
 function mday(k){const i=litx(k),o=S.o[k],f=o?o.f:i.f;return{m:o?o.m:'mass',f:f?1:0,c:f?'Gold':((o&&o.c)||i.c||'Green'),i}}
 function mdet(k){const d=new Date(k+'T00:00'),w=d.getDay(),x=mday(k),e=ent(k),p=PLAN[k]||{},lang=(w==0||w==6)?p.lang:LANGF[w],ms=x.m=='mass';
 return `<div class="it wide"><b>${DN[w]}, ${d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}</b><i class=tg>${ms?'Holy Mass':x.m=='none'?'No Holy Mass':'School break'}</i>${x.f?'<i class=tg>Feast</i>':''}${e&&e.k?`<i class=tg>${esc(e.k)}</i>`:''}`
@@ -730,17 +737,17 @@ return `<div class="it wide"><b>${DN[w]}, ${d.toLocaleDateString(undefined,{mont
 +(ms?`<div class=lg><span>Vestment color</span><b>${x.f?'Gold (feast)':x.c}</b></div><div class=lg><span>Language of the Mass</span><b>${lang||'Not set yet'}</b></div>`:'')
 +(p.note?`<small>Note from the priest or founder: ${esc(p.note)}</small>`:'')+(e&&e.r?`<small>Readings: ${esc(e.r)}</small>`:'')
 +`<button class=pr data-go="${k}">Open in Chapel preparation</button></div>`}
-function massv(){const t=new Date(),tk=ymd(t),b=new Date(t.getFullYear(),t.getMonth()+MM.m,1),y=b.getFullYear(),mo=b.getMonth(),nd=new Date(y,mo+1,0).getDate(),k1=ymd(b),
-sel=MM.sel&&MM.sel.slice(0,7)==k1.slice(0,7)?MM.sel:(MM.m==0?tk:k1),mn=d=>d.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+function massv(){const t=new Date(),tk=ymd(t),b=new Date(MM.y,MM.mo,1),y=MM.y,mo=MM.mo,nd=new Date(y,mo+1,0).getDate(),k1=ymd(b),
+sel=MM.sel&&MM.sel.slice(0,7)==k1.slice(0,7)?MM.sel:(tk.slice(0,7)==k1.slice(0,7)?tk:k1),mn=d=>d.toLocaleDateString(undefined,{month:'long',year:'numeric'});
 let cells='',cnt=0;for(let i=0;i<b.getDay();i++)cells+='<span></span>';
 for(let d=1;d<=nd;d++){const dt=new Date(y,mo,d),k=ymd(dt),x=mday(k),c=['cl'];if(x.m=='mass')cnt++;if(k<tk)c.push('pst');if(k==tk)c.push('td');if(k==sel)c.push('sel');
 cells+=`<button class="${c.join(' ')}" data-md="${k}" aria-pressed="${k==sel}" aria-label="${dt.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}, ${x.m=='mass'?'Holy Mass':x.m=='none'?'No Holy Mass':'School break'}"><span>${d}</span><i class="cd ${x.m=='mass'?x.c:x.m=='none'?'none':'brk'}"></i></button>`}
 return `<button class="lk bk" data-tab=home>‹ Home</button><h2 class=ph>Mass schedule</h2>`
-+`<div class=seg>${[0,1].map(m=>`<button data-mm=${m} class="${MM.m==m?'on':''}">${mn(new Date(t.getFullYear(),t.getMonth()+m,1))}</button>`).join('')}</div>`
++`<div class=dt><button data-yr=-1 aria-label="Previous year">‹</button><div><b>${MM.y}</b></div><button data-yr=1 aria-label="Next year">›</button></div><div class="seg mo12">${Array.from({length:12},(_,m)=>`<button data-mm=${m} class="${MM.mo==m?'on':''}">${new Date(MM.y,m,1).toLocaleDateString(undefined,{month:'short'})}</button>`).join('')}</div>`
 +`<p class=nt>${cnt} Holy Mass${cnt==1?'':'es'} in ${mn(b)}. Tap a day for details.</p>`
 +`<div class=mc><div class=mw>${DN.map(s=>`<small>${s.slice(0,3)}</small>`).join('')}${cells}</div></div>`
 +`<div class=lgd><span><i class="cd Green"></i><i class="cd Violet"></i><i class="cd Red"></i><i class="cd White"></i>Holy Mass (vestment color)</span><span><i class="cd Gold"></i>Feast</span><span><i class="cd none"></i>No Mass</span><span><i class="cd brk"></i>School break</span></div>`+mdet(sel)}
-async function massLoad(){if(!sbOK())return;MM.t=Date.now();const t=new Date(),a=ymd(new Date(t.getFullYear(),t.getMonth(),1)),z=ymd(new Date(t.getFullYear(),t.getMonth()+2,0));
+async function massLoad(){if(!sbOK())return;MM.t=Date.now();const a=MM.y+'-01-01',z=MM.y+'-12-31';
 try{const {data,error}=await sb.from('day_plan').select('*').gte('day',a).lte('day',z);if(error)throw error;(data||[]).forEach(r=>{PLAN[r.day]=r})}catch(e){}
 if(S.tab=='mass')R()}
 /* ---- Announcements: everyone reads, only the priest and founder post ---- */
@@ -804,7 +811,7 @@ function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.fil
 function R(){applyTheme();syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['chap','mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.textContent=S.tab=='chat'?'✕':'💬'}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}
-if(a.mm!=null){MM.m=+a.mm;MM.sel='';R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd();return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
 let K=0;if(a.go){S.date=a.go;S.tab='chap'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl;HS=x.sc||''}else if(a.tab){if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
 else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
