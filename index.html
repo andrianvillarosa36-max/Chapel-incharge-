@@ -346,6 +346,17 @@ header button.nd::after{content:"";position:absolute;top:5px;right:5px;width:9px
 main.hd .it.dn:not(.wide){display:none}
 .jp button{min-height:40px}
 #nxb{position:fixed;right:14px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:30;padding:13px 18px;border:0;border-radius:999px;background:var(--gd,#d5b56d);color:#17151d;font-weight:700;font-size:15px;box-shadow:0 6px 20px #0006}
+.cht{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 8px}.cht .ph{margin:0}
+.sbtn{flex:none;padding:8px 14px;min-height:40px;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:999px;font-size:13px;font-weight:600}
+.wz{display:flex;gap:6px;margin:12px 0 8px}
+.wz button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 4px;min-height:66px;border:1px solid var(--ln);background:var(--card);color:var(--mut);border-radius:12px;font-size:12px;line-height:1.2;text-align:center}
+.wz button i{font-style:normal;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--acs);color:var(--ac);font-weight:700;font-size:13px}
+.wz button.on{border-color:var(--ac);background:var(--acs);color:var(--ink);font-weight:700}.wz button.on i{background:var(--ac);color:var(--card)}
+.wz button.cmp i{background:var(--ok);color:#fff}.wz button:disabled{opacity:.45}
+.wzf{display:flex;gap:10px;margin-top:14px}.wzf .pr{flex:1;margin:0}
+.wzb{flex:none;padding:12px 18px;min-height:46px;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:13px;font-weight:600}
+.lkd{opacity:.55;box-shadow:none}#wf{margin:6px 0 70px}#wf .er{margin:14px 0 4px}
+details.schd{margin:14px 0 0}details.schd>summary{font-size:15px;padding:10px 12px;background:var(--card);border:1px solid var(--ln);border-radius:12px}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -355,7 +366,7 @@ main.hd .it.dn:not(.wide){display:none}
 const $=s=>document.querySelector(s),ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 let S={ch:'CITE',tab:'home',pt:'mass',date:'',d:{},o:{},u:{},th:'',n:{},hc:0,hr:0,f:'',rb:{},lm:[],tm:'auto',ly:'detailed',fin:{},qu:[]};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cic')||'{}'))}catch(e){}
-S.date=ymd(new Date());S.tab='home';S.q='';
+S.date=ymd(new Date());S.tab='home';S.q='';S.sx=null;S.vw='';
 {const c=ymd(new Date(Date.now()-60*864e5));for(const m of['d','o','n','rb'])for(const k in S[m])if(k<c)delete S[m][k]}
 if(!S.f)S.f=ymd(new Date());
 const sv=()=>{try{localStorage.setItem('cic',JSON.stringify(S))}catch(e){}};
@@ -418,24 +429,48 @@ const sec=(h,n,b)=>`<section><h2>${h}</h2>${n?`<p class=nt>${n}</p>`:''}${b}</se
 function dbar(){const d=new Date(S.date+'T00:00'),t=S.date==ymd(new Date());return `<div class=dt><button data-a=prev aria-label="Previous day">‹</button><div><b>${d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</b>${t?'<span class=dsub>Today</span>':'<button class=tdy data-a=now>Back to Today</button>'}</div><button data-a=next aria-label="Next day">›</button></div>`}
 function opts(){const o=O();return `<div class="ctl opts"><select data-s=m aria-label="Day type">${[['mass','Holy Mass today'],['none','No Holy Mass'],['break','School break']].map(([v,l])=>`<option value=${v}${o.m==v?' selected':''}>${l}</option>`).join('')}</select><label class=sw><input type=checkbox data-s=f${o.f?' checked':''}> Feast day</label></div>`}
 const sec2=(id,...x)=>sec(...x).replace('<section>','<section id='+id+'>');
-const JMP=[['j-clean','Cleaning'],['j-prep','Preparation'],['j-close','Closing'],['j-sup','Supplies'],['j-plan','Schedule']];
+const WZ=["Today's preparation",'Cleaning','Closing'];let WE=0;
+const gOn=()=>!SB||!ME||isCrew();
+function stepIds(k){const d=new Date(S.date+'T00:00'),w=d.getDay(),n=Math.ceil(d.getDate()/7),o=O(),fut=!!(SB&&ME&&S.date>ymd(new Date())),L=[];
+if(k==0){if(o.m=='mass'){PM(o.f).forEach((x,i)=>L.push(['Pmass'+i,x.w]));RB.forEach((_,j)=>L.push(['rb'+j,'']))}}
+else if(k==1){if(o.m=='mass'||(o.m=='break'&&(w==0||w==3)))DAILY.forEach((_,i)=>L.push(['d'+i,'']));if(WEEK[w])L.push(['w','']);MON.filter(x=>x.wd==w&&x.n==n).forEach((_,i)=>L.push(['mo'+i,'']))}
+else CLOSE.forEach((_,i)=>L.push(['c'+i,'']));
+return L.filter(x=>!fut||x[1]=='Day before').map(x=>x[0])}
+const stepLeft=k=>stepIds(k).filter(id=>!D()[id]).length;
+const reach=()=>{if(!gOn())return 2;for(let k=0;k<2;k++)if(stepLeft(k))return k;return 2};
+function wfoot(){const k=S.sx,L=stepLeft(k),on=gOn(),last=k==2;let h='';
+if(on&&L&&WE){const hid=k==0&&S.pt!='mass';h+=`<p class=er>${hid?'Holy Mass preparation still has items left. Finish them before you continue.':`${L} item${L>1?'s':''} left in this section. Finish ${L>1?'them':'it'} before you continue.`}</p>`+(hid?'<button class=lk data-pt=mass>Show the Holy Mass list</button>':'')}
+if(last&&[0,1,2].every(j=>!stepLeft(j))&&!(SB&&ME&&isCrew()))h+='<div class="it wide ok2"><b>All tasks are done for this day.</b></div>';
+h+=`<div class=wzf>${k>0?'<button class=wzb data-w=back>‹ Back</button>':''}${last?'':`<button class="pr${on&&L?' lkd':''}" data-w=next>Next: ${WZ[k+1]} ›</button>`}</div>`;
+if(last&&!SB)h+="<button class=lk data-a=reset>Reset this day's checklist</button>";
+return h}
+function wz(x,i){
+if(x=='sup'||x=='chk'){S.vw=x=='sup'?'sup':'';sv();R();scrollTo(0,0);return}
+const k=S.sx;
+if(x=='next'){if(gOn()&&stepLeft(k)){WE=1;const f=$('#wf');if(f)f.innerHTML=wfoot();nextTask();return}S.sx=Math.min(2,k+1)}
+else if(x=='back')S.sx=Math.max(0,k-1);
+else if(x=='go'){const j=+i;if(j>reach())return;S.sx=j}
+WE=0;sv();R();scrollTo(0,0)}
 function chap(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
 FIN=S.date<=ymd(new Date())&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};
-let h='<button class="lk bk" data-tab=home>‹ Home</button><h2 class=ph>Chapel preparation</h2>'+dbar()+ordo()+opts()+`<div class=jp>${JMP.map(([i,l])=>`<button data-j=${i}>${l}</button>`).join('')}</div><div id=pg></div>`+fbanner()+'@@CREW@@';
+if(S.vw=='sup')return '<button class="lk bk" data-w=chk>‹ Back to checklist</button><div id=j-sup>'+sup()+'</div>'+tools();
+const rc=reach();if(S.sx==null)S.sx=gOn()?rc:0;if(S.sx>rc)S.sx=rc;
+const cur=S.sx,dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3));
+let b0;{const L=t=='mass'?PM(f):t=='ben'?PB():PMED,fin=FIN,ord=ORD;ORD=[];if(t!='mass')FIN=false;
+b0=ordo()+opts()+sec2('j-prep',"Today's preparation",'',`<div class=seg>${[['mass','Holy Mass'],['ben','Benediction'],['med','Meditation']].map(([v,l])=>`<button data-pt=${v} class="${t==v?'on':''}">${l}</button>`).join('')}</div>`+pq(t)+(t=='mass'?extra(f):'')+L.map((x,i)=>it('P'+t+i,x.t,x.x,x.w,x.s)).join(''))+sched();FIN=fin;ORD=ord}
+let b1=sec2('j-clean','Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'')+sec('Weekly task: '+DN[w],'',WEEK[w]?it('w',WEEK[w][0],WEEK[w][1]):'<p class=nt>No weekly task on Sundays.</p>');
+const m=MON.filter(x=>x.wd==w&&x.n==n);if(m.length)b1+=sec('Monthly task','',m.map((x,i)=>it('mo'+i,x.t,x.x(S.ch),x.l)).join(''));
+const b2=sec2('j-close','Closing, after 5:00 PM','',CLOSE.map((x,i)=>it('c'+i,x[0],x[1])).join(''));
+let h='<button class="lk bk" data-tab=home>‹ Home</button><div class=cht><h2 class=ph>Chapel preparation</h2><button class=sbtn data-w=sup>Supplies</button></div>'+dbar()+'@@CREW@@';
 if(S.date==ymd(new Date()))h+=missed();
-const dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3));
-h+=sec2('j-clean','Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'');
-h+=sec('Weekly task: '+DN[w],'',WEEK[w]?it('w',WEEK[w][0],WEEK[w][1]):'<p class=nt>No weekly task on Sundays.</p>');
-const m=MON.filter(x=>x.wd==w&&x.n==n);
-if(m.length)h+=sec('Monthly task','',m.map((x,i)=>it('mo'+i,x.t,x.x(S.ch),x.l)).join(''));
-{const L=t=='mass'?PM(f):t=='ben'?PB():PMED,fin=FIN,ord=ORD;ORD=[];if(t!='mass')FIN=false;
-h+=sec2('j-prep','Preparation checklist','',`<div class=seg>${[['mass','Holy Mass'],['ben','Benediction'],['med','Meditation']].map(([v,l])=>`<button data-pt=${v} class="${t==v?'on':''}">${l}</button>`).join('')}</div>`+pq(t)+(t=='mass'?extra(f):'')+L.map((x,i)=>it('P'+t+i,x.t,x.x,x.w,x.s)).join(''));FIN=fin;ORD=ord}
-h+=sec2('j-close','Closing, after 5:00 PM','',CLOSE.map((x,i)=>it('c'+i,x[0],x[1])).join(''))+(SB?'':"<button class=lk data-a=reset>Reset this day's checklist</button>");
-return (h+'<div id=j-sup>'+sup()+'</div>'+plan()).replace('@@CREW@@',crew())}
-function plan(){const w=new Date(S.date+'T00:00').getDay();
-return '<div id=j-plan>'+sec('Daily schedule','Done whenever Holy Mass is celebrated, Monday to Sunday. No Mass, no daily cleaning. During school breaks the chapel is cleaned every Wednesday and Sunday.',`<ol>${DAILY.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join('')}</ol>`)
+h+=`<div class=wz>${WZ.map((l,k)=>{const ok=stepIds(k).length>0&&!stepLeft(k),lc=gOn()&&k>rc;return `<button data-w=go data-i=${k} class="${k==cur?'on':''}${ok?' cmp':''}"${lc?' disabled':''} aria-label="Step ${k+1}: ${l}"><i>${ok?'✓':k+1}</i>${l}</button>`}).join('')}</div><div id=pg></div>`;
+h+=(cur==2?fbanner():'')+[b0,b1,b2][cur]+`<div id=wf>${wfoot()}</div>`;
+return h.replace('@@CREW@@',()=>crew())}
+function sched(){const w=new Date(S.date+'T00:00').getDay();
+return '<details class=schd id=j-plan><summary>Schedule: daily, weekly and monthly</summary>'+sec('Daily schedule','Done whenever Holy Mass is celebrated, Monday to Sunday. No Mass, no daily cleaning. During school breaks the chapel is cleaned every Wednesday and Sunday.',`<ol>${DAILY.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join('')}</ol>`)
 +sec('Weekly schedule','',[1,2,3,4,5,6].map(i=>`<div class="pl${i==w?' now':''}"><b>${DN[i]}</b> ${WEEK[i][0]}<small>${WEEK[i][1]}</small></div>`).join(''))
-+sec('Monthly schedule ('+S.ch+')','',MON.map(x=>`<div class=pl><b>${x.l}</b> ${x.t}<small>${x.x(S.ch)}</small></div>`).join(''))+'</div>'+prayv()+hist()+rem()+sec('Offline status','','<p class=nt id=off>Checking...</p>')}
++sec('Monthly schedule ('+S.ch+')','',MON.map(x=>`<div class=pl><b>${x.l}</b> ${x.t}<small>${x.x(S.ch)}</small></div>`).join(''))+'</details>'}
+const tools=()=>prayv()+hist()+rem()+sec('Offline status','','<p class=nt id=off>Checking...</p>');
 const ics=()=>{const t=(S.rt||'06:00').replace(':',''),d=ymd(new Date()).replace(/-/g,'');
 return 'data:text/calendar;charset=utf-8,'+encodeURIComponent(['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ChapelList//EN','BEGIN:VEVENT','UID:chapel-'+t+'@chapel-list','DTSTAMP:'+d+'T000000Z','DTSTART:'+d+'T'+t+'00','DURATION:PT15M','RRULE:FREQ=DAILY','SUMMARY:Chapel List: daily cleaning and Mass prep','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Chapel List','TRIGGER:PT0S','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n'))};
 function rem(){const t=S.rt||'06:00';
@@ -762,7 +797,7 @@ return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE<
 +`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
 +`<h3>Quick Actions</h3><div class=qa>`
 +`<button class=qt data-tab=mass>${ICO.cal}<span class=qx><b>Mass Schedule</b><small>This month and next</small></span></button>`
-+`<button class=qt data-tab=chap>${ICO.clip}<span class=qx><b>Preparation</b><small>Cleaning and Mass prep</small></span></button>`
++`<button class=qt data-tab=chap>${ICO.clip}<span class=qx><b>Preparation</b><small>Prepare, clean and close</small></span></button>`
 +`<button class="qt wide" data-tab=ann>${ICO.bell}<span class=qx><b>Announcements</b><small>News from the priest and founder</small></span>${nw?`<i class=qb aria-label="${nw} new">${nw>9?'9+':nw}</i>`:''}</button>`
 +`</div></div>`}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newGreet();if(S.tab=='home'&&!locked())R()}HID=0});
@@ -826,32 +861,32 @@ return sec('Theme','Light, dark, or follow your phone.',`<div class=seg>${TH.map
 +sec('Layout','Detailed shows descriptions, Compact is tighter, Grid shows two columns.',`<div class=seg>${LY.map(([v,l])=>`<button data-sl="${v}" class="${S.ly==v?'on':''}">${l}</button>`).join('')}</div>`)}
 const acct=()=>acct0(),chatv=()=>'<div id=chat></div>';
 let HL='',HS='',RES=[];
-function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl,sc)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t,sc});
-DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','chap',0,0,'j-clean'));
-for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'chap',0,0,'j-plan');
-MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'chap',0,0,'j-plan'));
-CLOSE.forEach(x=>add(x[0],x[1],'Closing','chap',0,0,'j-close'));
-[['mass',PM(f),'Holy Mass prep'],['ben',PB(),'Benediction'],['med',PMED,'Meditation']].forEach(([p,A,n])=>A.forEach(x=>{add(x.t,x.x,n,'chap',p,0,'j-prep');(x.s||[]).forEach(y=>add(y,'',n+', '+x.t,'chap',p,x.t,'j-prep'))}));
-SUP.forEach(x=>add(x,'','Supplies','chap',0,0,'j-sup'));return L}
+function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl,sc,st)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t,sc,st});
+DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','chap',0,0,'j-clean',1));
+for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'chap',0,0,'j-plan',0);
+MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'chap',0,0,'j-plan',0));
+CLOSE.forEach(x=>add(x[0],x[1],'Closing','chap',0,0,'j-close',2));
+[['mass',PM(f),'Holy Mass prep'],['ben',PB(),'Benediction'],['med',PMED,'Meditation']].forEach(([p,A,n])=>A.forEach(x=>{add(x.t,x.x,n,'chap',p,0,'j-prep',0);(x.s||[]).forEach(y=>add(y,'',n+', '+x.t,'chap',p,x.t,'j-prep',0))}));
+SUP.forEach(x=>add(x,'','Supplies','chap',0,0,'j-sup','sup'));return L}
 const find=()=>`<div class=ctl><input class=nm id=q type=search placeholder="Search items, tasks, supplies" autocomplete=off value="${esc(S.q||'')}"></div><div id=res></div>`;
 function res(){const q=(S.q||'').trim().toLowerCase(),el=$('#res');if(!el)return;
 if(!q){el.innerHTML='<p class=nt>Type to search checklists, daily and weekly tasks, and supplies.</p>';return}
 RES=idx().filter(x=>(x.t+' '+x.x).toLowerCase().includes(q)).slice(0,40);
 el.innerHTML=RES.length?RES.map((x,i)=>`<button class=su data-f="${i}"><span>${esc(x.t)}<small>${esc(x.sec+(x.x?': '+x.x.slice(0,80):''))}</small></span></button>`).join(''):'<p class=nt>Nothing found.</p>'}
-function hlGo(){if(!HL)return;const k=HL,sc=HS;HL='';HS='';setTimeout(()=>{const q=r=>[...r.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k)),e=(sc&&$('#'+sc)&&q($('#'+sc)))||q(document);if(e){const d=e.querySelector('details');if(d)d.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
+function hlGo(){if(!HL)return;const k=HL,sc=HS;HL='';HS='';setTimeout(()=>{const q=r=>[...r.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k)),e=(sc&&$('#'+sc)&&q($('#'+sc)))||q(document);if(e){const d=e.querySelector('details');if(d)d.open=true;for(let p=e.parentElement&&e.parentElement.closest('details');p;p=p.parentElement&&p.parentElement.closest('details'))p.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
 async function offChk(){const e=$('#off');if(!e)return;
 try{const k=await caches.keys(),n=k.length?(await(await caches.open(k[0])).keys()).length:0;
 e.textContent=!navigator.serviceWorker||!navigator.serviceWorker.controller?'Offline mode is not active yet. Close and reopen the app while online, then check again.':n?'Offline ready ('+n+' files saved).':'Offline mode is on but nothing is saved yet. Reopen the app while online.'}
 catch(x){e.textContent='Offline check is not available here.'}}
 function sup(){const n=SUP.filter((_,i)=>S.u[i]>0).length;
 return sec('Supplies','Thursday inventory. Tap an item to cycle OK, Low, Out.'+(n?` ${n} to restock.`:''),SUP.map((s,i)=>`<button class="su s${S.u[i]||0}" data-su=${i}><span>${s}</span><b>${ST[S.u[i]||0]}</b></button>`).join('')+(n?'<button class=lk data-a=share>Share restock list</button>':''))}
-function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,l=a.length-c,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><div class=pr2><small><b>${c} of ${a.length}</b> done${l?', '+l+' left':''}</small>${c?`<button class=hdn data-hd=1>${S.hd?'Show done':'Hide done'}</button>`:''}</div>`;nxb(l)}
-function R(){applyTheme();$('main').classList.toggle('hd',!!S.hd&&S.tab=='chap');syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.innerHTML=S.tab=='chat'?ICO.x:ICO.chat}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
-function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}
+function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,l=a.length-c,p=$('#pg');if(p)p.innerHTML=a.length?`<div class=pb><i style="width:${100*c/a.length}%"></i></div><div class=pr2><small><b>${c} of ${a.length}</b> done${l?', '+l+' left':''}</small></div>`:'';const f=$('#wf');if(f)f.innerHTML=wfoot();nxb(l)}
+function R(){applyTheme();$('main').classList.toggle('hd',false);syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.innerHTML=S.tab=='chat'?ICO.x:ICO.chat}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
+function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d);S.sx=null}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.w){wz(a.w,a.i);return}
 if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.nx){nextTask();return}if(a.hd){S.hd=S.hd?0:1;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
-let K=0;if(a.go){S.date=a.go;S.tab='chap'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl;HS=x.sc||''}else if(a.tab){if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
-else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;
+let K=0;if(a.go){S.date=a.go;S.tab='chap';S.sx=null;S.vw=''}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;if(x.st!=null){S.vw=x.st=='sup'?'sup':'';S.sx=x.st=='sup'?null:x.st}HL=x.hl;HS=x.sc||''}else if(a.tab){if(a.tab=='chap'){S.vw='';if(S.tab!='chap')S.sx=null}if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
+else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now'){S.date=ymd(new Date());S.sx=null}else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass';S.sx=null;S.vw=''}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
 else if(a.a=='share'){const t='Chapel restock list:\n'+SUP.map((s,i)=>S.u[i]>0?'- '+s+' ('+ST[S.u[i]]+')':'').filter(Boolean).join('\n');if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t);return}
 else if(a.a=='th'){const r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';S.th=r.dataset.theme=dk?'light':'dark'}else return;
