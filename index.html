@@ -320,86 +320,32 @@ nav button.nd:after{top:3px;left:calc(50% + 8px)}
 @media(max-width:390px){.hm{padding:19px 14px 17px}.qt{padding:14px 13px}.qa{gap:10px}}
 
 .mo12 button{flex:1 1 22%}.mdl{position:fixed;inset:0;z-index:120;background:#0009;display:flex;align-items:center;justify-content:center;padding:24px}.mbx{background:var(--card);color:var(--ink);border:1px solid var(--ln);border-radius:18px;padding:20px;max-width:360px;width:100%;box-shadow:0 12px 40px #0006}.mbx b{display:block;font:600 19px "Palatino Linotype",Palatino,Georgia,serif;margin-bottom:6px}.mbx p{margin:0 0 16px;color:var(--mut)}.mbx .ctl{display:flex;gap:8px;margin:0}.mbx .pr{flex:1}.mbx .sc{flex:1;padding:12px;border-radius:12px;border:1px solid var(--ln);background:none;color:var(--ink)}
-
-/* ===== Chapel In-Charge usability polish (CSS-only; behavior unchanged) ===== */
-:root{
-  --bg:#f5f4f1;--card:#ffffff;--ink:#202b3d;--mut:#5d6675;
-  --ac:#263b56;--acs:#e9edf2;--ln:#d9dee6;--ok:#31845b;--gd:#c49b43;--hd:#202d42;
-  color-scheme:light;
-}
-:root.feast{--hd:#8d6b24}
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#17151d;--card:#24212e;--ink:#f0eaf4;--mut:#b8b1c2;
-    --ac:#d5b56d;--acs:#343044;--ln:#40394c;--ok:#70c99a;--gd:#d5b56d;--hd:#202d42;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#17151d;--card:#24212e;--ink:#f0eaf4;--mut:#b8b1c2;
-  --ac:#d5b56d;--acs:#343044;--ln:#40394c;--ok:#70c99a;--gd:#d5b56d;--hd:#202d42;
-  color-scheme:dark;
-}
-body{line-height:1.5;-webkit-tap-highlight-color:transparent}
-header{background:linear-gradient(115deg,#1b2739,#293b53);border-bottom:1px solid #d5b56d;box-shadow:0 5px 18px #10182718;padding-top:max(10px,env(safe-area-inset-top,0px))}
-header h1{letter-spacing:-.015em}
-header select,header button{min-height:42px;border:1px solid #ffffff20;border-radius:13px;background:#ffffff16}
-main{width:100%;max-width:760px;padding-top:16px;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))}
-section{margin:16px 0 22px}
-h2{line-height:1.25;letter-spacing:-.012em}
-.ph{margin:8px 0 14px}
-.it{border-radius:17px;padding:13px 14px;margin:9px 0;box-shadow:0 3px 12px #11182708;transition:border-color .16s,box-shadow .16s}
-.it.dn>label b,.sb.dn span{color:var(--mut);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:currentColor;opacity:.9}
-.it label{gap:11px}
-.it label b{line-height:1.4}
-.it label small{font-size:14px;line-height:1.55;margin-top:5px}
-input[type=checkbox]{width:23px;height:23px;min-width:23px;accent-color:var(--ok);cursor:pointer}
-.tg{border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;vertical-align:middle}
-summary{padding:5px 0;font-size:14px;font-weight:650}
-.dt{gap:10px;margin:5px 0 12px;padding:10px 12px;border:1px solid var(--ln);border-radius:20px;background:var(--card);box-shadow:0 3px 12px #11182708}
-.dt button{width:44px;height:44px;min-width:44px;border-radius:14px;font-weight:700}
-.dt>div{min-width:0;line-height:1.35}
-.ctl{gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
-.ctl select,.nm,textarea.nm{min-height:44px;border-radius:13px;padding:10px 12px}
-.ctl>select{min-width:0}
-.sw{white-space:normal;display:flex;gap:8px;line-height:1.3}
-.sw input{width:21px;height:21px;flex:none}
-.jp{margin:12px -4px 12px;padding:3px 4px 8px;gap:8px;scroll-snap-type:x proximity}
-.jp button{min-height:42px;padding:9px 15px;border-radius:999px;font-size:13px;font-weight:650;scroll-snap-align:start}
-.jp button:active{transform:scale(.98)}
-.pb{height:10px;border-radius:999px;margin-top:12px}
-.pb i{border-radius:999px}
-.big{border:1px solid color-mix(in srgb,var(--ok) 65%,var(--ln));background:color-mix(in srgb,var(--ok) 10%,var(--card));border-radius:18px;padding:14px 15px;line-height:1.45}
-.lk{border-radius:12px}
-.pr{background:linear-gradient(135deg,#263b56,#354b67);color:#fff;border:1px solid #ffffff10;min-height:48px;border-radius:14px}
-nav{padding-left:max(7px,env(safe-area-inset-left,0px));padding-right:max(7px,env(safe-area-inset-right,0px));padding-bottom:calc(7px + env(safe-area-inset-bottom,0px))}
-nav button{min-height:56px;gap:5px;font-size:11px}
-nav button.on{background:var(--acs);border-color:color-mix(in srgb,var(--ac) 20%,var(--ln));box-shadow:inset 0 2px 0 color-mix(in srgb,var(--gd) 75%,transparent)}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--gd);outline-offset:3px}
-button:disabled{cursor:not-allowed}
-#sp{background:linear-gradient(145deg,#1b2739,#293b53)}
-#sp .cr i,#sp .spbar i{background:#d5b56d}
-/* Preserve comfortable reading on small screens and prevent controls from squeezing. */
-@media(max-width:430px){
-  main{padding-left:12px;padding-right:12px}
-  header{gap:6px;padding-left:12px;padding-right:12px}
-  header h1{font-size:17px}
-  header select,header button{padding:7px 9px;min-height:40px}
-  .dt{padding:9px 10px;gap:7px}
-  .dt button{width:40px;height:40px;min-width:40px}
-  .ctl{align-items:stretch}
-  .ctl>select{flex:1 1 100%;width:100%}
-  .ctl .sw{flex:1 1 auto;min-height:38px;align-items:center}
-  .it{padding:12px}
-  .it label small{font-size:13.5px}
-  .jp{gap:7px}
-  nav button{font-size:10px;min-height:53px}
-}
-@media(min-width:700px){
-  main{padding-left:22px;padding-right:22px}
-  .it{padding:15px 17px}
-}
-@media(prefers-reduced-motion:reduce){.it,.jp button{transition:none}}
+/* ---- Chapel preparation: faster checking (v1.4.0) ---- */
+:root{--ok:#70c99a}
+nav button{min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px}
+nav span{display:flex;font-size:0}nav span svg{width:24px;height:24px}
+header button{position:relative;display:inline-flex;align-items:center;justify-content:center}header button svg{width:21px;height:21px;display:block}
+header button.nd::after{content:"";position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#e5484d;border:2px solid var(--hd,#1e2c46)}
+.dt{padding:6px 8px;margin:8px 0 6px;gap:8px;border-radius:14px}.dt b{font-size:16px}.dt .dsub{display:block;font-size:13px;color:var(--mut)}.dt button{width:44px;height:44px}
+.dt .tdy{display:inline-block;width:auto;height:auto;margin-top:3px;padding:4px 14px;border-radius:999px;border:1px solid var(--ac);background:var(--acs);color:var(--ac);font-size:12px;font-weight:650}
+.opts{flex-wrap:wrap;gap:8px 12px}.opts select{flex:1 1 190px;min-width:0}.opts .sw{flex:0 0 auto;min-height:44px;padding:0 4px}.opts .sw input{width:24px;height:24px}
+.it:not(.wide):has(>label>input[data-id]){padding:0;overflow:hidden}
+.it:not(.wide):has(>label>input[data-id])>label{padding:14px;min-height:60px;cursor:pointer}
+.it:not(.wide)>label>input[type=checkbox]{width:26px;height:26px;margin-top:0;accent-color:var(--ok)}
+.it:not(.wide) details{margin:0 14px 12px 52px}
+.it.dn:not(.wide){border-left:4px solid var(--ok)}
+.it.dn>label b{text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--mut);color:var(--ink);opacity:.88}
+.it.dn>label small{color:var(--mut);opacity:1}
+.it.ds.dn{opacity:1}.it.ds:not(.dn){opacity:.62}
+.sb{padding:6px 0}.sb input{width:22px;height:22px}
+.stt{margin-left:auto;align-self:flex-start;flex:none;font-style:normal;font-size:12px;font-weight:650;line-height:1;padding:5px 9px;border-radius:999px;border:1px solid var(--ln);color:var(--mut);white-space:nowrap}
+.stt.ok{color:var(--ok);border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}.stt.td{color:var(--ink)}
+.ly-grid .stt{display:none}
+#pg .pb{height:10px}#pg .pr2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px}#pg .pr2 small{margin:0;font-size:14px;color:var(--ink)}
+.hdn{padding:6px 12px;min-height:34px;border-radius:999px;border:1px solid var(--ln);background:var(--card);color:var(--ink);font-size:13px}
+main.hd .it.dn:not(.wide){display:none}
+.jp button{min-height:40px}
+#nxb{position:fixed;right:14px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:30;padding:13px 18px;border:0;border-radius:999px;background:var(--gd,#d5b56d);color:#17151d;font-weight:700;font-size:15px;box-shadow:0 6px 20px #0006}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -467,10 +413,10 @@ if(SB&&ME){const fut=S.date>ymd(new Date());
 if(!perm(id)){off=true;why='View only for your role.'}
 else if(fut&&tag!='Day before'){off=true;why='Opens on the day.'}
 else{if(FIN)off=true;else if(isCrew()&&!k&&ORD.some(p=>!D()[p])){off=true;why='Finish the previous task first.'}ORD.push(id)}}
-return `<div class="it${k?' dn':''}${off?' ds':''}"><label><input type=checkbox data-id="${id}"${k?' checked':''}${off?' disabled':''}><span><b>${t}</b>${tag?`<i class=tg>${tag}</i>`:''}${why?`<em class=why>${why}</em>`:''}<small>${x||''}</small></span></label>${subs?`<details><summary>Item list</summary>${subs.map((s,j)=>`<label class="sb${D()[id+'_'+j]?' dn':''}"><input type=checkbox data-id="${id}_${j}"${D()[id+'_'+j]?' checked':''}${off?' disabled':''}><span>${s}</span></label>`).join('')}</details>`:''}</div>`}
+return `<div class="it${k?' dn':''}${off?' ds':''}"><label><input type=checkbox data-id="${id}"${k?' checked':''}${off?' disabled':''}><span><b>${t}</b>${tag?`<i class=tg>${tag}</i>`:''}${why?`<em class=why>${why}</em>`:''}<small>${x||''}</small></span><em class="stt ${k?'ok':off?'lk0':'td'}">${k?'Done':off?(why.startsWith('View')?'View only':'Locked'):'To do'}</em></label>${subs?`<details><summary>Item list</summary>${subs.map((s,j)=>`<label class="sb${D()[id+'_'+j]?' dn':''}"><input type=checkbox data-id="${id}_${j}"${D()[id+'_'+j]?' checked':''}${off?' disabled':''}><span>${s}</span></label>`).join('')}</details>`:''}</div>`}
 const sec=(h,n,b)=>`<section><h2>${h}</h2>${n?`<p class=nt>${n}</p>`:''}${b}</section>`;
-function dbar(){const d=new Date(S.date+'T00:00');return `<div class=dt><button data-a=prev aria-label="Previous day">‹</button><div><b>${DN[d.getDay()]}</b><br>${d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}</div><button data-a=next aria-label="Next day">›</button></div>`+(S.date!=ymd(new Date())?`<button class=lk data-a=now>Back to today</button>`:'')}
-function opts(){const o=O();return `<div class=ctl><select data-s=m aria-label="Day type">${[['mass','Holy Mass today'],['none','No Holy Mass'],['break','School break']].map(([v,l])=>`<option value=${v}${o.m==v?' selected':''}>${l}</option>`).join('')}</select><label class=sw><input type=checkbox data-s=f${o.f?' checked':''}> Feast day</label></div>`}
+function dbar(){const d=new Date(S.date+'T00:00'),t=S.date==ymd(new Date());return `<div class=dt><button data-a=prev aria-label="Previous day">‹</button><div><b>${d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</b>${t?'<span class=dsub>Today</span>':'<button class=tdy data-a=now>Back to Today</button>'}</div><button data-a=next aria-label="Next day">›</button></div>`}
+function opts(){const o=O();return `<div class="ctl opts"><select data-s=m aria-label="Day type">${[['mass','Holy Mass today'],['none','No Holy Mass'],['break','School break']].map(([v,l])=>`<option value=${v}${o.m==v?' selected':''}>${l}</option>`).join('')}</select><label class=sw><input type=checkbox data-s=f${o.f?' checked':''}> Feast day</label></div>`}
 const sec2=(id,...x)=>sec(...x).replace('<section>','<section id='+id+'>');
 const JMP=[['j-clean','Cleaning'],['j-prep','Preparation'],['j-close','Closing'],['j-sup','Supplies'],['j-plan','Schedule']];
 function chap(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
@@ -525,7 +471,9 @@ const pq=t=>{const L=t=='mass'?[['Prayers before Mass',301,36],['Prayers after M
 function ordo(){const k=S.date,i=lit(new Date(k+'T00:00')),e=ent(k);
 if(!e)return `<div class="it wide"><b>${i.nm||i.s}</b>${i.nm?`<i class=tg>${i.s}</i>`:''}<small>${i.y}. Color: ${i.f?'Gold (feast)':i.c}. Worked out by the app because the Ordo file has no entry for this date.</small></div>`;
 const bn=e.g.some(x=>/Benediction/.test(x));
-return `<div class="it wide"><b>${esc(e.t)}</b>${e.k?`<i class=tg>${e.k}</i>`:''}${e.c?`<i class=tg>${e.c}</i>`:''}<small>${i.s}, ${i.y}</small>${e.p?`<small>${esc(e.p)}</small>`:''}${e.g.length?`<small>${e.g.map(esc).join(', ')}</small>`:''}${e.r?`<small>Readings: ${esc(e.r)}</small>`:''}${bn?`<a class=lk target=_blank rel=noopener href="${pu(298,33)}">Eucharistic Adoration prayers (needs internet)</a>`:''}<details><summary>Full Ordo entry</summary><small style="white-space:pre-wrap">${esc(e.x||'')}</small></details><small>Source: Fr. Belmonte's Liturgical Calendar 2025-2026 (his personal options).</small></div>`}
+return `<div class="it wide"><b>${esc(e.t)}</b>${e.k?`<i class=tg>${e.k}</i>`:''}${e.c?`<i class=tg>${e.c}</i>`:''}<small>${i.s}, ${i.y}</small>`
++`<details><summary>Readings and notes</summary>${e.p?`<small>${esc(e.p)}</small>`:''}${e.g.length?`<small>${e.g.map(esc).join(', ')}</small>`:''}${e.r?`<small>Readings: ${esc(e.r)}</small>`:''}${bn?`<a class=lk target=_blank rel=noopener href="${pu(298,33)}">Eucharistic Adoration prayers (needs internet)</a>`:''}</details>`
++`<details><summary>Full Ordo entry and source</summary><small style="white-space:pre-wrap">${esc(e.x||'')}</small><small>Source: Fr. Belmonte's Liturgical Calendar 2025-2026 (his personal options).</small></details></div>`}
 function missed(){const r=[];
 for(let i=1;i<=7;i++){const d=new Date();d.setDate(d.getDate()-i);const k=ymd(d);if(k<S.f)break;
 const w=d.getDay(),o=S.o[k]||{m:'mass'},x=S.d[k]||{},dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3)),nd=dn?[0,1,2,3,4,5].filter(j=>!x['d'+j]).length:0,nw=WEEK[w]&&!x.w?1:0;
@@ -558,19 +506,19 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.3.2';
+const APP_VERSION='1.4.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
 o.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('button[data-pop]');if(b){o.remove();ok(+b.dataset.pop)}else if(e.target==o){o.remove();ok(-1)}});document.body.appendChild(o)})}
 async function chkUpd(manual){UP.chk=Date.now();let got=false;
 try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;UP.live=await r.json();UP.err='';got=true}catch(e){if(!UP.live)UP.err='Connect to the internet to see what is new.'}
-const b=$('nav [data-tab=updates]');if(b)b.classList.toggle('nd',!!(UP.live&&UP.live.version!=APP_VERSION));if(S.tab=='updates')R();
+const g=$('header [data-tab=set]');if(g)g.classList.toggle('nd',!!(UP.live&&newerV(UP.live.version,APP_VERSION)));if(S.tab=='updates')R();
 if(manual){if(!got)await popup('Could not check','We could not reach the update server. Connect to the internet and try again.',[['OK']]);
 else if(newerV(UP.live.version,APP_VERSION)){if(await popup('Update available','Version '+UP.live.version+' is available. Do you want to update?',[['Not now','sc'],['Update','pr']])==1)goUpd()}
 else await popup("You're up to date","You're on the latest version of the app ("+APP_VERSION+"). There is nothing to update right now.",[['OK']])}}
 async function goUpd(){if(!navigator.onLine){alert('Connect to the internet to update.');return}try{for(const r of await navigator.serviceWorker.getRegistrations())await r.update();for(const k of await caches.keys())await caches.delete(k)}catch(e){}location.reload()}
-function updv(){const L=UP.live,nw=L&&L.version!=APP_VERSION;
+function updv0(){const L=UP.live,nw=L&&L.version!=APP_VERSION;
 return sec('App version','',`<div class="it${nw?' ok2':''}"><b>${nw?'New version '+esc(L.version)+' is ready':'You are up to date'}</b><small>Installed: ${APP_VERSION}${L?'. Latest: '+esc(L.version):''}${UP.chk?'. Checked '+fmt(UP.chk):''}</small>${nw&&L.notes?`<small>${esc(L.notes)}</small>`:''}<div class=ctl>${nw?'<button class=pr data-u=go>Restart to update</button>':''}<button class=pr data-u=chk>Check for updates</button></div></div>`)+wnew()}
 /* What's new: the New and Changed lists of the latest version, read from version.json */
 const WN=[['new','New'],['changed','Changed']];
@@ -663,7 +611,7 @@ return (t?`<p class=ok>${esc(t)}</p>`:'')+`<div class=cv></div><div class=pf><la
 +sec('About','',`<div class=ab><span>Roles</span><b>${RLS(ME).length?esc(rtxt(ME)):'Not assigned'}</b></div><div class=ab><span>Course</span><b>${esc(ME.course||'Not set')}</b></div>${RLS(ME).includes('founder')?`<div class=ab><span>Current status</span><b>${esc(ME.status||'Not set')}</b></div>`:`<div class=ab><span>Section</span><b>${esc(ME.section||'Not set')}</b></div><div class=ab><span>Year level</span><b>${yl(ME.year)}</b></div>`}`)
 +'<button class=lk data-x=out>Log out</button>'}
 function setv(){let h='<button class=lk data-a=exit>‹ Exit settings</button>';if(SB&&ME){const t=NT;NT='';h+=t?`<p class=ok>${esc(t)}</p>`:''}
-h+=appr()+pushv();
+h+=sec('App updates','Installed version '+APP_VERSION+(UP.live&&newerV(UP.live.version,APP_VERSION)?'. A new version is available.':''),'<button class="lk big" data-tab=updates>Open Updates</button>')+appr()+pushv();
 if(SB&&ME)h+=sec('Change profile',OFF?'Offline: connect to the internet to edit your profile.':'',pform('p',ME)+'<button class=pr data-x=sp>Save profile</button>')
 +sec('Change password','',`<small>New password</small><div class=ctl><input class=nm id=np type=password autocomplete=new-password><button type=button class=eye data-sp="np" aria-label="Show or hide password">👁</button></div><small>Confirm new password</small><div class=ctl><input class=nm id=nq type=password autocomplete=new-password><button type=button class=eye data-sp="nq" aria-label="Show or hide password">👁</button></div><button class=pr data-x=pw>Change password</button>`);
 return h}
@@ -797,8 +745,18 @@ cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4
 clip:'<rect x="5" y="4.5" width="14" height="17" rx="3"/><path d="M9 4.5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v.5M9 13.2l2.2 2.2 4.3-4.4"/>',
 bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 21a2 2 0 0 0 4 0"/>',
 book:'<path d="M12 6.5C10 5 7.5 4.5 4 4.5v13c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2v-13c-3.5 0-6 .5-8 2zM12 6.5v13"/>',
-church:'<path d="M12 2v4M10.3 3.7h3.4M12 6l-5 3.6V21h10V9.6zM10 21v-4.5a2 2 0 0 1 4 0V21M7 12.5H4V21M17 12.5h3V21M2.5 21h19"/>'
+church:'<path d="M12 2v4M10.3 3.7h3.4M12 6l-5 3.6V21h10V9.6zM10 21v-4.5a2 2 0 0 1 4 0V21M7 12.5H4V21M17 12.5h3V21M2.5 21h19"/>',
+home:'<path d="M3.5 11.2 12 4l8.5 7.2M5.8 9.6V20h12.4V9.6M10 20v-5.5h4V20"/>',
+search:'<circle cx="11" cy="11" r="6.3"/><path d="m16 16 4.2 4.2"/>',
+user:'<circle cx="12" cy="8.3" r="3.7"/><path d="M4.8 20c.9-3.6 3.6-5.6 7.2-5.6s6.3 2 7.2 5.6"/>',
+chat:'<path d="M6 5h12a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6.5L7 20.5V17H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3z"/>',
+sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+x:'<path d="M6 6l12 12M18 6 6 18"/>'
 }).map(([k,p])=>[k,`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`]));
+function iconify(){$('nav').innerHTML=[['home','home','Home'],['chap','church','Chapel'],['find','search','Search'],['acct','user','Account']].map(([t,i,l])=>`<button data-tab="${t}"><span>${ICO[i]}</span>${l}</button>`).join('');const c=$('#ci'),g=$('header [data-tab=set]');if(c)c.innerHTML=ICO.chat;if(g)g.innerHTML=ICO.sliders}
+const updv=()=>'<button class="lk bk" data-tab=set>‹ Settings</button>'+updv0();
+function nxb(l){let b=$('#nxb');if(!(S.tab=='chap'&&l>0)){if(b)b.remove();return}if(!b){b=document.createElement('button');b.id='nxb';b.dataset.nx=1;document.body.appendChild(b)}b.textContent='Next task ↓ ('+l+' left)'}
+function nextTask(){const a=[...document.querySelectorAll('.it>label>input')].filter(x=>!x.checked),e=a.find(x=>!x.disabled)||a[0];if(!e)return;const c=e.closest('.it');c.scrollIntoView({behavior:'smooth',block:'center'});c.classList.add('hl');setTimeout(()=>c.classList.remove('hl'),1600)}
 function home(){if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
 return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE</small><h2 class=hm-g>${esc(HG)}${n?',<br>'+n:''}</h2><p class=hm-s>${esc(TAGLINE)}</p></div><span class=hm-ic aria-hidden="true">${ICO.church}</span></div>`
 +`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
@@ -887,11 +845,11 @@ e.textContent=!navigator.serviceWorker||!navigator.serviceWorker.controller?'Off
 catch(x){e.textContent='Offline check is not available here.'}}
 function sup(){const n=SUP.filter((_,i)=>S.u[i]>0).length;
 return sec('Supplies','Thursday inventory. Tap an item to cycle OK, Low, Out.'+(n?` ${n} to restock.`:''),SUP.map((s,i)=>`<button class="su s${S.u[i]||0}" data-su=${i}><span>${s}</span><b>${ST[S.u[i]||0]}</b></button>`).join('')+(n?'<button class=lk data-a=share>Share restock list</button>':''))}
-function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><small>${c} of ${a.length} done</small>`}
-function R(){applyTheme();syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['chap','mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.textContent=S.tab=='chat'?'✕':'💬'}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
+function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,l=a.length-c,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><div class=pr2><small><b>${c} of ${a.length}</b> done${l?', '+l+' left':''}</small>${c?`<button class=hdn data-hd=1>${S.hd?'Show done':'Hide done'}</button>`:''}</div>`;nxb(l)}
+function R(){applyTheme();$('main').classList.toggle('hd',!!S.hd&&S.tab=='chap');syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.innerHTML=S.tab=='chat'?ICO.x:ICO.chat}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}
-if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.nx){nextTask();return}if(a.hd){S.hd=S.hd?0:1;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
 let K=0;if(a.go){S.date=a.go;S.tab='chap'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl;HS=x.sc||''}else if(a.tab){if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
 else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
@@ -899,7 +857,7 @@ else if(a.a=='share'){const t='Chapel restock list:\n'+SUP.map((s,i)=>S.u[i]>0?'
 else if(a.a=='th'){const r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';S.th=r.dataset.theme=dk?'light':'dark'}else return;
 const y=scrollY;sv();R();scrollTo(0,K?y:0)});
 document.addEventListener('change',e=>{const t=e.target,k=t.dataset.id;
-if(k){if(!perm(k)){t.checked=!t.checked;return}const d=D();if(t.checked)d[k]=1;else delete d[k];t.closest('.sb,.ck,.it').classList.toggle('dn',t.checked);upd();if(!k.includes('_')){pushDone(k,t.checked);if(SB&&ME&&isCrew())R()}}
+if(k){if(!perm(k)){t.checked=!t.checked;return}const d=D();if(t.checked)d[k]=1;else delete d[k];t.closest('.sb,.ck,.it').classList.toggle('dn',t.checked);if(!t.closest('.sb')){const sc=t.closest('.it')&&t.closest('.it').querySelector('.stt');if(sc){sc.textContent=t.checked?'Done':'To do';sc.className='stt '+(t.checked?'ok':'td')}}upd();if(!k.includes('_')){pushDone(k,t.checked);if(SB&&ME&&isCrew())R()}}
 else if(t.dataset.s=='m'){O().a=0;O().m=t.value;R()}
 else if(t.dataset.s=='f'){O().a=0;O().f=t.checked?1:0;R()}
 else if(t.dataset.s=='c'){O().a=0;O().c=t.value;R()}
@@ -920,6 +878,6 @@ if(S.th)document.documentElement.dataset.theme=S.th;
 if(ok||e>7000){clearInterval(iv);b.style.width='100%';setTimeout(()=>{x.classList.add('out');setTimeout(()=>x.remove(),500)},250)}},60)}
 setTimeout(chkUpd,3000);setInterval(chkUpd,30*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-UP.chk>600000)chkUpd()});
 fetch('ordo.json').then(x=>x.ok?x.json():null).then(j=>{if(j){ORDO=j;for(const k in S.o){const e=S.o[k];if(e&&e.a){const i=litx(k);e.f=i.f;e.c=i.f?'':i.c}}R()}}).catch(()=>{});
-newGreet();R();authInit();
+iconify();newGreet();R();authInit();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
