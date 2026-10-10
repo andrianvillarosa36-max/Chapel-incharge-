@@ -266,11 +266,62 @@ nav button.nd:after{top:3px;left:calc(50% + 8px)}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
+/* ===== Home quick actions, Mass schedule calendar, Announcements ===== */
+.bk{text-align:left;padding-left:2px;width:auto}
+.hm{position:relative;overflow:hidden;border-radius:26px;padding:22px 18px 20px;margin:6px 0 16px;color:#fff;border:1px solid #ffffff12;background:radial-gradient(circle at 96% 3%,#d8b66b1f 0,transparent 38%),linear-gradient(160deg,#1e2c42 0%,#202b3d 55%,#1a2435 100%);box-shadow:0 12px 28px #19273b24}
+.hm-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:0 2px 18px}
+.hm .hm-k{color:#d8b66b;font-size:12px;font-weight:650;letter-spacing:.1em;margin:2px 0 8px}
+.hm h2.hm-g{display:block;font:600 clamp(28px,7.4vw,36px)/1.13 "Palatino Linotype",Palatino,Georgia,serif;letter-spacing:-.02em;color:#fff;margin:0;text-wrap:balance}
+.hm-s{margin:9px 0 0;color:#c4cddb;font-size:15px;line-height:1.4}
+.hm-ic{flex:none;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#d8b66b26;color:#d8b66b}
+.hm-ic svg{width:29px;height:29px}
+.vod{background:#f4ebdb;color:#202b3d;border-radius:20px;padding:17px 18px 16px;margin:0 0 22px}
+.vod svg{display:block;width:22px;height:22px;color:#9a7a3a;margin-bottom:9px}
+.vod small{color:#7a6c52;font-size:12px;font-weight:650;letter-spacing:.07em;text-transform:uppercase;margin:0}
+.vod p{font:italic 400 clamp(19px,5vw,23px)/1.45 "Palatino Linotype",Palatino,Georgia,serif;color:#202b3d;margin:9px 0 12px}
+.vod .vr{display:block;color:#5d4f33;font-size:14.5px;font-weight:650}
+.hm h3{font:650 17px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;margin:0 2px 12px}
+.qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qt{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:132px;padding:16px 15px;text-align:left;color:#fff;background:#34445c;border:1px solid #ffffff14;border-radius:20px}
+.qt svg{width:28px;height:28px;flex:none;color:#d8b66b}
+.qt .qx{display:block;min-width:0}
+.qt b{display:block;font-size:17px;font-weight:650;line-height:1.2}
+.qt small{color:#b9c5d6;font-size:13.5px;line-height:1.35;margin:4px 0 0}
+.qt.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:14px}
+.qt:hover{background:#3b4d68}
+.qt:active{transform:scale(.985)}
+.qb{position:absolute;top:12px;right:12px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#e5484d;color:#fff;font:700 12px/22px system-ui,sans-serif;text-align:center}
+.mc{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:12px 10px;box-shadow:0 3px 12px #17243a08}
+.mw{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.mw>small{font-weight:650;font-size:11px;margin:0;padding:4px 0}
+.cl{aspect-ratio:1/1;min-height:42px;padding:0;border:1px solid transparent;border-radius:12px;background:none;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:15px;font-weight:600;line-height:1}
+.cl:hover{background:var(--acs)}
+.cl.pst{opacity:.5}
+.cl.td{border-color:var(--gd)}
+.cl.sel,.cl.sel:hover{background:var(--ac);color:var(--card);opacity:1}
+.cd{display:inline-block;width:7px;height:7px;border-radius:50%;flex:none}
+.cd.White{background:#f6efdf;box-shadow:inset 0 0 0 1.5px #b9a984}
+.cd.Violet{background:#7b4aa8}.cd.Green{background:#2f8a57}.cd.Red{background:#c8403a}.cd.Gold{background:#d8b66b}
+.cd.none{width:9px;height:2px;border-radius:1px;background:var(--mut)}
+.cd.brk{width:11px;height:0;border-radius:0;background:none;border-top:2px dotted var(--mut)}
+.cl:has(.cd.brk){border:1px dashed var(--ln)}
+.cl:has(.cd.none),.cl:has(.cd.brk){color:var(--mut)}
+.cl.sel .cd.none{background:var(--card)}.cl.sel .cd.brk{border-top-color:var(--card)}
+.cl.sel:has(.cd.none),.cl.sel:has(.cd.brk){color:var(--card);border-color:transparent}
+.cl.td,.cl.td:has(.cd){border-color:var(--gd)}
+.lgd{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 2px 4px;font-size:12px;color:var(--mut)}
+.lgd span{display:inline-flex;align-items:center;gap:4px}
+.an h3{font:650 17px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0 0 6px;padding-right:30px}
+.an p{margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.an .x{position:absolute;top:8px;right:8px;font-size:16px;padding:6px 9px}
+.an{position:relative}
+@media(max-width:390px){.hm{padding:19px 14px 17px}.qt{padding:14px 13px}.qa{gap:10px}}
+
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
 <main></main>
-<nav><button data-tab="home"><span>🏠</span>Home</button><button data-tab="chap"><span>⛪</span>Chapel preparation</button><button data-tab="find"><span>🔍</span>Search</button><button data-tab="acct"><span>👤</span>Account</button><button data-tab="updates"><span>🔄</span>Updates</button></nav>
+<nav><button data-tab="home"><span>🏠</span>Home</button><button data-tab="find"><span>🔍</span>Search</button><button data-tab="acct"><span>👤</span>Account</button><button data-tab="updates"><span>🔄</span>Updates</button></nav>
 <script>
 const $=s=>document.querySelector(s),ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 let S={ch:'CITE',tab:'home',pt:'mass',date:'',d:{},o:{},u:{},th:'',n:{},hc:0,hr:0,f:'',rb:{},lm:[],tm:'auto',ly:'detailed',fin:{},qu:[]};
@@ -341,7 +392,7 @@ const sec2=(id,...x)=>sec(...x).replace('<section>','<section id='+id+'>');
 const JMP=[['j-clean','Cleaning'],['j-prep','Preparation'],['j-close','Closing'],['j-sup','Supplies'],['j-plan','Schedule']];
 function chap(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
 FIN=S.date<=ymd(new Date())&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};
-let h='<h2 class=ph>Chapel preparation</h2>'+dbar()+ordo()+opts()+`<div class=jp>${JMP.map(([i,l])=>`<button data-j=${i}>${l}</button>`).join('')}</div><div id=pg></div>`+fbanner()+'@@CREW@@';
+let h='<button class="lk bk" data-tab=home>‹ Home</button><h2 class=ph>Chapel preparation</h2>'+dbar()+ordo()+opts()+`<div class=jp>${JMP.map(([i,l])=>`<button data-j=${i}>${l}</button>`).join('')}</div><div id=pg></div>`+fbanner()+'@@CREW@@';
 if(S.date==ymd(new Date()))h+=missed();
 const dn=o.m=='mass'||(o.m=='break'&&(w==0||w==3));
 h+=sec2('j-clean','Daily cleaning',o.m=='none'?'No Holy Mass today, so no daily cleaning.':(o.m=='break'&&!dn)?'School break: the chapel is cleaned on Wednesdays and Sundays only.':'',dn?DAILY.map((x,i)=>it('d'+i,x[0],x[1])).join(''):'');
@@ -416,15 +467,15 @@ async function authInit(){if(!SB||sb||cs=='load')return;cs='load';
 try{const m=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');mk=m.createClient;sb=mk(SB.url,SB.key);cs='ready';
 sb.auth.onAuthStateChange((ev,ses)=>{const id=ses?ses.user.id:null;if(id===wid)return;wid=id;setTimeout(()=>who(ses),0)})}
 catch(e){cs='off';const c=cch();if(c){ME=c;CU={id:c.id};OFF=true}rdy=true;R()}}
-async function who(ses){CU=ses?ses.user:null;ME=null;MS=[];OFF=false;if(ch){sb.removeChannel(ch);ch=null}
+async function who(ses){CU=ses?ses.user:null;ME=null;MS=[];OFF=false;if(ch){sb.removeChannel(ch);ch=null}annOff();
 if(CU){let r;try{r=await sb.from('profiles').select('*').eq('id',CU.id).maybeSingle()}catch(e){r={error:e}}
 ME=r.data||null;const c=cch();if(r.error&&c&&c.id==CU.id){ME=c;OFF=true}
 if(ME)cset(ME);else if(!r.error)cset(null);
-if(ME&&!OFF){await loadMem();await flushQ();await load();ch=sb.channel('chat',{config:{presence:{key:CU.id}}}).on('postgres_changes',{event:'*',schema:'public',table:'messages'},load).on('postgres_changes',{event:'*',schema:'public',table:'task_done'},rt).on('postgres_changes',{event:'*',schema:'public',table:'day_plan'},rt).on('presence',{event:'sync'},()=>{ON=Object.keys(ch.presenceState());chatDraw()}).subscribe(st=>{if(st=='SUBSCRIBED')ch.track({at:Date.now()})})}}
+if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=sb.channel('chat',{config:{presence:{key:CU.id}}}).on('postgres_changes',{event:'*',schema:'public',table:'messages'},load).on('postgres_changes',{event:'*',schema:'public',table:'task_done'},rt).on('postgres_changes',{event:'*',schema:'public',table:'day_plan'},rt).on('presence',{event:'sync'},()=>{ON=Object.keys(ch.presenceState());chatDraw()}).subscribe(st=>{if(st=='SUBSCRIBED')ch.track({at:Date.now()})})}}
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.2.1';
+const APP_VERSION='1.3.0';
 let UP={chk:0,live:null,rel:[],cm:[],repo:'',err:''};
 async function chkUpd(){UP.chk=Date.now();
 try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});if(r.ok)UP.live=await r.json()}catch(e){}
@@ -458,7 +509,7 @@ const sbOK=()=>SB&&sb&&ME&&!OFF;
 async function pullDone(){if(!sbOK())return;try{const {data,error}=await sb.from('task_done').select('task,user_id').eq('day',S.date).eq('chapel',S.ch);if(error||!data)return;const d=D();Object.keys(d).forEach(k=>{if(!k.includes('_'))delete d[k]});DW={};data.forEach(x=>{d[x.task]=1;DW[x.task]=x.user_id});sv()}catch(e){}}
 async function loadPlan(){if(!sbOK())return;try{const {data}=await sb.from('day_plan').select('*').eq('day',S.date).maybeSingle();PLAN[S.date]=data||{}}catch(e){}}
 function syncView(){if(!sbOK()||S.tab!='chap')return;const k=S.date+S.ch;if(k==PK)return;PK=k;Promise.all([pullDone(),loadPlan()]).then(()=>{PK=k;R()})}
-const rt=()=>{if(sbOK()&&S.tab=='chap')Promise.all([pullDone(),loadPlan()]).then(R)};
+const rt=()=>{if(!sbOK())return;if(S.tab=='chap')Promise.all([pullDone(),loadPlan()]).then(R);else if(S.tab=='mass')massLoad()};
 async function pushDone(id,on){if(!SB||!ME)return;const r={day:S.date,chapel:S.ch,task:id};try{if(!sb||OFF)throw {};const q=on?await sb.from('task_done').upsert(r,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(r);if(q.error)throw q.error}catch(e){if(e&&e.code)return;S.qu=[...(S.qu||[]),{...r,on}];sv()}}
 async function flushQ(){const q=S.qu||[];if(!q.length||!sbOK())return;S.qu=[];sv();for(const x of q){const {on,...k}=x;try{on?await sb.from('task_done').upsert(k,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(k)}catch(e){}}}
 async function savePlan(p){if(!sbOK()||!isLead()){alert('Connect to the internet to save this.');return}const o=PLAN[S.date]||{},row={day:S.date,lang:o.lang||null,note:o.note||null,...p},{error}=await sb.from('day_plan').upsert(row);if(error){alert('Could not save: '+error.message);return}PLAN[S.date]=row;R()}
@@ -640,12 +691,81 @@ const VERSES=[
 ["Revelation 3:20","Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me."]];
 const GREET={m:['Good morning','Blessed morning','Rise and shine','A peaceful morning to you','God bless your morning'],a:['Good afternoon','Blessed afternoon','Peace this afternoon','God bless your afternoon'],e:['Good evening','Blessed evening','Peace this evening','God bless your evening'],x:['Peace be with you','Welcome back','God bless you','Pax Christi','Grace and peace']};
 const tband=()=>{const h=new Date().getHours();return h<12?'m':h<18?'a':'e'};
-let HV=0,HG='',HB='',HID=0;
+let HG='',HB='',HID=0;
 function newGreet(){const b=tband(),L=[...GREET[b],...GREET.x].filter(g=>g!=S.hg);HB=b;HG=L[Math.floor(Math.random()*L.length)];S.hg=HG;sv()}
-function newHome(){const n=VERSES.length;let i=Math.floor(Math.random()*n);if(n>1&&i==S.hv)i=(i+1+Math.floor(Math.random()*(n-1)))%n;HV=S.hv=i;newGreet()}
-function home(){if(HB!=tband())newGreet();const v=VERSES[HV],n=ME?esc((ME.name||'').trim().split(' ')[0]):'';
-return `<div class=hero><h2>${esc(HG)}${n?',<br>'+n:''}</h2></div><div class=vc><p class=vt>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])}</b><small>King James Version</small></div>`}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newHome();if(S.tab=='home'&&!locked())R()}HID=0});
+/* Verse of the Day: a random verse that is kept for 24 hours, then replaced by a new random one. */
+const VDAY=864e5;
+function verseOfDay(){const v=S.vv,age=v?Date.now()-v.t:-1;if(v&&VERSES[v.i]&&age>=0&&age<VDAY)return VERSES[v.i];
+const n=VERSES.length;let i=Math.floor(Math.random()*n);if(n>1&&v&&i==v.i)i=(i+1+Math.floor(Math.random()*(n-1)))%n;S.vv={i,t:Date.now()};sv();return VERSES[i]}
+/* Line under the greeting on the home screen. Change the text here. */
+const TAGLINE='Walk in faith, serve with love.';
+const ICO=Object.fromEntries(Object.entries({
+cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8 14h.01M12 14h.01M16 14h.01M8 17.4h.01M12 17.4h.01"/>',
+clip:'<rect x="5" y="4.5" width="14" height="17" rx="3"/><path d="M9 4.5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v.5M9 13.2l2.2 2.2 4.3-4.4"/>',
+bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 21a2 2 0 0 0 4 0"/>',
+book:'<path d="M12 6.5C10 5 7.5 4.5 4 4.5v13c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2v-13c-3.5 0-6 .5-8 2zM12 6.5v13"/>',
+church:'<path d="M12 2v4M10.3 3.7h3.4M12 6l-5 3.6V21h10V9.6zM10 21v-4.5a2 2 0 0 1 4 0V21M7 12.5H4V21M17 12.5h3V21M2.5 21h19"/>'
+}).map(([k,p])=>[k,`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`]));
+function home(){if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
+return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE</small><h2 class=hm-g>${esc(HG)}${n?',<br>'+n:''}</h2><p class=hm-s>${esc(TAGLINE)}</p></div><span class=hm-ic aria-hidden="true">${ICO.church}</span></div>`
++`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
++`<h3>Quick Actions</h3><div class=qa>`
++`<button class=qt data-tab=mass>${ICO.cal}<span class=qx><b>Mass Schedule</b><small>This month and next</small></span></button>`
++`<button class=qt data-tab=chap>${ICO.clip}<span class=qx><b>Preparation</b><small>Cleaning and Mass prep</small></span></button>`
++`<button class="qt wide" data-tab=ann>${ICO.bell}<span class=qx><b>Announcements</b><small>News from the priest and founder</small></span>${nw?`<i class=qb aria-label="${nw} new">${nw>9?'9+':nw}</i>`:''}</button>`
++`</div></div>`}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newGreet();if(S.tab=='home'&&!locked())R()}HID=0});
+/* ---- Mass schedule: this month and the next ---- */
+let MM={m:0,sel:'',t:0};
+function mday(k){const i=litx(k),o=S.o[k],f=o?o.f:i.f;return{m:o?o.m:'mass',f:f?1:0,c:f?'Gold':((o&&o.c)||i.c||'Green'),i}}
+function mdet(k){const d=new Date(k+'T00:00'),w=d.getDay(),x=mday(k),e=ent(k),p=PLAN[k]||{},lang=(w==0||w==6)?p.lang:LANGF[w],ms=x.m=='mass';
+return `<div class="it wide"><b>${DN[w]}, ${d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}</b><i class=tg>${ms?'Holy Mass':x.m=='none'?'No Holy Mass':'School break'}</i>${x.f?'<i class=tg>Feast</i>':''}${e&&e.k?`<i class=tg>${esc(e.k)}</i>`:''}`
++`<small>${esc(e?e.t:(x.i.nm||x.i.s))}</small>`
++(ms?`<div class=lg><span>Vestment color</span><b>${x.f?'Gold (feast)':x.c}</b></div><div class=lg><span>Language of the Mass</span><b>${lang||'Not set yet'}</b></div>`:'')
++(p.note?`<small>Note from the priest or founder: ${esc(p.note)}</small>`:'')+(e&&e.r?`<small>Readings: ${esc(e.r)}</small>`:'')
++`<button class=pr data-go="${k}">Open in Chapel preparation</button></div>`}
+function massv(){const t=new Date(),tk=ymd(t),b=new Date(t.getFullYear(),t.getMonth()+MM.m,1),y=b.getFullYear(),mo=b.getMonth(),nd=new Date(y,mo+1,0).getDate(),k1=ymd(b),
+sel=MM.sel&&MM.sel.slice(0,7)==k1.slice(0,7)?MM.sel:(MM.m==0?tk:k1),mn=d=>d.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+let cells='',cnt=0;for(let i=0;i<b.getDay();i++)cells+='<span></span>';
+for(let d=1;d<=nd;d++){const dt=new Date(y,mo,d),k=ymd(dt),x=mday(k),c=['cl'];if(x.m=='mass')cnt++;if(k<tk)c.push('pst');if(k==tk)c.push('td');if(k==sel)c.push('sel');
+cells+=`<button class="${c.join(' ')}" data-md="${k}" aria-pressed="${k==sel}" aria-label="${dt.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}, ${x.m=='mass'?'Holy Mass':x.m=='none'?'No Holy Mass':'School break'}"><span>${d}</span><i class="cd ${x.m=='mass'?x.c:x.m=='none'?'none':'brk'}"></i></button>`}
+return `<button class="lk bk" data-tab=home>‹ Home</button><h2 class=ph>Mass schedule</h2>`
++`<div class=seg>${[0,1].map(m=>`<button data-mm=${m} class="${MM.m==m?'on':''}">${mn(new Date(t.getFullYear(),t.getMonth()+m,1))}</button>`).join('')}</div>`
++`<p class=nt>${cnt} Holy Mass${cnt==1?'':'es'} in ${mn(b)}. Tap a day for details.</p>`
++`<div class=mc><div class=mw>${DN.map(s=>`<small>${s.slice(0,3)}</small>`).join('')}${cells}</div></div>`
++`<div class=lgd><span><i class="cd Green"></i><i class="cd Violet"></i><i class="cd Red"></i><i class="cd White"></i>Holy Mass (vestment color)</span><span><i class="cd Gold"></i>Feast</span><span><i class="cd none"></i>No Mass</span><span><i class="cd brk"></i>School break</span></div>`+mdet(sel)}
+async function massLoad(){if(!sbOK())return;MM.t=Date.now();const t=new Date(),a=ymd(new Date(t.getFullYear(),t.getMonth(),1)),z=ymd(new Date(t.getFullYear(),t.getMonth()+2,0));
+try{const {data,error}=await sb.from('day_plan').select('*').gte('day',a).lte('day',z);if(error)throw error;(data||[]).forEach(r=>{PLAN[r.day]=r})}catch(e){}
+if(S.tab=='mass')R()}
+/* ---- Announcements: everyone reads, only the priest and founder post ---- */
+let ANN={list:Array.isArray(S.an)?S.an:[],err:'',t:0,busy:0,dt:'',db:''},ach=null;
+function annNew(){const s=S.ns||'',me=CU?CU.id:'';return ANN.list.filter(x=>x.user_id!=me&&x.created_at>s).length}
+function annOff(){try{if(ach&&sb)sb.removeChannel(ach)}catch(e){}ach=null}
+function annSub(){annOff();try{ach=sb.channel('ann').on('postgres_changes',{event:'*',schema:'public',table:'announcements'},()=>annLoad()).subscribe()}catch(e){}}
+async function annLoad(){if(!sbOK())return;ANN.t=Date.now();
+try{const {data,error}=await sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(50);if(error)throw error;ANN.list=data||[];ANN.err='';S.an=ANN.list.slice(0,30);sv()}
+catch(e){ANN.err=e&&(e.code=='PGRST205'||e.code=='42P01'||/does not exist|schema cache/i.test(e.message||''))?'setup':'net'}
+annDraw()}
+function annDraw(){if(S.tab=='ann'){const el=$('#al');if(el)el.innerHTML=annList();else R()}else if(S.tab=='home')R()}
+function annList(){const top=ANN.list[0];if(top&&S.ns!=top.created_at){S.ns=top.created_at;sv()}
+const lead=!!(SB&&ME&&isLead()&&!OFF);let h='';
+if(!SB)return '<p class=nt>Announcements need accounts to be turned on.</p>';
+if(ANN.err=='setup')return `<p class=nt>Announcements are not set up yet.${ME&&(ME.is_admin||isLead())?' Run patch6.sql in the Supabase SQL Editor (see SETUP.md).':' Ask the admin.'}</p>`;
+if((ANN.err=='net'||OFF)&&ANN.list.length)h='<p class=nt>Showing saved announcements. Connect to the internet for the latest.</p>';
+return h+(ANN.list.length?ANN.list.map(x=>`<div class="it wide an"><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p><small>${esc(x.author_name||'')}${x.author_role?', '+esc(x.author_role):''} &middot; ${fmt(x.created_at)}</small>${lead?`<button class=x data-an=del data-i="${x.id}" aria-label="Delete announcement">✕</button>`:''}</div>`).join(''):`<p class=nt>${ANN.err=='net'||OFF?'Connect to the internet to load announcements.':'No announcements yet.'}</p>`)}
+function annv(){const lead=!!(SB&&ME&&isLead());
+return `<button class="lk bk" data-tab=home>‹ Home</button><h2 class=ph>Announcements</h2><p class=nt>News from the priest and founder. Only they can post announcements.</p>`
++(lead?`<div class="it wide"><b>New announcement</b><div class=ctl><input class=nm id=ann-t data-ad=t maxlength=100 placeholder="Title" autocomplete=off value="${esc(ANN.dt)}"></div><div class=ctl><textarea class=nm id=ann-b data-ad=b rows=4 maxlength=2000 placeholder="Write the announcement">${esc(ANN.db)}</textarea></div><button class=pr data-an=post${ANN.busy?' disabled':''}>Post announcement</button></div>`:'')
++`<div id=al>${annList()}</div>`}
+async function annPost(){if(ANN.busy)return;const t=val('ann-t').trim(),b=val('ann-b').trim();
+if(!t||!b){alert('Write a title and a message first.');return}
+if(!sbOK()){alert('Connect to the internet to post an announcement.');return}
+const bt=$('[data-an=post]');ANN.busy=1;if(bt)bt.disabled=true;
+try{const {error}=await sb.from('announcements').insert({title:t,body:b});if(error)throw error;ANN.dt=ANN.db='';const i=$('#ann-t'),j=$('#ann-b');if(i)i.value='';if(j)j.value='';await annLoad()}
+catch(e){alert(/row-level security/i.test(e.message||'')?'Only the priest and founder can post announcements.':'Could not post: '+(e.message||e))}
+finally{ANN.busy=0;if(bt)bt.disabled=false}}
+async function annDel(id){if(!sbOK()||!confirm('Delete this announcement?'))return;
+try{const {error}=await sb.from('announcements').delete().eq('id',id);if(error)throw error;await annLoad()}catch(e){alert('Could not delete: '+(e.message||e))}}
 function applyTheme(){const o=O(),k=S.tm=='auto'?(o.f?'Gold':(o.c||'Violet')):S.tm,p=PAL[k]||PAL.Violet,r=document.documentElement,dk=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';
 r.style.setProperty('--ac',dk?p[2]:p[0]);r.style.setProperty('--acs',dk?p[3]:p[1]);r.style.setProperty('--hd',p[0]);
 document.querySelector('meta[name=theme-color]').content=p[0];
@@ -675,9 +795,10 @@ catch(x){e.textContent='Offline check is not available here.'}}
 function sup(){const n=SUP.filter((_,i)=>S.u[i]>0).length;
 return sec('Supplies','Thursday inventory. Tap an item to cycle OK, Low, Out.'+(n?` ${n} to restock.`:''),SUP.map((s,i)=>`<button class="su s${S.u[i]||0}" data-su=${i}><span>${s}</span><b>${ST[S.u[i]||0]}</b></button>`).join('')+(n?'<button class=lk data-a=share>Share restock list</button>':''))}
 function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.filter(x=>x.checked).length,p=$('#pg');if(p&&a.length)p.innerHTML=`<div class=pb><i style="width:${100*c/a.length}%"></i></div><small>${c} of ${a.length} done</small>`}
-function R(){applyTheme();syncView();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.textContent=S.tab=='chat'?'✕':'💬'}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
+function R(){applyTheme();syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['chap','mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.textContent=S.tab=='chat'?'✕':'💬'}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res();$('#q').focus()}if(S.tab=='chap')offChk();hlGo()}
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d)}
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd();return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.j){const e=$('#'+a.j);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});return}
+if(a.mm!=null){MM.m=+a.mm;MM.sel='';R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd();return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.x=='psend'){pushSend();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
 let K=0;if(a.go){S.date=a.go;S.tab='chap'}else if(a.f!=null){const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;HL=x.hl;HS=x.sc||''}else if(a.tab){if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
 else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now')S.date=ymd(new Date());else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass'}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
@@ -698,6 +819,7 @@ document.addEventListener('input',e=>{const t=e.target;
 if(t.dataset.h){S[t.dataset.h]=+t.value||0;$('#hn').textContent=Math.max(0,S.hc-S.hr);sv()}
 else if(t.dataset.n!=null){S.n[S.date]=t.value;sv()}
 else if(t.dataset.r!=null){(S.rb[S.date]||(S.rb[S.date]=[]))[+t.dataset.r]=t.value;sv()}
+else if(t.dataset.ad){ANN['d'+t.dataset.ad]=t.value}
 else if(t.id=='q'){S.q=t.value;res()}});
 document.addEventListener('keydown',e=>{const i=e.target.id;if(e.key=='Enter'&&(i=='cin'||i=='lp')){e.preventDefault();if(i=='lp')acctAct({x:'in'},document.querySelector('[data-x=in]'));else chatAct({c:SB?'send':'lsend'})}});
 if(S.th)document.documentElement.dataset.theme=S.th;
@@ -705,6 +827,6 @@ if(S.th)document.documentElement.dataset.theme=S.th;
 if(ok||e>7000){clearInterval(iv);b.style.width='100%';setTimeout(()=>{x.classList.add('out');setTimeout(()=>x.remove(),500)},250)}},60)}
 setTimeout(chkUpd,3000);setInterval(chkUpd,30*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-UP.chk>600000)chkUpd()});
 fetch('ordo.json').then(x=>x.ok?x.json():null).then(j=>{if(j){ORDO=j;for(const k in S.o){const e=S.o[k];if(e&&e.a){const i=litx(k);e.f=i.f;e.c=i.f?'':i.c}}R()}}).catch(()=>{});
-newHome();R();authInit();
+newGreet();R();authInit();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
