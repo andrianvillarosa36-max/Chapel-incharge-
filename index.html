@@ -563,7 +563,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.9.0';
+const APP_VERSION='1.9.1';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -857,12 +857,12 @@ setInterval(()=>{const e=$('#mcd');if(e){const k=e.dataset.k,t=e.dataset.t,x=cdT
 function home(){loadMI();if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
 return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE</small><h2 class=hm-g>${esc(HG)}${n?',<br>'+n:''}</h2><p class=hm-s>${esc(TAGLINE)}</p></div><span class=hm-ic aria-hidden="true">${ICO.church}</span></div>`
 +`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
-+mcard()+`<h3>Quick Actions</h3><div class=qa>`
++`<h3>Quick Actions</h3><div class=qa>`
 +`<button class=qt data-tab=mass>${ICO.cal}<span class=qx><b>Mass Schedule</b><small>This month and next</small></span></button>`
 +`<button class=qt data-tab=chap>${ICO.clip}<span class=qx><b>Preparation</b><small>Prepare, clean and close</small></span></button>`
 +`<button class=qt data-tab=pray>${ICO.pray}<span class=qx><b>Pocket Prayer</b><small>Prayers and hymns</small></span></button>`
 +`<button class=qt data-tab=ann>${ICO.bell}<span class=qx><b>Announcements</b><small>News from the priest and founder</small></span>${nw?'<i class=qd aria-label="New announcements"></i>':''}</button>`
-+`</div></div>`}
++`</div>`+mcard()+`</div>`}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){HID=Date.now();return}if(HID&&Date.now()-HID>10000){newGreet();if(S.tab=='home'&&!locked())R()}HID=0});
 /* ---- Mass schedule: this month and the next ---- */
 let MM={y:new Date().getFullYear(),mo:new Date().getMonth(),sel:'',t:0};
