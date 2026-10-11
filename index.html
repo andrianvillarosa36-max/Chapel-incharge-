@@ -362,6 +362,14 @@ details.schd{margin:14px 0 0}details.schd>summary{font-size:15px;padding:10px 12
 .chp{display:flex;flex-wrap:wrap;gap:8px}.chp button{min-height:42px;padding:8px 14px;border-radius:999px;border:1px solid var(--ln);background:var(--card);color:var(--ink);font-size:14px;display:inline-flex;align-items:center}
 .chp svg{width:16px;height:16px;margin-right:6px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
 .nd2{position:relative}.nd2::after{content:"";position:absolute;top:50%;right:16px;transform:translateY(-50%);width:11px;height:11px;border-radius:50%;background:#e5484d;border:2px solid #fff}
+/* ---- v1.6.0: tomorrow's Mass card ---- */
+.mi{margin:12px 0 4px;padding:16px;border-radius:20px;background:#34445c;border:1px solid #ffffff14;color:#fff}
+.mih{display:flex;align-items:center;gap:10px}.mih svg{width:26px;height:26px;stroke:var(--gd,#d5b56d);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.mih b{font-size:17px}
+.mid{margin:8px 0 10px;color:#ffffffc7;font-size:14px}
+.mir{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-top:1px solid #ffffff1f}.mik{color:#ffffffa8}.mir b{text-align:right}
+.mcd{margin-top:10px;padding:12px 14px;border-radius:14px;background:#0003;text-align:center;font-weight:700;font-size:19px;color:var(--gd,#d5b56d)}
+.mnt{margin:8px 0 0;color:#ffffffa8;font-size:13px}
+.mie{margin-top:10px}.mie summary{color:#ffffffc7;font-size:14px;min-height:40px;display:flex;align-items:center;cursor:pointer}.mie .nm{background:#0003;color:#fff;border-color:#ffffff26}
 </style></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -546,7 +554,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R()}
-const APP_VERSION='1.5.1';
+const APP_VERSION='1.6.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -796,10 +804,31 @@ const nwu=()=>!!(UP.live&&newerV(UP.live.version,APP_VERSION));
 const updv=()=>'<button class="lk bk" data-tab=set>‹ Settings</button>'+updv0();
 function nxb(l){let b=$('#nxb');if(!(S.tab=='chap'&&l>0)){if(b)b.remove();return}if(!b){b=document.createElement('button');b.id='nxb';b.dataset.nx=1;document.body.appendChild(b)}b.textContent='Next task ↓ ('+l+' left)'}
 function nextTask(){const a=[...document.querySelectorAll('.it>label>input')].filter(x=>!x.checked),e=a.find(x=>!x.disabled)||a[0];if(!e)return;const c=e.closest('.it');c.scrollIntoView({behavior:'smooth',block:'center'});c.classList.add('hl');setTimeout(()=>c.classList.remove('hl'),1600)}
-function home(){if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
+/* ---- Tomorrow's Mass: date, venue, time and countdown ---- */
+let MI={k:'',t:0};
+const tmr=()=>{const d=new Date();d.setDate(d.getDate()+1);return ymd(d)};
+const mAt=(k,t)=>{const [h,m]=t.split(':').map(Number),d=new Date(k+'T00:00');d.setHours(h,m,0,0);return d};
+const t12=(k,t)=>mAt(k,t).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+function cdTxt(k,t){if(!t)return '';const ms=mAt(k,t)-Date.now();if(ms<=0)return 'The Mass has started';const mn=Math.floor(ms/6e4),dd=Math.floor(mn/1440),hh=Math.floor(mn%1440/60),mm=mn%60;return 'Starts in '+(dd?dd+' d ':'')+(hh||dd?hh+' h ':'')+mm+' min'}
+async function loadMI(force){if(!sbOK())return;const k=tmr(),key=k+S.ch;if(!force&&MI.k==key&&Date.now()-MI.t<60000)return;MI={k:key,t:Date.now()};
+try{const {data,error}=await sb.from('mass_info').select('day,venue,mtime').eq('chapel',S.ch).in('day',[k,'2000-01-01']);if(error||!data)return;
+const m={d:{},df:null};data.forEach(x=>{const o={v:x.venue||'',t:(x.mtime||'').slice(0,5)};if(x.day=='2000-01-01')m.df=o;else m.d[x.day]=o});
+const old=JSON.stringify((S.mi||{})[S.ch]||null);(S.mi=S.mi||{})[S.ch]=m;if(JSON.stringify(m)!=old){sv();if(S.tab=='home')R()}}catch(e){}}
+function miFor(k){const m=(S.mi||{})[S.ch]||{},o=(m.d||{})[k]||{},d=m.df||{};return{v:o.v||d.v||S.ch+' Chapel',t:o.t||d.t||''}}
+async function miSave(kind){if(!sbOK()||!isLead()){await popup('Not saved','Connect to the internet and sign in as the priest or founder to save this.',[['OK']]);return}
+const v=(($('#miv')||{}).value||'').trim().slice(0,80),t=($('#mit')||{}).value||'',row={day:kind=='def'?'2000-01-01':tmr(),chapel:S.ch,venue:v||null,mtime:t||null},{error}=await sb.from('mass_info').upsert(row,{onConflict:'day,chapel'});
+if(error){await popup('Could not save',error.message+'. If this mentions mass_info, run patch6.sql in Supabase first.',[['OK']]);return}await loadMI(true);R();await popup('Saved',kind=='def'?'Saved as the default Mass venue and time for '+S.ch+'.':'Saved for tomorrow.',[['OK']])}
+function mcard(){const k=tmr(),d=new Date(k+'T00:00'),w=d.getDay(),md=mday(k),mass=md.m=='mass'||(md.m=='break'&&(w==0||w==3)),m=miFor(k),lead=sbOK()&&isLead(),c=(S.mi||{})[S.ch]||{},o=(c.d||{})[k]||{},df=c.df||{};
+let h=`<div class=mi id=mci data-k="${k}"><div class=mih>${ICO.cal}<b>Tomorrow's Mass</b></div><div class=mid>${esc(d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</div>`;
+if(!mass)h+=`<div class=mir><span class=mik>Status</span><b>${md.m=='none'?'No Holy Mass':'School break, no Mass'}</b></div>`;
+else h+=`<div class=mir><span class=mik>Venue</span><b>${esc(m.v)}</b></div><div class=mir><span class=mik>Time</span><b>${m.t?esc(t12(k,m.t)):'Not set yet'}</b></div>`+(m.t?`<div class=mcd id=mcd data-k="${k}" data-t="${m.t}">${cdTxt(k,m.t)}</div>`:'<p class=mnt>The priest or founder will set the Mass time.</p>');
+if(lead&&mass)h+=`<details class=mie><summary>Edit venue and time</summary><div class=ctl><input class=nm type=time id=mit value="${esc(o.t||df.t||'')}" aria-label="Mass time"></div><div class=ctl><input class=nm id=miv maxlength=80 value="${esc(o.v||'')}" placeholder="${esc(df.v||S.ch+' Chapel')}" aria-label="Mass venue"></div><div class=ctl><button class=pr data-mi=day>Save for tomorrow</button><button class=pr data-mi=def>Save as default</button></div></details>`;
+return h+'</div>'}
+setInterval(()=>{const e=$('#mcd');if(e)e.textContent=cdTxt(e.dataset.k,e.dataset.t);const c=$('#mci');if(c&&c.dataset.k!=tmr()&&S.tab=='home')R()},20000);
+function home(){loadMI();if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
 return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE</small><h2 class=hm-g>${esc(HG)}${n?',<br>'+n:''}</h2><p class=hm-s>${esc(TAGLINE)}</p></div><span class=hm-ic aria-hidden="true">${ICO.church}</span></div>`
 +`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
-+`<h3>Quick Actions</h3><div class=qa>`
++mcard()+`<h3>Quick Actions</h3><div class=qa>`
 +`<button class=qt data-tab=mass>${ICO.cal}<span class=qx><b>Mass Schedule</b><small>This month and next</small></span></button>`
 +`<button class=qt data-tab=chap>${ICO.clip}<span class=qx><b>Preparation</b><small>Prepare, clean and close</small></span></button>`
 +`<button class="qt wide" data-tab=ann>${ICO.bell}<span class=qx><b>Announcements</b><small>News from the priest and founder</small></span>${nw?`<i class=qb aria-label="${nw} new">${nw>9?'9+':nw}</i>`:''}</button>`
@@ -892,7 +921,7 @@ function upd(){const a=[...document.querySelectorAll('.it>label>input')],c=a.fil
 function R(){applyTheme();$('main').classList.toggle('hd',false);syncView();if(S.tab=='mass'&&sbOK()&&Date.now()-MM.t>30000)massLoad();if(S.tab=='ann'&&sbOK()&&Date.now()-ANN.t>30000)annLoad();if(S.tab=='updates'&&Date.now()-UP.chk>60000)chkUpd();if(S.tab=='set')pushState().then(v=>{if(v!==PUSH){PUSH=v;R()}});const lk=locked();document.body.classList.toggle('lo',lk);$('#ch').value=S.ch;document.documentElement.classList.toggle('feast',!!O().f);$('main').innerHTML=lk?gate():{home,chap,mass:massv,ann:annv,find,acct,adm,chat:chatv,set:setv,updates:updv}[S.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab||(S.tab=='adm'&&b.dataset.tab=='acct')||(['mass','ann'].includes(S.tab)&&b.dataset.tab=='home')));{const hb=$('.hb'),ci=$('#ci');if(hb)hb.classList.toggle('on',S.tab=='chat');if(ci)ci.innerHTML=S.tab=='chat'?ICO.x:ICO.chat}if(lk)return;upd();if(S.tab=='chat')chatDraw();badge();if(S.tab=='find'){res()}if(S.tab=='chap')offChk();hlGo()}
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d);S.sx=null}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.w){wz(a.w,a.i);return}
-if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.sq!=null){S.q=a.sq;const i=$('#q');if(i)i.value=a.sq;addRs(a.sq);res();return}if(a.sqc){S.rs=[];sv();res();return}if(a.nx){nextTask();return}if(a.hd){S.hd=S.hd?0:1;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
+if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.mi){miSave(a.mi);return}if(a.sq!=null){S.q=a.sq;const i=$('#q');if(i)i.value=a.sq;addRs(a.sq);res();return}if(a.sqc){S.rs=[];sv();res();return}if(a.nx){nextTask();return}if(a.hd){S.hd=S.hd?0:1;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
 let K=0;if(a.go){S.date=a.go;S.tab='chap';S.sx=null;S.vw=''}else if(a.f!=null){addRs(S.q);const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;if(x.st!=null){S.vw=x.st=='sup'?'sup':'';S.sx=x.st=='sup'?null:x.st}HL=x.hl;HS=x.sc||''}else if(a.tab){if(a.tab=='chap'){S.vw='';if(S.tab!='chap')S.sx=null}if((a.tab=='set'||a.tab=='chat')&&S.tab!='set'&&S.tab!='chat')PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
 else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now'){S.date=ymd(new Date());S.sx=null}else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass';S.sx=null;S.vw=''}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
