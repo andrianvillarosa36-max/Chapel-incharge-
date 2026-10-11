@@ -370,7 +370,7 @@ details.schd{margin:14px 0 0}details.schd>summary{font-size:15px;padding:10px 12
 .mcd{margin-top:10px;padding:12px 14px;border-radius:14px;background:#0003;text-align:center;font-weight:700;font-size:19px;color:var(--gd,#d5b56d)}
 .mnt{margin:8px 0 0;color:#ffffffa8;font-size:13px}
 .mie{margin-top:10px}.mie summary{color:#ffffffc7;font-size:14px;min-height:40px;display:flex;align-items:center;cursor:pointer}.mie .nm{background:#0003;color:#fff;border-color:#ffffff26}
-</style></head><body>
+</style><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span><i id="bd" class="bd"></i></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
 <main></main>
@@ -553,8 +553,8 @@ if(ME)cset(ME);else if(!r.error)cset(null);
 if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=sb.channel('chat',{config:{presence:{key:CU.id}}}).on('postgres_changes',{event:'*',schema:'public',table:'messages'},load).on('postgres_changes',{event:'*',schema:'public',table:'task_done'},rt).on('postgres_changes',{event:'*',schema:'public',table:'day_plan'},rt).on('presence',{event:'sync'},()=>{ON=Object.keys(ch.presenceState());chatDraw()}).subscribe(st=>{if(st=='SUBSCRIBED')ch.track({at:Date.now()})})}}
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
-rdy=true;R()}
-const APP_VERSION='1.6.0';
+rdy=true;R();osSync()}
+const APP_VERSION='1.7.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -576,16 +576,26 @@ const g=WN.filter(([k])=>Array.isArray(L[k])&&L[k].length),dt=L.date?new Date(L.
 return sec("What's new in "+esc(L.version),dt&&!isNaN(dt)?'Released '+dt.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})+'.':'',
 g.length?g.map(([k,l])=>`<div class=it><b>${l}</b><ul class=wn>${L[k].map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join(''):`<div class=it><small>${esc(L.notes||'No details for this version.')}</small></div>`)}
 let PT='home',PUSH=false;
-const u8=b=>{const r=atob((b+'='.repeat((4-b.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0))};
-async function fnErr(e){if(e&&e.name=='FunctionsFetchError')return 'Cannot reach the "push" function. In Supabase, check Edge Functions: a function named push must be deployed.';try{const j=await e.context.json();return j.error||j.message||e.message}catch(x){return e.message}}
-async function pushState(){try{const r=await navigator.serviceWorker.ready;return !!(await r.pushManager.getSubscription())&&Notification.permission=='granted'}catch(e){return false}}
+const OS_ID='2ccab662-c10b-4db1-9bb4-6844bc11930e';
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+const osP=new Promise(res=>{OneSignalDeferred.push(async function(OneSignal){
+try{if(!localStorage.getItem('cic_os')){try{const r=await navigator.serviceWorker.getRegistration();const s=r&&await r.pushManager.getSubscription();if(s)await s.unsubscribe()}catch(e){}localStorage.setItem('cic_os','1')}
+const b=location.pathname.replace(/[^/]*$/,'');
+await OneSignal.init({appId:OS_ID,serviceWorkerPath:b.slice(1)+'sw.js',serviceWorkerParam:{scope:b},notifyButton:{enable:false}});res(OneSignal)}
+catch(e){res(null)}})});
+const os=()=>Promise.race([osP,new Promise(r=>setTimeout(()=>r(null),4000))]);
+async function osSync(){const O=await os();if(!O)return;
+try{if(CU&&ME&&!OFF){await O.login(CU.id);const R4=['crew','oratory','priest','founder'],on={},off=[];R4.forEach(r=>hasR(r)?on[r]='1':off.push(r));ME.is_admin?on.admin='1':off.push('admin');
+await O.User.addTags(on);if(off.length)await O.User.removeTags(off)}
+else if(!CU)await O.logout()}catch(e){}}
+async function pushState(){try{const O=await os();return !!(O&&O.Notifications.permission&&O.User.PushSubscription.optedIn)}catch(e){return false}}
 async function pushOn(){try{if(!sbOK()){alert('Connect to the internet and sign in first.');return}if(!('PushManager' in window)){alert('This browser does not support notifications.');return}
-if(await Notification.requestPermission()!='granted'){alert('Notifications are blocked. Allow them in your browser or phone settings.');return}
-const {data,error}=await sb.functions.invoke('push',{body:{action:'key'}});if(error)throw new Error(await fnErr(error));if(!data||!data.key)throw new Error('Push is not set up on the server yet.');
-const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(data.key)});
-const j=sub.toJSON(),{error:e2}=await sb.from('push_subs').upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,user_id:CU.id},{onConflict:'endpoint'});if(e2)throw e2;PUSH=true;R()}
+const O=await os();if(!O){alert('Notifications could not load. Check your internet and try again.');return}
+await O.Notifications.requestPermission();
+if(!O.Notifications.permission){alert('Notifications are blocked. Allow them in your browser or phone settings.');return}
+await O.User.PushSubscription.optIn();await osSync();PUSH=await pushState();R()}
 catch(e){alert('Could not turn on notifications: '+(e.message||e))}}
-async function pushOff(){try{const r=await navigator.serviceWorker.ready,s=await r.pushManager.getSubscription();if(s){await sb.from('push_subs').delete().eq('endpoint',s.endpoint);await s.unsubscribe()}}catch(e){}PUSH=false;R()}
+async function pushOff(){try{const O=await os();if(O)await O.User.PushSubscription.optOut()}catch(e){}PUSH=false;R()}
 function pushv(){if(!(SB&&ME))return '';const ok='PushManager' in window&&'serviceWorker' in navigator;
 return sec('Notifications',ok?(PUSH?'Notifications are on for this device.':'Get alerts from the priest, founder and admin.'):'This browser does not support notifications.',ok?`<button class=pr data-x=${PUSH?'poff':'pon'}>${PUSH?'Turn off notifications':'Turn on notifications'}</button>`:'')}
 let FIN=false,ORD=[],TT={},DW={},PLAN={},PK='';
