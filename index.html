@@ -376,8 +376,11 @@ details.schd{margin:14px 0 0}details.schd>summary{font-size:15px;padding:10px 12
 nav .rdot{top:6px;right:auto;left:calc(50% + 8px);border-color:var(--card,#24212e)}
 .mnx{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;margin:10px 0 0}.mnx small{flex:0 0 100%;color:#ffffffa8;font-size:13px}.mnx b{font-size:17px}.mnx span{color:#ffffffc7}
 .mwk{margin-top:12px;border-top:1px solid #ffffff1f}
-.mr2{display:grid;grid-template-columns:92px 74px 1fr;gap:6px;align-items:center;padding:9px 6px;border-bottom:1px solid #ffffff14;font-size:14px}.mr2 span{color:#ffffffc7}.mr2 b{white-space:nowrap}.mr2 em{font-style:normal;color:#ffffffc7;text-align:right;overflow-wrap:anywhere}
+.mr2{display:grid;grid-template-columns:78px 66px 1fr;gap:6px;align-items:center;padding:9px 6px;border-bottom:1px solid #ffffff14;font-size:13px}.mr2 span{color:#ffffffc7}.mr2 b{white-space:nowrap}.mr2 em{font-style:normal;color:#ffffffc7;text-align:right;overflow-wrap:anywhere}
 .mr2.on{background:#ffffff14;border-radius:10px}.mr2.on span{color:var(--gd,#d5b56d);font-weight:700}
+.mr2.mh{padding:8px 6px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}.mr2.mh span,.mr2.mh b,.mr2.mh em{color:#ffffff9e;font-weight:600}
+.mwe small{display:block;color:#ffffffa8;font-size:12px;margin-bottom:3px}.mwe .mwv{grid-column:1/-1}
+.mie{margin:10px 0 0}.mwe>div{min-width:0}.mwe .nm{width:100%;min-width:0;box-sizing:border-box}
 .mwe{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin:10px 0}.mwe b{grid-column:1/-1;color:#ffffffc7}
 </style><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
@@ -563,7 +566,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.9.1';
+const APP_VERSION='1.10.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -833,27 +836,31 @@ function nextTask(){const a=[...document.querySelectorAll('.it>label>input')].fi
 let MI={k:'',t:0};
 const tmr=()=>{const d=new Date();d.setDate(d.getDate()+1);return ymd(d)};
 const mAt=(k,t)=>{const [h,m]=t.split(':').map(Number),d=new Date(k+'T00:00');d.setHours(h,m,0,0);return d};
-const t12=(k,t)=>mAt(k,t).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+const t12=(k,t)=>{const [h,m]=t.split(':').map(Number);return ((h+11)%12+1)+':'+String(m).padStart(2,'0')+(h<12?'am':'pm')};
+const addM=(t,n)=>{const [h,m]=t.split(':').map(Number),x=h*60+m+n;return String(Math.floor(x/60)%24).padStart(2,'0')+':'+String(x%60).padStart(2,'0')};
 function cdTxt(k,t){if(!t)return '';const ms=mAt(k,t)-Date.now();if(ms<=0)return 'The Mass has started';const s=Math.floor(ms/1e3),dd=Math.floor(s/86400),hh=Math.floor(s%86400/3600),mm=Math.floor(s%3600/60),ss=s%60;return 'Starts in '+(dd?dd+' d ':'')+(hh||dd?hh+' h ':'')+(mm||hh||dd?mm+' min ':'')+ss+' sec'}
 const WD=[1,2,3,4,5],WK=w=>'2000-01-0'+(2+w);
 async function loadMI(force){if(!sbOK())return;const key=S.ch;if(!force&&MI.k==key&&Date.now()-MI.t<60000)return;MI={k:key,t:Date.now()};
-try{const {data,error}=await sb.from('mass_info').select('day,venue,mtime').eq('chapel',S.ch).in('day',['2000-01-01',...WD.map(WK)]);if(error||!data)return;
-const m={w:{},df:null};data.forEach(x=>{const o={v:x.venue||'',t:(x.mtime||'').slice(0,5)};if(x.day=='2000-01-01')m.df=o;else m.w[+x.day.slice(-1)-2]=o});
+try{const q=c=>sb.from('mass_info').select(c).eq('chapel',S.ch).in('day',['2000-01-01',...WD.map(WK)]);let r=await q('day,venue,mtime,etime');if(r.error&&/etime/i.test(r.error.message||''))r=await q('day,venue,mtime');const {data,error}=r;if(error||!data)return;
+const m={w:{},df:null};data.forEach(x=>{const o={v:x.venue||'',t:(x.mtime||'').slice(0,5),e:(x.etime||'').slice(0,5)};if(x.day=='2000-01-01')m.df=o;else m.w[+x.day.slice(-1)-2]=o});
 const old=JSON.stringify((S.mi||{})[S.ch]||null);(S.mi=S.mi||{})[S.ch]=m;if(JSON.stringify(m)!=old){sv();if(S.tab=='home')R()}}catch(e){}}
-function miW(w){const m=(S.mi||{})[S.ch]||{},o=(m.w||{})[w]||{},d=m.df||{};return{v:o.v||d.v||S.ch+' Chapel',t:o.t||d.t||'',own:o}}
+function miW(w){const m=(S.mi||{})[S.ch]||{},o=(m.w||{})[w]||{},d=m.df||{},t=o.t||d.t||'',e=o.e||d.e||'';return{v:o.v||d.v||S.ch+' Chapel',t,e:e||(t?addM(t,30):''),est:!e,own:o}}
 async function miSaveW(){if(!sbOK()||!isLead()){await popup('Not saved','Connect to the internet and sign in as the priest or founder to save this.',[['OK']]);return}
-const rows=WD.map(w=>({day:WK(w),chapel:S.ch,venue:(($('#mv'+w)||{}).value||'').trim().slice(0,80)||null,mtime:($('#mt'+w)||{}).value||null})),{error}=await sb.from('mass_info').upsert(rows,{onConflict:'day,chapel'});
-if(error){await popup('Could not save',error.message+'. If this mentions mass_info, run patch6.sql in Supabase first.',[['OK']]);return}await loadMI(true);R();await popup('Saved','The Monday to Friday Mass schedule for '+S.ch+' was saved.',[['OK']])}
+const rows=WD.map(w=>({day:WK(w),chapel:S.ch,venue:(($('#mv'+w)||{}).value||'').trim().slice(0,80)||null,mtime:($('#mt'+w)||{}).value||null,etime:($('#me'+w)||{}).value||null}));
+const bad=WD.find(w=>{const r=rows[w-1];return r.mtime&&r.etime&&r.etime<=r.mtime});if(bad){await popup('Check the times',DN[bad]+': the end time must be after the start time.',[['OK']]);return}
+let {error}=await sb.from('mass_info').upsert(rows,{onConflict:'day,chapel'}),note='';
+if(error&&/etime/i.test(error.message||'')){({error}=await sb.from('mass_info').upsert(rows.map(({etime,...r})=>r),{onConflict:'day,chapel'}));note=' End times were not saved yet. Run patch7.sql in Supabase, then save again.'}
+if(error){await popup('Could not save',error.message+'. If this mentions mass_info, run patch6.sql in Supabase first.',[['OK']]);return}await loadMI(true);R();await popup('Saved','The Monday to Friday Mass schedule for '+S.ch+' was saved.'+note,[['OK']])}
 function nextMass(){const now=new Date();for(let i=0;i<8;i++){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i),w=d.getDay();if(w<1||w>5)continue;const k=ymd(d),md=mday(k),mass=md.m=='mass'||(md.m=='break'&&w==3),e=miW(w);if(!mass||!e.t)continue;const ms=mAt(k,e.t)-now;
-if(ms<=0){if(i==0&&-ms<5400e3)return{k,w,t:e.t,v:e.v,label:"Today's Mass",s:1};continue}
-return{k,w,t:e.t,v:e.v,label:i==0?"Today's Mass":i==1?"Tomorrow's Mass":DN[w]+"'s Mass",s:0}}return null}
-function mEdit(){const m=(S.mi||{})[S.ch]||{},df=m.df||{};return `<details class=mie><summary>Edit weekly schedule</summary>`+WD.map(w=>{const o=miW(w).own||{};return `<div class=mwe><b>${DN[w]}</b><input class=nm type=time id=mt${w} value="${esc(o.t||df.t||'')}" aria-label="${DN[w]} Mass time"><input class=nm id=mv${w} maxlength=80 value="${esc(o.v||'')}" placeholder="${esc(df.v||S.ch+' Chapel')}" aria-label="${DN[w]} Mass venue"></div>`}).join('')+`<button class=pr data-mw=1>Save weekly schedule</button></details>`}
+if(ms<=0){if(i==0&&e.e&&mAt(k,e.e)>now)return{k,w,t:e.t,e:e.e,v:e.v,label:"Today's Mass",s:1};continue}
+return{k,w,t:e.t,e:e.e,v:e.v,label:i==0?"Today's Mass":i==1?"Tomorrow's Mass":DN[w]+"'s Mass",s:0}}return null}
+function mEdit(){const m=(S.mi||{})[S.ch]||{},df=m.df||{};return `<details class=mie><summary>Edit weekly schedule</summary><p class=mnt>Leave End empty to use 30 minutes after the start. End times are estimates.</p>`+WD.map(w=>{const o=miW(w).own||{};return `<div class=mwe><b>${DN[w]}</b><div><small>Start</small><input class=nm type=time id=mt${w} value="${esc(o.t||df.t||'')}" aria-label="${DN[w]} Mass start time"></div><div><small>End (estimate)</small><input class=nm type=time id=me${w} value="${esc(o.e||'')}" aria-label="${DN[w]} Mass end time"></div><div class=mwv><small>Venue</small><input class=nm id=mv${w} maxlength=80 value="${esc(o.v||'')}" placeholder="${esc(df.v||S.ch+' Chapel')}" aria-label="${DN[w]} Mass venue"></div></div>`}).join('')+`<button class=pr data-mw=1>Save weekly schedule</button></details>`}
 function mcard(){const now=new Date(),td=ymd(now),lead=sbOK()&&isLead(),nx=nextMass();
 let h=`<div class=mi id=mci data-k="${td}"><div class=mih>${ICO.cal}<b>Monday to Friday Mass</b></div>`;
-h+=nx?`<div class=mnx><small>${esc(nx.label)}</small><b>${esc(nx.v)}</b><span>${DN[nx.w]}, ${esc(t12(nx.k,nx.t))}</span></div><div class=mcd id=mcd data-k="${nx.k}" data-t="${nx.t}" data-s="${nx.s}">${cdTxt(nx.k,nx.t)}</div>`:`<p class=mnt>No Mass time is set yet.${lead?'':' The priest or founder will set it.'}</p>`;
-h+=`<div class=mwk>`+WD.map(w=>{const e=miW(w);return `<div class="mr2${now.getDay()==w?' on':''}"><span>${DN[w]}</span><b>${e.t?esc(t12(td,e.t)):'Not set'}</b><em>${esc(e.v)}</em></div>`}).join('')+`</div>`;
+h+=nx?`<div class=mnx><small>${esc(nx.label)}</small><b>${esc(nx.v)}</b><span>${DN[nx.w]}, ${esc(t12(nx.k,nx.t))} - ${esc(t12(nx.k,nx.e))}</span></div><div class=mcd id=mcd data-k="${nx.k}" data-t="${nx.t}" data-e="${nx.e}" data-s="${nx.s}">${cdTxt(nx.k,nx.t)}</div>`:`<p class=mnt>No Mass time is set yet.${lead?'':' The priest or founder will set it.'}</p>`;
+h+=`<div class=mwk><div class="mr2 mh"><span>Day</span><b>Time</b><em>Venue</em></div>`+WD.map(w=>{const e=miW(w);return `<div class="mr2${now.getDay()==w?' on':''}"><span>${DN[w]}</span><b>${e.t?esc(t12(td,e.t))+' -<br>'+esc(t12(td,e.e)):'Not set'}</b><em>${esc(e.v)}</em></div>`}).join('')+`</div><p class=mnt>End times are estimates.</p>`;
 return h+(lead?mEdit():'')+'</div>'}
-setInterval(()=>{const e=$('#mcd');if(e){const k=e.dataset.k,t=e.dataset.t,x=cdTxt(k,t);if(e.textContent!=x)e.textContent=x;const ms=mAt(k,t)-Date.now();if((e.dataset.s=='0'&&ms<=0)||(e.dataset.s=='1'&&-ms>5400e3))R()}const c=$('#mci');if(c&&c.dataset.k!=ymd(new Date())&&S.tab=='home')R()},250);
+setInterval(()=>{const e=$('#mcd');if(e){const k=e.dataset.k,t=e.dataset.t,x=cdTxt(k,t);if(e.textContent!=x)e.textContent=x;const ms=mAt(k,t)-Date.now();if((e.dataset.s=='0'&&ms<=0)||(e.dataset.s=='1'&&Date.now()>=mAt(k,e.dataset.e)))R()}const c=$('#mci');if(c&&c.dataset.k!=ymd(new Date())&&S.tab=='home')R()},250);
 function home(){loadMI();if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
 return `<div class=hm><div class=hm-top><div><small class=hm-k>CHAPEL IN-CHARGE</small><h2 class=hm-g>${esc(HG)}${n?',<br>'+n:''}</h2><p class=hm-s>${esc(TAGLINE)}</p></div><span class=hm-ic aria-hidden="true">${ICO.church}</span></div>`
 +`<div class=vod>${ICO.book}<small>Verse of the Day</small><p>&ldquo;${esc(v[1])}&rdquo;</p><b class=vr>${esc(v[0])} &middot; KJV</b></div>`
