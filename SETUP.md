@@ -22,6 +22,7 @@ Notes
 - Add all later users from the admin panel (not the Supabase dashboard).
 - The user limit counts normal users only; admins are not counted.
 - If `SB` stays `null`, the app works as before (no login).
+- Optional: run `patch6.sql` so Users Status (priest and founder) can show the time each task was ticked.
 - The service worker cache is now `chapel-v11`, so installed copies update on next online open.
 
 
