@@ -400,7 +400,7 @@ nav .rdot{top:6px;right:auto;left:calc(50% + 8px);border-color:var(--card,#24212
 .udu:active{transform:scale(.99)}
 .udm{flex:1;min-width:0}.udm b{display:block;font-weight:650;line-height:1.25;overflow-wrap:anywhere}.udm small{line-height:1.4}
 .udm .pb{height:7px;margin:9px 0 6px}
-.udn{flex:none;text-align:right}.udn b{display:block;font-size:23px;line-height:1;letter-spacing:-.02em}.udn small{font-size:11px;margin-top:4px}
+.udn{flex:none;text-align:right}.udn b.udi{font-size:14px;font-weight:650;letter-spacing:0;color:var(--mut)}.udn b{display:block;font-size:23px;line-height:1;letter-spacing:-.02em}.udn small{font-size:11px;margin-top:4px}
 .dot.am::after{background:var(--gd)}
 .udc{margin:6px 0 4px}.udc div{display:flex;align-items:center;gap:10px;margin:11px 0;font-size:14px}.udc span{flex:0 0 118px}.udc .pb{flex:1;margin:0;height:8px}.udc b{flex:0 0 28px;text-align:right}
 .ur b{white-space:nowrap;font-size:13px}
@@ -595,7 +595,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.13.0';
+const APP_VERSION='1.13.1';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -969,6 +969,7 @@ return sec('Theme','Light, dark, or follow your phone.',`<div class=seg>${TH.map
 const acct=()=>acct0(),chatv=()=>'<div id=chat></div>';
 let HL='',HS='',RES=[];
 function idx(){const f=O().f,L=[],add=(t,x,sec,tab,pt,hl,sc,st)=>L.push({t,x:x||'',sec,tab,pt,hl:hl||t,sc,st});
+if(isLd()){[['Users Status','Who did how many tasks today, in 7 days or 30 days','ustat'],['Users Data','Profile and information of every user','udata'],['Mass Schedule','Mass times for this month and the next','mass'],['Announcements','News from the priest and founder','ann'],['Crew note','Write a note for the crew, in Users Status','ustat'],['Language of the Mass','Set the language of the Mass, in Users Status','ustat'],['Pocket Prayer','Prayers and hymns','pray'],['Notifications','Turn on push notifications on this device, in Settings','set'],['App updates','Check for a new version of the app','updates']].concat(ME&&ME.is_admin?[['Admin panel','Add and edit users, set the user limit','adm']]:[]).forEach(x=>add(x[0],x[1],'Priest and founder',x[2]))}
 DAILY.forEach(x=>add(x[0],x[1],'Daily cleaning','chap',0,0,'j-clean',1));
 for(const i in WEEK)add(WEEK[i][0],WEEK[i][1],'Weekly, '+DN[i],'chap',0,0,'j-plan',0);
 MON.forEach(x=>add(x.t,x.x(S.ch),'Monthly, '+x.l,'chap',0,0,'j-plan',0));
@@ -979,9 +980,10 @@ const find=()=>`<div class=ctl><input class=nm id=q type=search placeholder="Sea
 const HIC='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1M3.5 4v4.5H8M12 7.5V12l3 2"/></svg>';
 let RT=0;
 const addRs=q=>{q=String(q||'').trim().replace(/["'<>&]/g,'').slice(0,40);if(q.length<2)return;S.rs=[q,...(S.rs||[]).filter(x=>x.toLowerCase()!=q.toLowerCase())].slice(0,8);sv()};
-function sugg(){const w=new Date(S.date+'T00:00').getDay(),b=['Chalice','Cruets','Candles','Vestments','Altar linen','Microphone','Tabernacle','Hosts','Benediction','Rags','Sacristy','Lectionary'],t=WEEK[w]?[WEEK[w][0]]:[];return [...t,...b].filter((x,i,a)=>a.indexOf(x)==i).slice(0,10)}
+function sugg(){if(isLd()){const a=['Users Status','Users Data','Mass Schedule','Announcements','Crew note','Language of the Mass','Pocket Prayer','Notifications','App updates'];if(ME&&ME.is_admin)a.splice(2,0,'Admin panel');return a}
+const w=new Date(S.date+'T00:00').getDay(),b=['Chalice','Cruets','Candles','Vestments','Altar linen','Microphone','Tabernacle','Hosts','Benediction','Rags','Sacristy','Lectionary'],t=WEEK[w]?[WEEK[w][0]]:[];return [...t,...b].filter((x,i,a)=>a.indexOf(x)==i).slice(0,10)}
 function res(){const q=(S.q||'').trim().toLowerCase(),el=$('#res');if(!el)return;
-if(!q){const rs=S.rs||[];el.innerHTML=(rs.length?`<div class=rsh><b>Recent searches</b><button class=lk0b data-sqc=1>Clear</button></div><div class=chp>${rs.map(x=>`<button data-sq="${esc(x)}">${HIC}${esc(x)}</button>`).join('')}</div>`:'')+`<div class=rsh><b>Suggestions</b></div><div class=chp>${sugg().map(x=>`<button data-sq="${esc(x)}">${esc(x)}</button>`).join('')}</div><p class=nt style="margin-top:14px">Tap a suggestion or type above. You can search tasks, checklists, supplies and the weekly and monthly plan.</p>`;return}
+if(!q){const rs=S.rs||[];el.innerHTML=(rs.length?`<div class=rsh><b>Recent searches</b><button class=lk0b data-sqc=1>Clear</button></div><div class=chp>${rs.map(x=>`<button data-sq="${esc(x)}">${HIC}${esc(x)}</button>`).join('')}</div>`:'')+`<div class=rsh><b>Suggestions</b></div><div class=chp>${sugg().map(x=>`<button data-sq="${esc(x)}">${esc(x)}</button>`).join('')}</div><p class=nt style="margin-top:14px">Tap a suggestion or type above. ${isLd()?'You can search the screens you use, the chapel checklists and supplies.':'You can search tasks, checklists, supplies and the weekly and monthly plan.'}</p>`;return}
 RES=idx().filter(x=>(x.t+' '+x.x).toLowerCase().includes(q)).slice(0,40);
 el.innerHTML=RES.length?RES.map((x,i)=>`<button class=su data-f="${i}"><span>${esc(x.t)}<small>${esc(x.sec+(x.x?': '+x.x.slice(0,80):''))}</small></span></button>`).join(''):'<p class=nt>Nothing found.</p>'}
 function hlGo(){if(!HL)return;const k=HL,sc=HS;HL='';HS='';setTimeout(()=>{const q=r=>[...r.querySelectorAll('.it,.pl,.su')].find(n=>n.textContent.includes(k)),e=(sc&&$('#'+sc)&&q($('#'+sc)))||q(document);if(e){const d=e.querySelector('details');if(d)d.open=true;for(let p=e.parentElement&&e.parentElement.closest('details');p;p=p.parentElement&&p.parentElement.closest('details'))p.open=true;e.scrollIntoView({block:'center'});e.classList.add('hl')}},60)}
@@ -996,7 +998,7 @@ function R(){{const ld=isLd();if(ld!==NL){NL=ld;iconify()}}applyTheme();$('main'
 function shift(n){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()+n);S.date=ymd(d);S.sx=null}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset;if(a.up){S.up=a.up;sv();R();return}if(a.udr){UD.t=0;UD.k='';R();return}if(a.ud!=null){UDU=a.ud;if(a.ud&&S.tab=='ustat')UB='ustat';S.tab='udata';R();scrollTo(0,0);return}if(a.w){wz(a.w,a.i);return}
 if(a.mm!=null){MM.mo=+a.mm;MM.sel='';R();return}if(a.yr!=null){MM.y+=+a.yr;MM.sel='';MM.t=0;R();return}if(a.md){const y=scrollY;MM.sel=a.md;R();scrollTo(0,y);return}if(a.an){a.an=='post'?annPost():annDel(a.i);return}if(a.pr!=null){const i=+a.pr,was=PR;PR=PR==i?-1:i;R();const e=PR>=0?$('.yb.on'):$('.yb[data-pr="'+i+'"]');if(e)e.scrollIntoView({block:PR>=0?'start':'center'});return}if(a.pl!=null){S.pl=a.pl;sv();R();return}if(a.mw){miSaveW();return}if(a.sq!=null){S.q=a.sq;const i=$('#q');if(i)i.value=a.sq;addRs(a.sq);res();return}if(a.sqc){S.rs=[];sv();res();return}if(a.nx){nextTask();return}if(a.hd){S.hd=S.hd?0:1;sv();R();return}if(a.u){a.u=='go'?goUpd():chkUpd(true);return}if(a.sp){const i=$('#'+a.sp);if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'👁':'🙈'}return}if(a.lg){savePlan({lang:a.lg});return}if(a.x=='pnote'){savePlan({note:($('#pn')||{}).value||''});return}if(a.x=='pon'){pushOn();return}if(a.x=='poff'){pushOff();return}if(a.sh!=null){S.th=a.sh;const r=document.documentElement;if(a.sh)r.dataset.theme=a.sh;else delete r.dataset.theme;sv();R();return}if(a.st){S.tm=a.st=='Auto'?'auto':a.st;sv();R();return}if(a.sl){S.ly=a.sl;sv();R();return}if(a.x){acctAct(a,b);return}if(a.c){chatAct(a);return}
-let K=0;if(a.go){S.date=a.go;S.tab='chap';S.sx=null;S.vw=''}else if(a.f!=null){addRs(S.q);const x=RES[+a.f];S.tab=x.tab;if(x.pt)S.pt=x.pt;if(x.st!=null){S.vw=x.st=='sup'?'sup':'';S.sx=x.st=='sup'?null:x.st}HL=x.hl;HS=x.sc||''}else if(a.tab){if(a.tab=='pray'&&S.tab!='pray')PR=-1;if(a.tab=='udata'){UDU='';UB='home'}if(a.tab=='chap'){S.vw='';if(S.tab!='chap')S.sx=null}if((a.tab=='set'||a.tab=='chat')&&!['set','chat','updates'].includes(S.tab))PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
+let K=0;if(a.go){S.date=a.go;S.tab='chap';S.sx=null;S.vw=''}else if(a.f!=null){addRs(S.q);const x=RES[+a.f];S.tab=x.tab;if(x.tab=='udata'){UDU='';UB='home'}if(x.tab=='adm')admLoad();if(x.pt)S.pt=x.pt;if(x.st!=null){S.vw=x.st=='sup'?'sup':'';S.sx=x.st=='sup'?null:x.st}HL=x.hl;HS=x.sc||''}else if(a.tab){if(a.tab=='pray'&&S.tab!='pray')PR=-1;if(a.tab=='udata'){UDU='';UB='home'}if(a.tab=='chap'){S.vw='';if(S.tab!='chap')S.sx=null}if((a.tab=='set'||a.tab=='chat')&&!['set','chat','updates'].includes(S.tab))PT=S.tab;S.tab=a.tab=='chat'&&S.tab=='chat'?(PT||'home'):a.tab}else if(a.pt){S.pt=a.pt;K=1}else if(a.su!=null){S.u[a.su]=((S.u[a.su]||0)+1)%3;K=1}
 else if(a.a=='prev')shift(-1);else if(a.a=='next')shift(1);else if(a.a=='now'){S.date=ymd(new Date());S.sx=null}else if(a.a=='exit')S.tab=PT||'home';else if(a.a=='tmr'){const d=new Date();d.setDate(d.getDate()+1);S.date=ymd(d);S.tab='chap';S.pt='mass';S.sx=null;S.vw=''}else if(a.a=='fin')S.fin[S.date]=1;
 else if(a.a=='reset'){if(confirm('Clear all checkmarks for this day?')){S.d[S.date]={};K=1}}
 else if(a.a=='share'){const t='Chapel restock list:\n'+SUP.map((s,i)=>S.u[i]>0?'- '+s+' ('+ST[S.u[i]]+')':'').filter(Boolean).join('\n');if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t);return}
@@ -1028,6 +1030,7 @@ fetch('ordo.json').then(x=>x.ok?x.json():null).then(j=>{if(j){ORDO=j;for(const k
 /* ---- Users Status and Users Data: how each user is doing with their tasks (priest and founder only) ---- */
 let UD={k:'',t:0,rows:[],busy:false,err:''},UDU='',UB='home',NL=null;
 const isLd=()=>!!(SB&&ME&&isLead());
+const isLU=u=>RLS(u).some(r=>r=='priest'||r=='founder');
 async function udLoad(){if(!sbOK()||!isLead()||UD.busy)return;UD.busy=true;const c0=S.ch,d=new Date();d.setDate(d.getDate()-29);const from=ymd(d),rows=[];let err='';
 try{for(let i=0;i<8;i++){const {data,error}=await sb.from('task_done').select('*').eq('chapel',c0).gte('day',from).order('day',{ascending:false}).range(i*1000,i*1000+999);if(error)throw error;rows.push(...(data||[]));if(!data||data.length<1000)break}}catch(e){err=(e&&e.message)||'Something went wrong.'}
 if(!err)UD.rows=rows;UD.err=err;UD.k=c0;UD.t=Date.now();UD.busy=false;if(S.tab=='ustat'||S.tab=='udata')R()}
@@ -1069,10 +1072,12 @@ const bk=UB=='ustat'?['ustat','Users Status']:['home','Home'];
 let h=`<button class="lk bk" data-tab="${bk[0]}">&lsaquo; ${bk[1]}</button><h2 class=ph>Users Data</h2><p class=nt>Profiles and task records for everyone in the app.</p>`+perBar();const st=udState();if(st)return h+st;
 const c=udCalc(),ids=Object.keys(MEM).sort((a,b)=>(MEM[a].name||'').localeCompare(MEM[b].name||''));
 return h+`<div class=udl>${ids.map(i=>{const u=MEM[i],s=c.by[i]||udEmpty(i),info=[u.course,u.section,u.year?yl(u.year):''].filter(Boolean).join(' · ');
-return `<button class=udu data-ud="${esc(i)}">${av(u,42)}<span class=udm><b>${esc(u.name||u.username||'Unknown')}</b><small>${esc(RLS(u).map(k=>RS[k]).join(', ')||'No role yet')}</small>${info?`<small>${esc(info)}</small>`:''}</span><span class=udn><b>${s.done}</b><small>${s.done==1?'task':'tasks'}</small></span></button>`}).join('')}</div>`}
+return `<button class=udu data-ud="${esc(i)}">${av(u,42)}<span class=udm><b>${esc(u.name||u.username||'Unknown')}</b><small>${esc(RLS(u).map(k=>RS[k]).join(', ')||'No role yet')}</small>${info?`<small>${esc(info)}</small>`:''}</span>${isLU(u)?`<span class=udn><b class=udi>Info</b></span>`:`<span class=udn><b>${s.done}</b><small>${s.done==1?'task':'tasks'}</small></span>`}</button>`}).join('')}</div>`}
 function udet(){const u=MEM[UDU]||{id:UDU,name:'Former member',username:''},per=(S.up||'7')=='today';
-let h=`<button class="lk bk" data-ud="">&lsaquo; All users</button><div class=udp>${av(u,84)}<h2 class=pn>${esc(u.name||u.username||'Unknown')}</h2>${u.username?`<small>@${esc(u.username)}</small>`:''}<div>${RLS(u).map(k=>`<i class=tg>${rlab(k)}</i>`).join('')}</div></div>`+perBar();
-const st=udState();if(st)return h+st;
+let h=`<button class="lk bk" data-ud="">&lsaquo; All users</button><div class=udp>${av(u,84)}<h2 class=pn>${esc(u.name||u.username||'Unknown')}</h2>${u.username?`<small>@${esc(u.username)}</small>`:''}<div>${RLS(u).map(k=>`<i class=tg>${rlab(k)}</i>`).join('')}</div></div>`;
+if(isLU(u)){const fd=RLS(u).includes('founder'),ab=[['Roles',rtxt(u)||'Not assigned'],['Course',u.course||'Not set'],...(fd?[['Current status',u.status||'Not set']]:[['Section',u.section||'Not set'],['Year level',yl(u.year)]])];
+return h+sec('About','',ab.map(([a,b])=>`<div class=ab><span>${a}</span><b>${esc(b)}</b></div>`).join(''))}
+h+=perBar();const st=udState();if(st)return h+st;
 const c=udCalc(),s=c.by[UDU]||udEmpty(UDU),sh=c.total?Math.round(100*s.done/c.total):0;
 h+=`<div class=st><div><b>${s.done}</b><small>Tasks done</small></div><div><b>${s.days.size}/${c.n}</b><small>Active days</small></div><div><b>${sh}%</b><small>Of the crew's tasks</small></div></div>`;
 const ab=[['Course',u.course],['Section',u.section],['Year level',u.year?yl(u.year):''],['Status',u.status],['Last active',s.done?udWhen(s,false):'No tasks in this period']].filter(x=>x[1]);
