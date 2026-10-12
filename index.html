@@ -389,6 +389,11 @@ nav .rdot{top:6px;right:auto;left:calc(50% + 8px);border-color:var(--card,#24212
 .mwe small{display:block;color:#ffffffa8;font-size:12px;margin-bottom:3px}.mwe .mwv{grid-column:1/-1}
 .mie{margin:10px 0 0}.mwe>div{min-width:0}.mwe .nm{width:100%;min-width:0;box-sizing:border-box}
 .mwe{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin:10px 0}.mwe b{grid-column:1/-1;color:#ffffffc7}
+/* ---- v1.12.0: Mass status ---- */
+.mr2{grid-template-columns:70px 58px 1fr 76px;gap:6px;font-size:12px}.mr2 em{text-align:left}.mr2 .stc{justify-self:end;text-align:right}
+.stp{display:inline-block;font-style:normal;font-size:11px;font-weight:700;line-height:1.2;padding:4px 8px;border-radius:999px;border:1px solid #ffffff3d;color:#ffffffb8;text-align:center}
+.stp.live{color:#70c99a;border-color:#70c99a;background:#70c99a24}.stp.wait{color:var(--gd,#d5b56d);border-color:var(--gd,#d5b56d)}.stp.end{color:#ffffffa8}.stp.no{color:#ffffff99;border-style:dashed}
+.mtd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 0;padding:8px 12px;border-radius:12px;background:#0003;font-size:14px}.mtd span{color:#ffffffd0}
 </style><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -579,7 +584,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.11.0';
+const APP_VERSION='1.12.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -868,10 +873,16 @@ function nextMass(){const now=new Date();for(let i=0;i<8;i++){const d=new Date(n
 if(ms<=0){if(i==0&&e.e&&mAt(k,e.e)>now)return{k,w,t:e.t,e:e.e,v:e.v,label:"Today's Mass",s:1};continue}
 return{k,w,t:e.t,e:e.e,v:e.v,label:i==0?"Today's Mass":i==1?"Tomorrow's Mass":DN[w]+"'s Mass",s:0}}return null}
 function mEdit(){const m=(S.mi||{})[S.ch]||{},df=m.df||{};return `<details class=mie><summary>Edit weekly schedule</summary><p class=mnt>Leave End empty to use 30 minutes after the start. End times are estimates.</p>`+WD.map(w=>{const o=miW(w).own||{};return `<div class=mwe><b>${DN[w]}</b><div><small>Start</small><input class=nm type=time id=mt${w} value="${esc(o.t||df.t||'')}" aria-label="${DN[w]} Mass start time"></div><div><small>End (estimate)</small><input class=nm type=time id=me${w} value="${esc(o.e||'')}" aria-label="${DN[w]} Mass end time"></div><div class=mwv><small>Venue</small><input class=nm id=mv${w} maxlength=80 value="${esc(o.v||'')}" placeholder="${esc(df.v||S.ch+' Chapel')}" aria-label="${DN[w]} Mass venue"></div></div>`}).join('')+`<button class=pr data-mw=1>Save weekly schedule</button></details>`}
+function mState(w,e,now){if(!e.t)return null;const dow=now.getDay(),off=dow>=1&&dow<=5?w-dow:(dow==6?w+2:w),d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+off),k=ymd(d),md=mday(k);
+if(md.m=='none'||(md.m=='break'&&w!=3))return['no','No Mass'];
+if(off<0)return['end','Ended'];if(off>0)return['wait','Not started yet'];
+const st=mAt(k,e.t),en=mAt(k,e.e||addM(e.t,30));return now<st?['wait','Not started yet']:now<en?['live','Happening now']:['end','Ended']}
+const stCell=(w,e,now)=>{const s=mState(w,e,now);return `<span class="stc">${s?`<i class="stp ${s[0]}">${s[1]}</i>`:'-'}</span>`};
+const tdLine=now=>{const w=now.getDay();if(w<1||w>5)return '';const s=mState(w,miW(w),now);return s?`<div class=mtd><span>Today's Mass</span><i class="stp ${s[0]}">${s[1]}</i></div>`:''};
 function mcard(){const now=new Date(),td=ymd(now),lead=sbOK()&&isLead(),nx=nextMass();
-let h=`<div class=mi id=mci data-k="${td}"><div class=mih>${ICO.cal}<b>Monday to Friday Mass</b></div>`;
+let h=`<div class=mi id=mci data-k="${td}"><div class=mih>${ICO.cal}<b>Monday to Friday Mass Schedule</b></div>${tdLine(now)}`;
 h+=nx?`<div class=mnx><small>${esc(nx.label)}</small><b>${esc(nx.v)}</b><span>${DN[nx.w]}, ${esc(t12(nx.k,nx.t))} - ${esc(t12(nx.k,nx.e))}</span></div><div class=mcd id=mcd data-k="${nx.k}" data-t="${nx.t}" data-e="${nx.e}" data-s="${nx.s}">${cdTxt(nx.k,nx.t)}</div>`:`<p class=mnt>No Mass time is set yet.${lead?'':' The priest or founder will set it.'}</p>`;
-h+=`<div class=mwk><div class="mr2 mh"><span>Day</span><b>Time</b><em>Venue</em></div>`+WD.map(w=>{const e=miW(w);return `<div class="mr2${now.getDay()==w?' on':''}"><span>${DN[w]}</span><b>${e.t?esc(t12(td,e.t))+' -<br>'+esc(t12(td,e.e)):'Not set'}</b><em>${esc(e.v)}</em></div>`}).join('')+`</div><p class=mnt>End times are estimates.</p>`;
+h+=`<div class=mwk><div class="mr2 mh"><span>Day</span><b>Time</b><em>Venue</em><span class="stc">Status</span></div>`+WD.map(w=>{const e=miW(w);return `<div class="mr2${now.getDay()==w?' on':''}"><span>${DN[w]}</span><b>${e.t?esc(t12(td,e.t))+' -<br>'+esc(t12(td,e.e)):'Not set'}</b><em>${esc(e.v)}</em>${stCell(w,e,now)}</div>`}).join('')+`</div><p class=mnt>End times are estimates.</p>`;
 return h+(lead?mEdit():'')+'</div>'}
 setInterval(()=>{const e=$('#mcd');if(e){const k=e.dataset.k,t=e.dataset.t,x=cdTxt(k,t);if(e.textContent!=x)e.textContent=x;const ms=mAt(k,t)-Date.now();if((e.dataset.s=='0'&&ms<=0)||(e.dataset.s=='1'&&Date.now()>=mAt(k,e.dataset.e)))R()}const c=$('#mci');if(c&&c.dataset.k!=ymd(new Date())&&S.tab=='home')R()},250);
 function home(){loadMI();if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
