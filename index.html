@@ -595,7 +595,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.13.1';
+const APP_VERSION='1.13.2';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -619,19 +619,20 @@ g.length?g.map(([k,l])=>`<div class=it><b>${l}</b><ul class=wn>${L[k].map(x=>`<l
 let PT='home',PUSH=false;
 const OS_ID='2ccab662-c10b-4db1-9bb4-6844bc11930e';
 window.OneSignalDeferred=window.OneSignalDeferred||[];
+let OS_ERR='';
 const osP=new Promise(res=>{OneSignalDeferred.push(async function(OneSignal){
 try{if(!localStorage.getItem('cic_os')){try{const r=await navigator.serviceWorker.getRegistration();const s=r&&await r.pushManager.getSubscription();if(s)await s.unsubscribe()}catch(e){}localStorage.setItem('cic_os','1')}
 const b=location.pathname.replace(/[^/]*$/,'');
 await OneSignal.init({appId:OS_ID,serviceWorkerPath:b.slice(1)+'sw.js',serviceWorkerParam:{scope:b},notifyButton:{enable:false}});res(OneSignal)}
-catch(e){res(null)}})});
-const os=()=>Promise.race([osP,new Promise(r=>setTimeout(()=>r(null),4000))]);
-async function osSync(){const O=await os();if(!O)return;
+catch(e){OS_ERR=(e&&e.message)||String(e);try{console.error('OneSignal init failed',e)}catch(_){}res(null)}})});
+const os=(ms=4000)=>Promise.race([osP,new Promise(r=>setTimeout(()=>r(null),ms))]);
+async function osSync(){const O=await osP;if(!O)return;
 try{if(CU&&ME&&!OFF){await O.login(CU.id);const R4=['crew','oratory','priest','founder'],on={},off=[];R4.forEach(r=>hasR(r)?on[r]='1':off.push(r));ME.is_admin?on.admin='1':off.push('admin');
 await O.User.addTags(on);if(off.length)await O.User.removeTags(off)}
 else if(!CU)await O.logout()}catch(e){}}
-async function pushState(){try{const O=await os();return !!(O&&O.Notifications.permission&&O.User.PushSubscription.optedIn)}catch(e){return false}}
+async function pushState(){try{const O=await os(8000);return !!(O&&O.Notifications.permission&&O.User.PushSubscription.optedIn)}catch(e){return false}}
 async function pushOn(){try{if(!sbOK()){alert('Connect to the internet and sign in first.');return}if(!('PushManager' in window)){alert('This browser does not support notifications.');return}
-const O=await os();if(!O){alert('Notifications could not load. Check your internet and try again.');return}
+const O=await os(20000);if(!O){alert('Notifications could not load.'+(OS_ERR?' ('+OS_ERR+')':' The notification service did not respond. Check your internet, turn off any ad blocker, then try again.'));return}
 await O.Notifications.requestPermission();
 if(!O.Notifications.permission){alert('Notifications are blocked. Allow them in your browser or phone settings.');return}
 await O.User.PushSubscription.optIn();await osSync();PUSH=await pushState();R()}
