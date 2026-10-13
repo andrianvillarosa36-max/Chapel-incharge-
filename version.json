@@ -1,1 +1,1 @@
-{"version":"1.14.0","date":"2026-10-13","notes":"You can now send photos and videos in the group chat.","new":["Photos and videos in chat: tap the picture button next to the message box, pick a photo or video, add a caption if you want, and send.","Tap a photo to see it full screen. Videos play right in the chat."],"changed":[]}
+{"version":"1.14.1","date":"2026-10-13","notes":"Fixes a bug that stopped the app from opening after the last update.","new":[],"changed":["Fixed the app getting stuck on the loading screen. Photos and videos in chat work the same as before."]}

@@ -601,7 +601,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.14.0';
+const APP_VERSION='1.14.1';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -674,15 +674,15 @@ if(gd)gd.hidden=!(n>0);if(g)g.setAttribute('aria-label',n>0?'Chat, new messages'
 if(hd)hd.hidden=!(annNew()>0&&S.tab!='home'&&S.tab!='ann')}
 async function load(){try{const {data}=await sb.from('messages').select('*').order('created_at',{ascending:false}).limit(100);MS=(data||[]).reverse()}catch(e){}if(S.seen==null&&MS.length){S.seen=MS[MS.length-1].created_at;sv()}badge();chatDraw()}
 /* ---- photos and videos in chat ---- */
-let PM={f:null,u:'',busy:false};const MU={},MAXV=25*1048576,MAXI=20*1048576;
+let MPV={f:null,u:'',busy:false};const MU={},MAXV=25*1048576,MAXI=20*1048576;
 async function shrink(f){try{const bm=await createImageBitmap(f,{imageOrientation:'from-image'}),sc=Math.min(1,1600/Math.max(bm.width,bm.height)),c=document.createElement('canvas');c.width=Math.round(bm.width*sc);c.height=Math.round(bm.height*sc);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return (await new Promise(r=>c.toBlob(r,'image/jpeg',.82)))||f}catch(e){return f}}
-function mpvDraw(){const p=$('#mpv');if(!p)return;if(!PM.f){p.hidden=true;p.innerHTML='';return}const v=PM.f.type.startsWith('video/');p.hidden=false;p.innerHTML=(v?`<video src="${PM.u}" muted playsinline preload="metadata"></video>`:`<img src="${PM.u}" alt="">`)+`<span>${esc(PM.f.name||'Selected file')}<small>${PM.busy?'Uploading...':(PM.f.size/1048576).toFixed(1)+' MB'}</small></span>`+(PM.busy?'':'<button class=x data-c=mrm aria-label="Remove">✕</button>')}
+function mpvDraw(){const p=$('#mpv');if(!p)return;if(!MPV.f){p.hidden=true;p.innerHTML='';return}const v=MPV.f.type.startsWith('video/');p.hidden=false;p.innerHTML=(v?`<video src="${MPV.u}" muted playsinline preload="metadata"></video>`:`<img src="${MPV.u}" alt="">`)+`<span>${esc(MPV.f.name||'Selected file')}<small>${MPV.busy?'Uploading...':(MPV.f.size/1048576).toFixed(1)+' MB'}</small></span>`+(MPV.busy?'':'<button class=x data-c=mrm aria-label="Remove">✕</button>')}
 async function pickMedia(f){if(!f)return;const v=f.type.startsWith('video/'),i=f.type.startsWith('image/');
 if(!v&&!i){await popup('Not supported','Choose a photo or a video.',[['OK']]);return}
 if(v&&f.size>MAXV){await popup('Video too large','Choose a video under 25 MB. Shorter clips upload faster.',[['OK']]);return}
 if(i&&f.size>MAXI){await popup('Photo too large','Choose a photo under 20 MB.',[['OK']]);return}
-if(PM.u)URL.revokeObjectURL(PM.u);PM={f,u:URL.createObjectURL(f),busy:false};mpvDraw()}
-function mpvClear(){if(PM.u)URL.revokeObjectURL(PM.u);PM={f:null,u:'',busy:false};mpvDraw()}
+if(MPV.u)URL.revokeObjectURL(MPV.u);MPV={f,u:URL.createObjectURL(f),busy:false};mpvDraw()}
+function mpvClear(){if(MPV.u)URL.revokeObjectURL(MPV.u);MPV={f:null,u:'',busy:false};mpvDraw()}
 async function upMedia(f){const v=f.type.startsWith('video/');let b=f,ct=f.type;
 if(!v&&f.type!='image/gif'){b=await shrink(f);if(b!==f)ct='image/jpeg'}
 const ext=v?(ct.includes('webm')?'webm':ct.includes('quicktime')?'mov':'mp4'):(ct=='image/png'?'png':ct=='image/gif'?'gif':ct=='image/webp'?'webp':'jpg'),
@@ -712,11 +712,11 @@ if(a.c=='mem'){const l=$('#gl');if(l)l.hidden=!l.hidden;return}
 if(a.c=='att'){const f=$('#mf');if(f)f.click();return}
 if(a.c=='mrm'){mpvClear();return}
 if(!sb||!ME||OFF)return;
-try{if(a.c=='send'){if(PM.busy)return;const i=$('#cin'),t=i.value.trim(),f=PM.f;if(!t&&!f)return;let up=null;
-if(f){PM.busy=true;mpvDraw();try{up=await upMedia(f)}catch(e){PM.busy=false;mpvDraw();await popup('Could not upload',(e&&e.message)||'Check your connection and try again.',[['OK']]);return}}
+try{if(a.c=='send'){if(MPV.busy)return;const i=$('#cin'),t=i.value.trim(),f=MPV.f;if(!t&&!f)return;let up=null;
+if(f){MPV.busy=true;mpvDraw();try{up=await upMedia(f)}catch(e){MPV.busy=false;mpvDraw();await popup('Could not upload',(e&&e.message)||'Check your connection and try again.',[['OK']]);return}}
 i.value='';FS=true;const row={text:t};if(up){row.media_path=up.path;row.media_type=up.type}
 const {error}=await sb.from('messages').insert(row);
-if(error){i.value=t;if(up)sb.storage.from('chat-media').remove([up.path]);if(f){PM.busy=false;mpvDraw()}await popup('Message not sent',String(error.message).includes('media_')?'Photos and videos are not set up yet. Run the media SQL patch in Supabase first.':'Check your internet connection and try again.',[['OK']])}
+if(error){i.value=t;if(up)sb.storage.from('chat-media').remove([up.path]);if(f){MPV.busy=false;mpvDraw()}await popup('Message not sent',String(error.message).includes('media_')?'Photos and videos are not set up yet. Run the media SQL patch in Supabase first.':'Check your internet connection and try again.',[['OK']])}
 else{if(f)mpvClear();load()}}
 else if(a.c=='del'){const m=MS.find(x=>String(x.id)==String(a.i));await sb.from('messages').delete().eq('id',a.i);if(m&&m.media_path)sb.storage.from('chat-media').remove([m.media_path]);load()}}
 catch(e){alert('Chat error: '+e.message)}}
