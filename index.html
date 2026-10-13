@@ -405,6 +405,12 @@ nav .rdot{top:6px;right:auto;left:calc(50% + 8px);border-color:var(--card,#24212
 .udc{margin:6px 0 4px}.udc div{display:flex;align-items:center;gap:10px;margin:11px 0;font-size:14px}.udc span{flex:0 0 118px}.udc .pb{flex:1;margin:0;height:8px}.udc b{flex:0 0 28px;text-align:right}
 .ur b{white-space:nowrap;font-size:13px}
 .udp{display:flex;flex-direction:column;align-items:center;text-align:center;margin:8px 0 4px}.udp .pn{margin:10px 0 0;color:var(--ink)}.udp .tg{margin:6px 3px 0}
+/* ---- v1.14.0: photos and videos in chat ---- */
+.att{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid var(--ln);background:var(--card);color:var(--ink);display:inline-flex;align-items:center;justify-content:center}.att svg{width:22px;height:22px}
+.mpv{display:flex;align-items:center;gap:10px;padding:8px 12px;border-top:1px solid var(--ln);background:var(--card)}.mpv[hidden]{display:none}.mpv img,.mpv video{width:56px;height:56px;object-fit:cover;border-radius:10px;flex:none}.mpv span{flex:1;min-width:0;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mpv small{display:block;color:var(--mut)}.mpv .x{font-size:18px;min-width:44px;min-height:44px}
+.mm{min-width:170px;min-height:110px;margin-bottom:4px;border-radius:12px;background:#0002;display:flex;align-items:center;justify-content:center;font-size:12px;opacity:.85}.mm[data-ok]{display:block;min-height:0;background:none;opacity:1;margin-bottom:0}
+.mm img,.mm video{display:block;width:100%;max-width:260px;max-height:340px;object-fit:cover;border-radius:12px}.mm video{background:#000}.mm img{cursor:zoom-in}
+.bb.hm{padding:6px}.bb.hm .tx{padding:6px 8px 2px;overflow-wrap:anywhere}.lbx{max-width:100%;max-height:92vh;border-radius:8px}
 </style><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script></head><body>
 <div id="sp"><div class="cr"><i></i><i></i></div><b>Chapel In-Charge</b><small>Cleaning and Preparation List</small><div class="spbar"><i id="spb"></i></div></div>
 <header><h1>Chapel In-Charge</h1><div><button data-tab="chat" aria-label="Chat" class="hb"><span id="ci">💬</span></button> <select id="ch"><option>CITE</option><option>SAC</option></select> <button data-tab="set" aria-label="Settings">⚙</button></div></header>
@@ -595,7 +601,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.13.2';
+const APP_VERSION='1.14.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -667,27 +673,52 @@ const sn=S.seen||'',n=S.tab=='chat'?0:MS.filter(x=>x.user_id!=CU.id&&x.created_a
 if(gd)gd.hidden=!(n>0);if(g)g.setAttribute('aria-label',n>0?'Chat, new messages':'Chat');
 if(hd)hd.hidden=!(annNew()>0&&S.tab!='home'&&S.tab!='ann')}
 async function load(){try{const {data}=await sb.from('messages').select('*').order('created_at',{ascending:false}).limit(100);MS=(data||[]).reverse()}catch(e){}if(S.seen==null&&MS.length){S.seen=MS[MS.length-1].created_at;sv()}badge();chatDraw()}
+/* ---- photos and videos in chat ---- */
+let PM={f:null,u:'',busy:false};const MU={},MAXV=25*1048576,MAXI=20*1048576;
+async function shrink(f){try{const bm=await createImageBitmap(f,{imageOrientation:'from-image'}),sc=Math.min(1,1600/Math.max(bm.width,bm.height)),c=document.createElement('canvas');c.width=Math.round(bm.width*sc);c.height=Math.round(bm.height*sc);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return (await new Promise(r=>c.toBlob(r,'image/jpeg',.82)))||f}catch(e){return f}}
+function mpvDraw(){const p=$('#mpv');if(!p)return;if(!PM.f){p.hidden=true;p.innerHTML='';return}const v=PM.f.type.startsWith('video/');p.hidden=false;p.innerHTML=(v?`<video src="${PM.u}" muted playsinline preload="metadata"></video>`:`<img src="${PM.u}" alt="">`)+`<span>${esc(PM.f.name||'Selected file')}<small>${PM.busy?'Uploading...':(PM.f.size/1048576).toFixed(1)+' MB'}</small></span>`+(PM.busy?'':'<button class=x data-c=mrm aria-label="Remove">✕</button>')}
+async function pickMedia(f){if(!f)return;const v=f.type.startsWith('video/'),i=f.type.startsWith('image/');
+if(!v&&!i){await popup('Not supported','Choose a photo or a video.',[['OK']]);return}
+if(v&&f.size>MAXV){await popup('Video too large','Choose a video under 25 MB. Shorter clips upload faster.',[['OK']]);return}
+if(i&&f.size>MAXI){await popup('Photo too large','Choose a photo under 20 MB.',[['OK']]);return}
+if(PM.u)URL.revokeObjectURL(PM.u);PM={f,u:URL.createObjectURL(f),busy:false};mpvDraw()}
+function mpvClear(){if(PM.u)URL.revokeObjectURL(PM.u);PM={f:null,u:'',busy:false};mpvDraw()}
+async function upMedia(f){const v=f.type.startsWith('video/');let b=f,ct=f.type;
+if(!v&&f.type!='image/gif'){b=await shrink(f);if(b!==f)ct='image/jpeg'}
+const ext=v?(ct.includes('webm')?'webm':ct.includes('quicktime')?'mov':'mp4'):(ct=='image/png'?'png':ct=='image/gif'?'gif':ct=='image/webp'?'webp':'jpg'),
+path=CU.id+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext,{error}=await sb.storage.from('chat-media').upload(path,b,{contentType:ct,cacheControl:'3600',upsert:false});if(error)throw error;return{path,type:v?'video':'image'}}
+async function signMedia(ps){const need=[...new Set(ps)].filter(p=>!MU[p]||MU[p].e<Date.now()+6e4);if(!need.length)return;try{const {data}=await sb.storage.from('chat-media').createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)MU[d.path]={u:d.signedUrl,e:Date.now()+3600e3}})}catch(e){}}
+async function fillMedia(){const els=[...document.querySelectorAll('#msgs .mm:not([data-ok])')];if(!els.length)return;await signMedia(els.map(e=>e.dataset.mp));const m=$('#msgs');
+els.forEach(e=>{const u=MU[e.dataset.mp];if(!u){e.textContent='Media unavailable';return}e.dataset.ok=1;e.innerHTML=e.dataset.mt=='video'?`<video src="${u.u}" controls playsinline preload="metadata"></video>`:`<img src="${u.u}" alt="Photo" data-zoom="${u.u}">`;const el=e.firstChild,st=()=>{if(m&&m.dataset.st=='1')m.scrollTop=m.scrollHeight};el.addEventListener('load',st);el.addEventListener('loadedmetadata',st)})}
+document.addEventListener('click',e=>{const i=e.target.closest&&e.target.closest('img[data-zoom]');if(!i)return;const o=document.createElement('div');o.className='mdl';o.style.padding='8px';o.innerHTML=`<img class=lbx src="${i.dataset.zoom}" alt="Photo">`;o.addEventListener('click',()=>o.remove());document.body.appendChild(o)});
 function chatDraw(){const el=$('#chat');if(!el)return;
 if(!SB){if(!$('#lm'))el.innerHTML=`<div id=lm class=ms></div><div class=ctl><input class=nm id=cin placeholder="Type a message" maxlength=1000><button class=su data-c=lsend>Send</button></div><p class=nt>Saved on this phone only until online chat is set up.</p>`;
 const m=$('#lm');m.innerHTML=S.lm.map((x,j)=>`<div class="mg me"><small>You, ${fmt(x.t)}</small>${esc(x.x)} <button class=x data-c=ldel data-i="${j}" aria-label="Delete">✕</button></div>`).join('')||'<p class=nt>No messages yet.</p>';m.scrollTop=m.scrollHeight;return}
 if(!ME||OFF){el.innerHTML='<p class=nt>Online chat needs an internet connection.</p>';return}
-if(!$('#msgs'))el.innerHTML=`<div class=gc><button class=gh data-c=mem><span class="dot on"><span class="av" style="width:40px;height:40px;font-size:18px">✝</span></span><span><b>Chapel Crew</b><small id=gs></small></span><i class=chev>▾</i></button><div id=gl class=gl hidden></div><div id=msgs class=gm></div><div class=gb><input class=nm id=cin placeholder="Message the crew" maxlength=1000 autocomplete=off><button class=snd data-c=send aria-label="Send">➤</button></div></div>`;
+if(!$('#msgs'))el.innerHTML=`<div class=gc><button class=gh data-c=mem><span class="dot on"><span class="av" style="width:40px;height:40px;font-size:18px">✝</span></span><span><b>Chapel Crew</b><small id=gs></small></span><i class=chev>▾</i></button><div id=gl class=gl hidden></div><div id=msgs class=gm></div><div id=mpv class=mpv hidden></div><div class=gb><button class=att data-c=att aria-label="Attach photo or video">${ICO.photo}</button><input type=file id=mf accept="image/*,video/*" hidden><input class=nm id=cin placeholder="Message the crew" maxlength=1000 autocomplete=off><button class=snd data-c=send aria-label="Send">➤</button></div></div>`;
 const ids=Object.keys(MEM),on=ids.filter(i=>ON.includes(i)||i==CU.id).length;$('#gs').textContent=ids.length+' member'+(ids.length==1?'':'s')+', '+on+' online';
 $('#gl').innerHTML=ids.sort((a,b)=>(ON.includes(b)-ON.includes(a))||(MEM[a].name||'').localeCompare(MEM[b].name||'')).map(i=>{const u=MEM[i],o=ON.includes(i)||i==CU.id;return `<div class=mr><span class="dot${o?' on':''}">${av(u,36)}</span><span><b>${esc(u.name||u.username)}${i==CU.id?' (You)':''}</b><small>${RLS(u).length?esc(rtxt(u)):'No role yet'}</small></span></div>`}).join('');
 const m=$('#msgs'),bot=m.scrollTop+m.clientHeight>=m.scrollHeight-60||FS||!m.dataset.i;let h='',pd='',pu='',pt=0;
 MS.forEach((x,i)=>{const me=x.user_id==CU.id,u=MEM[x.user_id]||{name:x.name,username:x.name},d=dl(x.created_at),ts=+new Date(x.created_at),nx=MS[i+1],f=d!=pd||x.user_id!=pu||ts-pt>3e5,l=!nx||nx.user_id!=x.user_id||dl(nx.created_at)!=d||new Date(nx.created_at)-ts>3e5;
-if(d!=pd)h+=`<div class=dv><span>${d}</span></div>`;
-h+=`<div class="rw${me?' me':''}${f?' f':''}">${me?'':`<div class=ra>${l?av(u,30):''}</div>`}<div class=bw>${!me&&f?`<small class=sn>${esc(u.name||'')}${RLS(u).length?', '+RLS(u).map(k=>RS[k]).join('/'):''}</small>`:''}<div class=bb>${esc(x.text||'')}${me||ME.is_admin?`<button class=x data-c=del data-i="${x.id}" aria-label="Delete">✕</button>`:''}</div>${l?`<small class=tt>${tm(x.created_at)}</small>`:''}</div></div>`;pd=d;pu=x.user_id;pt=ts});
+const db=me||ME.is_admin?`<button class=x data-c=del data-i="${x.id}" aria-label="Delete">✕</button>`:'';if(d!=pd)h+=`<div class=dv><span>${d}</span></div>`;
+h+=`<div class="rw${me?' me':''}${f?' f':''}">${me?'':`<div class=ra>${l?av(u,30):''}</div>`}<div class=bw>${!me&&f?`<small class=sn>${esc(u.name||'')}${RLS(u).length?', '+RLS(u).map(k=>RS[k]).join('/'):''}</small>`:''}${x.media_path?`<div class="bb hm"><div class=mm data-mp="${esc(x.media_path)}" data-mt="${x.media_type=='video'?'video':'image'}">Loading...</div>${x.text||db?`<div class=tx>${esc(x.text||'')}${db}</div>`:''}</div>`:`<div class=bb>${esc(x.text||'')}${db}</div>`}${l?`<small class=tt>${tm(x.created_at)}</small>`:''}</div></div>`;pd=d;pu=x.user_id;pt=ts});
 m.innerHTML=h||'<p class=nt style="text-align:center;margin-top:30px">No messages yet. Say hello to the crew.</p>';
-if(bot){m.scrollTop=m.scrollHeight;m.dataset.i=1;FS=false}
+m.dataset.st=bot?'1':'0';if(bot){m.scrollTop=m.scrollHeight;m.dataset.i=1;FS=false}fillMedia();
 if(S.tab=='chat'&&MS.length){S.seen=MS[MS.length-1].created_at;sv();badge()}}
 async function chatAct(a){
 if(a.c=='lsend'){const i=$('#cin'),t=i.value.trim();if(!t)return;i.value='';S.lm=[...S.lm,{x:t,t:Date.now()}].slice(-100);sv();chatDraw();return}
 if(a.c=='ldel'){S.lm.splice(+a.i,1);sv();chatDraw();return}
 if(a.c=='mem'){const l=$('#gl');if(l)l.hidden=!l.hidden;return}
+if(a.c=='att'){const f=$('#mf');if(f)f.click();return}
+if(a.c=='mrm'){mpvClear();return}
 if(!sb||!ME||OFF)return;
-try{if(a.c=='send'){const i=$('#cin'),t=i.value.trim();if(!t)return;i.value='';FS=true;const {error}=await sb.from('messages').insert({text:t});if(error){i.value=t;alert('Message not sent. Check your internet connection.')}else load()}
-else if(a.c=='del'){await sb.from('messages').delete().eq('id',a.i);load()}}
+try{if(a.c=='send'){if(PM.busy)return;const i=$('#cin'),t=i.value.trim(),f=PM.f;if(!t&&!f)return;let up=null;
+if(f){PM.busy=true;mpvDraw();try{up=await upMedia(f)}catch(e){PM.busy=false;mpvDraw();await popup('Could not upload',(e&&e.message)||'Check your connection and try again.',[['OK']]);return}}
+i.value='';FS=true;const row={text:t};if(up){row.media_path=up.path;row.media_type=up.type}
+const {error}=await sb.from('messages').insert(row);
+if(error){i.value=t;if(up)sb.storage.from('chat-media').remove([up.path]);if(f){PM.busy=false;mpvDraw()}await popup('Message not sent',String(error.message).includes('media_')?'Photos and videos are not set up yet. Run the media SQL patch in Supabase first.':'Check your internet connection and try again.',[['OK']])}
+else{if(f)mpvClear();load()}}
+else if(a.c=='del'){const m=MS.find(x=>String(x.id)==String(a.i));await sb.from('messages').delete().eq('id',a.i);if(m&&m.media_path)sb.storage.from('chat-media').remove([m.media_path]);load()}}
 catch(e){alert('Chat error: '+e.message)}}
 /* ---- Login, account panel, admin panel ---- */
 function gate(){let h;
@@ -857,7 +888,8 @@ chat:'<path d="M6 5h12a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6.5L7 20.5V17H6a3 3 0 0 1-
 users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.2 19.5c.7-3.1 2.9-4.9 5.8-4.9s5.1 1.8 5.8 4.9M16.2 5.6a3.2 3.2 0 0 1 0 5.8M17.5 14.9c2 .5 3.4 2.1 3.9 4.6"/>',
 chart:'<path d="M5 20v-6M12 20V5M19 20v-9"/><path d="M3 20.5h18"/>',
 sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
-x:'<path d="M6 6l12 12M18 6 6 18"/>'
+x:'<path d="M6 6l12 12M18 6 6 18"/>',
+photo:'<rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10.5" r="1.6"/><path d="m4.5 17.5 4.7-4.2 3.3 2.8 3-2.6 4 4"/>'
 }).map(([k,p])=>[k,`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`]));
 function iconify(){const ld=isLd();$('nav').innerHTML=[['home','home','Home'],ld?['ustat','users','Users Status']:['chap','church','Chapel'],['find','search','Search'],['acct','user','Account']].map(([t,i,l])=>`<button data-tab="${t}"><span>${ICO[i]}</span>${l}</button>`).join('');const c=$('#ci'),g=$('header [data-tab=set]');if(c)c.innerHTML=ICO.chat;if(g)g.innerHTML=ICO.sliders}
 const nwu=()=>!!(UP.live&&newerV(UP.live.version,APP_VERSION));
@@ -1011,6 +1043,7 @@ else if(t.dataset.s=='m'){O().a=0;O().m=t.value;R()}
 else if(t.dataset.s=='f'){O().a=0;O().f=t.checked?1:0;R()}
 else if(t.dataset.s=='c'){O().a=0;O().c=t.value;R()}
 else if(/^[ae]r_founder$/.test(t.id)){const q=t.id[0];$('#'+q+'sy').hidden=t.checked;$('#'+q+'st').hidden=!t.checked}
+else if(t.id=='mf'){pickMedia(t.files[0]);t.value=''}
 else if(t.id=='pf'){setAv(t.files[0])}
 else if(t.id=='ch'){S.ch=t.value;R()}
 else if(t.id=='rt'){S.rt=t.value;$('#ra').href=ics()}
