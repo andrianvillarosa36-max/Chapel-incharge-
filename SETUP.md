@@ -39,3 +39,18 @@ select cron.schedule('chapel-daily-check', '30 9 * * *', $$
 $$);
 ```
 (09:30 UTC is 5:30 PM in the Philippines.)
+
+
+## Sunday Mass language reminders (priest and founder)
+1. OneSignal dashboard > Settings > Keys & IDs: copy the **REST API Key** (the app uses the same App ID as in `index.html`).
+2. Supabase > Database > Extensions: turn on `pg_cron` and `pg_net`.
+3. Supabase > SQL Editor: paste all of `patch_lang_reminder.sql` and Run.
+4. In a new query, save your key (replace the text) and Run:
+   `insert into public.app_secrets (name, value) values ('onesignal_api_key', 'PASTE_YOUR_REST_API_KEY') on conflict (name) do update set value = excluded.value;`
+5. Test it: run `select public.lang_reminder('test', 0);` The priest and founder phones (with notifications turned on in Settings) get a test message.
+   To see OneSignal's answer: `select status_code, content::text from net._http_response order by created desc limit 1;`
+6. Times are Philippine time (Asia/Manila). Saturday (the day before Sunday): 8:00 AM, 12:00 PM, 7:00 PM. On Sunday itself: 4:00 AM and 5:00 AM. Saturday's Mass is always English, so nothing is sent for it. Nothing is sent once the language is set.
+
+
+## Monday to Friday Mass: priests
+Run `patch_weekday_priests.sql` once in the Supabase SQL Editor. It adds the three priests (Priest 1, 2 and 3), the priest for each weekday, and lets the priest and founder tick Chapel tasks.
