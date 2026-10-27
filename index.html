@@ -1300,7 +1300,7 @@ return `<button class=udu data-ud="${esc(u.id||s.id)}"><span class="dot${cl}">${
 function planCard(){const w=new Date(S.date+'T00:00').getDay(),p=PLAN[S.date]||{},wk=w==0,lang=wk?p.lang:LANGF[w];
 return sec('Message to the crew','The language of the Mass and a note for the selected day.',dbar()+`<div class="it wide"><div class=lg><span>Language of the Mass</span><b>${lang||'Not set yet'}</b></div>`+(wk?`<div class=seg>${['English','Bisaya','Latin'].map(l=>`<button data-lg="${l}" class="${p.lang==l?'on':''}">${l}</button>`).join('')}</div>`:'')+`<textarea class=nm rows=3 id=pn placeholder="Write a note for the crew">${esc(p.note||'')}</textarea><button class=pr data-x=pnote>Save note</button></div>`)}
 function ustat(){if(!isLd())return udNo();
-let h='<h2 class=ph>Users Status</h2><p class=nt>How the crew at '+esc(S.ch)+' is doing with their tasks.</p>'+perBar()+declCard();const st=udState();if(st)return h+st;
+let h='<h2 class=ph>Users Status</h2><p class=nt>How the crew at '+esc(S.ch)+' is doing with their tasks.</p>'+perBar();const st=udState();if(st)return h+st;
 const c=udCalc(),L=udRoster(c),act=L.filter(r=>r.s.done>0).length,per=(S.up||'7')=='today';let k;
 if(per){const [dn,tt]=udToday(c);k=[[tt?dn+'/'+tt:dn,'Tasks done'],[act+'/'+L.length,'Active crew'],[tt?tt-dn:'-','Still to do']]}else k=[[c.total,'Tasks done'],[act+'/'+L.length,'Active crew'],[c.days+'/'+c.n,'Active days']];
 h+=`<div class=st>${k.map(([b,l])=>`<div><b>${b}</b><small>${l}</small></div>`).join('')}</div>`;
