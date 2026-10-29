@@ -567,7 +567,7 @@ if(x=='next'){if(gOn()&&stepLeft(k)){WE=1;const f=$('#wf');if(f)f.innerHTML=wfoo
 else if(x=='back')S.sx=Math.max(0,k-1);
 else if(x=='go'){const j=+i;if(j>reach())return;S.sx=j}
 WE=0;sv();R();scrollTo(0,0)}
-function chap0(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
+function chap(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7),t=S.pt,f=o.f;
 FIN=S.date<=ymd(new Date())&&tIds().length>0&&tIds().every(i=>D()[i]);ORD=[];TT={};
 if(S.vw=='sup')return '<button class="lk bk" data-w=chk>‹ Back to checklist</button><div id=j-sup>'+sup()+'</div>'+tools();
 const rc=reach();if(S.sx==null)S.sx=gOn()?rc:0;if(S.sx>rc)S.sx=rc;
@@ -663,7 +663,7 @@ if(ME&&!OFF){await loadMem();await flushQ();await load();annSub();annLoad();ch=s
 else if(!navigator.onLine&&cch()){ME=cch();CU={id:ME.id};OFF=true}
 else cset(null);
 rdy=true;R();osSync()}
-const APP_VERSION='1.21.0';
+const APP_VERSION='1.20.0';
 let UP={chk:0,live:null,err:''};
 const newerV=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!=(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
 function popup(title,msg,btns){return new Promise(ok=>{const o=document.createElement('div');o.className='mdl';o.innerHTML=`<div class=mbx role=dialog aria-modal=true><b>${esc(title)}</b><p>${esc(msg)}</p><div class=ctl>${btns.map((b,i)=>`<button class="${b[1]||'pr'}" data-pop=${i}>${esc(b[0])}</button>`).join('')}</div></div>`;
@@ -710,34 +710,18 @@ function pushv(){if(!(SB&&ME))return '';const ok='PushManager' in window&&'servi
 return sec('Notifications',ok?(PUSH?'Notifications are on for this device.':'Get alerts from the priest, founder and admin.'):'This browser does not support notifications.',ok?`<button class=pr data-x=${PUSH?'poff':'pon'}>${PUSH?'Turn off notifications':'Turn on notifications'}</button>`:'')}
 let FIN=false,ORD=[],TT={},DW={},DT={},PLAN={},PK='';
 const RLS=u=>(u&&(u.roles&&u.roles.length?u.roles:u.role?[u.role]:[]))||[],rtxt=u=>RLS(u).map(rlab).join(', '),hasR=(...q)=>RLS(ME).some(x=>q.includes(x)),isLead=()=>hasR('priest','founder'),isCrew=()=>hasR('crew','oratory');
-let JOBS={},PH=[];const JL={cleaning:'Cleaning',preparation:'Preparation',closing:'Closing'};
-const jobOf=id=>/^d\d/.test(id)||id=='w'||/^mo/.test(id)?'cleaning':/^c\d/.test(id)?'closing':'preparation';
-const crewL=()=>Object.values(MEM).filter(m=>m&&RLS(m).includes('crew')).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''))||String(a.id).localeCompare(String(b.id)));
-function wkN(){const d=new Date(S.date+'T00:00');d.setDate(d.getDate()-(d.getDay()+6)%7);return Math.round(d.getTime()/6048e5)}
-function chIn(u){const i=crewL().findIndex(m=>m.id==u);return i<0?null:(i+wkN())%2?'SAC':'CITE'}
-function jobTxt(){const m=(CU&&JOBS[CU.id])||[],c=CU&&chIn(CU.id);return (m.length?' - '+m.map(j=>JL[j]).join(', '):'')+(c?' - in charge of '+c+' this week':'')}
-async function loadJobs(){if(!sbOK())return;try{const {data,error}=await sb.from('crew_jobs').select('user_id,jobs');if(error||!data)return;const m={};data.forEach(r=>m[r.user_id]=r.jobs||[]);JOBS=m}catch(e){}}
-function jobCard(){if(!SB||!ME||!CU||!sbOK())return '';const l=crewL();if(!l.length)return '';const nm=c=>{const m=l.find(x=>chIn(x.id)==c);return m?esc(m.name||'Crew'):'Nobody'},mine=JOBS[CU.id]||[],ld=isLead()||ME.is_admin;
-let h=`<div class="it wide"><b>In charge this week</b><small>CITE (main building): ${nm('CITE')}<br>SAC building: ${nm('SAC')}<br>The two crew swap chapels every week. When your chapel has no Mass, help with Mass preparation in the other one.</small>`;
-if(mine.length)h+=`<small>Your job: ${mine.map(j=>JL[j]).join(', ')}</small>`;
-if(ld)h+=`<small><b>Assign jobs</b> (no job selected means every task)</small>`+l.map(m=>`<div class=ctl><b style="flex:1 1 100%">${esc(m.name||'Crew')}</b>${Object.keys(JL).map(j=>`<button class="${(JOBS[m.id]||[]).includes(j)?'pr':'sc'}" data-jb="${m.id}|${j}">${JL[j]}</button>`).join('')}</div>`).join('');
-return h+'</div>'}
-document.addEventListener('click',async e=>{const b=e.target.closest&&e.target.closest('[data-jb]');if(!b)return;const [u,j]=b.dataset.jb.split('|'),old=JOBS[u],c=new Set(old||[]);c.has(j)?c.delete(j):c.add(j);JOBS[u]=[...c];R();
-const {error}=await sb.from('crew_jobs').upsert({user_id:u,jobs:JOBS[u]});if(error){JOBS[u]=old;R();await popup('Could not save',String(error.message).includes('crew_jobs')?'Jobs are not set up yet. Run patch_jobs.sql in Supabase first.':'Check your internet connection and try again.',[['OK']])}});
-document.addEventListener('change',e=>{const i=e.target.closest&&e.target.closest('[data-ph]');if(i){PH=PH.concat([...i.files]).slice(0,10);i.value='';R()}});
-function chap(){return jobCard()+chap0()}
-function perm(id){id=String(id).split('_')[0];if(!SB||!ME)return true;if(isLead())return true;if(!isCrew())return false;const j=jobOf(id),mj=JOBS[CU.id]||[];if(mj.length&&!mj.includes(j))return false;const c=chIn(CU.id);return !c||c==S.ch||j=='preparation'}
+function perm(id){id=String(id).split('_')[0];if(!SB||!ME)return true;return isCrew()||isLead()}
 function tIds(){const d=new Date(S.date+'T00:00'),w=d.getDay(),o=O(),n=Math.ceil(d.getDate()/7);return [...((o.m=='mass'||(o.m=='break'&&(w==0||w==3)))?DAILY.map((_,i)=>'d'+i):[]),...(WEEK[w]?['w']:[]),...MON.filter(x=>x.wd==w&&x.n==n).map((_,i)=>'mo'+i),...CLOSE.map((_,i)=>'c'+i),...(o.m=='mass'?PM(o.f).map((_,i)=>'Pmass'+i):[])]}
 const sbOK=()=>SB&&sb&&ME&&!OFF;
 async function pullDone(){if(!sbOK())return;try{const {data,error}=await sb.from('task_done').select('task,user_id,done_at').eq('day',S.date).eq('chapel',S.ch);if(error||!data)return;const d=D();Object.keys(d).forEach(k=>{if(!k.includes('_'))delete d[k]});DW={};DT={};data.forEach(x=>{d[x.task]=1;DW[x.task]=x.user_id;DT[x.task]=x.done_at});sv()}catch(e){}}
 async function loadPlan(){if(!sbOK())return;try{const {data}=await sb.from('day_plan').select('*').eq('day',S.date).maybeSingle();PLAN[S.date]=data||{}}catch(e){}}
-function syncView(){if(!sbOK()||(S.tab!='chap'&&S.tab!='ustat'))return;const k=S.tab+S.date+S.ch;if(k==PK)return;PK=k;Promise.all([S.tab=='chap'?pullDone():0,loadPlan(),loadJobs()]).then(()=>{PK=k;R()})}
-const rt=()=>{if(!sbOK())return;if(S.tab=='chap')Promise.all([pullDone(),loadPlan(),loadJobs()]).then(R);else if(S.tab=='mass')massLoad();else if(S.tab=='ustat'){loadPlan().then(R);udLoad()}else if(S.tab=='udata')udLoad()};
+function syncView(){if(!sbOK()||(S.tab!='chap'&&S.tab!='ustat'))return;const k=S.tab+S.date+S.ch;if(k==PK)return;PK=k;Promise.all([S.tab=='chap'?pullDone():0,loadPlan()]).then(()=>{PK=k;R()})}
+const rt=()=>{if(!sbOK())return;if(S.tab=='chap')Promise.all([pullDone(),loadPlan()]).then(R);else if(S.tab=='mass')massLoad();else if(S.tab=='ustat'){loadPlan().then(R);udLoad()}else if(S.tab=='udata')udLoad()};
 async function pushDone(id,on){if(!SB||!ME)return;const r={day:S.date,chapel:S.ch,task:id};try{if(!sb||OFF)throw {};const q=on?await sb.from('task_done').upsert(r,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(r);if(q.error)throw q.error}catch(e){if(e&&e.code)return;S.qu=[...(S.qu||[]),{...r,on}];sv()}}
 async function flushQ(){const q=S.qu||[];if(!q.length||!sbOK())return;S.qu=[];sv();for(const x of q){const {on,...k}=x;try{on?await sb.from('task_done').upsert(k,{onConflict:'day,chapel,task',ignoreDuplicates:true}):await sb.from('task_done').delete().match(k)}catch(e){}}}
 async function savePlan(p){if(!sbOK()||!isLead()){alert('Connect to the internet to save this.');return}const o=PLAN[S.date]||{},row={day:S.date,lang:o.lang||null,note:o.note||null,...p},{error}=await sb.from('day_plan').upsert(row);if(error){alert('Could not save: '+error.message);return}PLAN[S.date]=row;LR.t=0;loadLR();R()}
 function fbanner(){if(!(SB&&ME&&isCrew()&&FIN))return '';const c=S.fin[S.date],td=ymd(new Date());if(S.date==td&&(!S.rp||S.rp.d!=td)){S.rp={d:td};sv();setTimeout(repAsk,500)}
-return `<div class="it wide ok2"><b>${c?"That's all for today. See you tomorrow.":'All tasks are finished. Wait for tomorrow.'}</b><div class=ctl><label class=pr style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer">${PH.length?PH.length+' photo'+(PH.length>1?'s':''):'Add photo'}<input type=file accept="image/*" multiple hidden data-ph=1></label><button class=pr data-rp=1>Share report</button></div>${c?'':`<div class=ctl><button class=pr data-a=tmr>Prepare for tomorrow</button><button class=pr data-a=fin>That's all for today</button></div>`}</div>`}
+return `<div class="it wide ok2"><b>${c?"That's all for today. See you tomorrow.":'All tasks are finished. Wait for tomorrow.'}</b><div class=ctl><button class=pr data-rp=1>Share report</button></div>${c?'':`<div class=ctl><button class=pr data-a=tmr>Prepare for tomorrow</button><button class=pr data-a=fin>That's all for today</button></div>`}</div>`}
 function crew(){if(!(SB&&ME&&isLead()))return '';const ids=tIds(),un=ids.filter(i=>!D()[i]),late=S.date==ymd(new Date())&&new Date().getHours()>=17,who=[...new Set(Object.values(DW).map(x=>(MEM[x]||{}).name).filter(Boolean))].join(', ');
 return sec('Crew status',un.length?(late?'Unfinished after 5 PM:':'Still to do:'):'All tasks are finished.',`<div class="it${un.length&&late?' alert':''}"><b>${ids.length-un.length} of ${ids.length} done</b><small>${un.map(i=>esc(TT[i]||(i.startsWith('Pmass')?(PM(O().f)[+i.slice(5)]||{}).t:i)||i)).join(', ')||'Nothing left.'}</small>${who?`<small>Done by: ${esc(who)}</small>`:''}</div>`)}
 addEventListener('online',()=>flushQ());
@@ -1142,11 +1126,11 @@ const {data,error}=await sb.rpc('declare_mass_days',{p_chapel:S.ch,p_days:rows})
 if(error){await popup('Could not save',/declare_mass_days/.test(error.message)?'Run the Mass days setup in the Supabase SQL Editor first (see SETUP.md).':error.message,[['OK']]);return}
 MDD={};await loadMD(true);R();await popup('Saved',data&&data.pushed?'Holy Mass days were saved and the crew was notified.':'Holy Mass days were saved. Push notifications are not set up yet, so please tell the crew yourself.',[['OK']])}
 function repText(){const k=S.date,d=new Date(k+'T00:00'),ids=tIds(),done=ids.filter(i=>D()[i]),sc=(t,f)=>{const a=ids.filter(f);return a.length?t+': '+a.filter(i=>D()[i]).length+'/'+a.length:''},
-L=['Chapel report - '+S.ch,d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'}),'Prepared by: '+((ME&&ME.name)||'')+jobTxt(),'','Tasks done: '+done.length+' of '+ids.length,sc('Daily cleaning',i=>/^d\d/.test(i)),sc('Weekly task',i=>i=='w'),sc('Monthly task',i=>/^mo/.test(i)),sc('Mass preparation',i=>/^Pmass/.test(i)),sc('Closing',i=>/^c\d/.test(i))].filter((x,i)=>x!==''||i==3),
+L=['Chapel report - '+S.ch,d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'}),'Prepared by: '+((ME&&ME.name)||''),'','Tasks done: '+done.length+' of '+ids.length,sc('Daily cleaning',i=>/^d\d/.test(i)),sc('Weekly task',i=>i=='w'),sc('Monthly task',i=>/^mo/.test(i)),sc('Mass preparation',i=>/^Pmass/.test(i)),sc('Closing',i=>/^c\d/.test(i))].filter((x,i)=>x!==''||i==3),
 per={};done.forEach(i=>{const u=(MEM[DW[i]]||{}).name||'Someone';per[u]=(per[u]||0)+1});const ps=Object.entries(per).sort((a,b)=>b[1]-a[1]).map(([n,c])=>'- '+n+': '+c);if(ps.length)L.push('','Done by:',...ps);
 const ts=done.map(i=>DT[i]).filter(Boolean).sort(),f=x=>new Date(x).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});if(ts.length)L.push('','First task: '+f(ts[0]),'Last task: '+f(ts[ts.length-1]));
 L.push('','Sent from Chapel In-Charge');return L.join('\n')}
-async function repShare(){const t=repText();try{if(navigator.share){const fs=PH.slice(),o={title:'Chapel report - '+S.ch,text:t};await navigator.share(fs.length&&navigator.canShare&&navigator.canShare({files:fs})?{...o,files:fs}:o);PH=[];R();return}}catch(e){if(e&&e.name=='AbortError')return}
+async function repShare(){const t=repText();try{if(navigator.share){await navigator.share({title:'Chapel report - '+S.ch,text:t});return}}catch(e){if(e&&e.name=='AbortError')return}
 try{await navigator.clipboard.writeText(t);await popup('Report copied','Your phone could not open the share menu, so the report was copied. Paste it into Messenger or any chat.',[['OK']])}catch(e){await popup('Could not share',t,[['OK']])}}
 function repAsk(){popup('All done for today','Great work! Do you want to send today\'s report to the admin and priest? You can share it to a Messenger group or any chat.',[['Not now','sc'],['Share report','pr']]).then(i=>{if(i==1)repShare()})}
 function home(){loadLR();loadMD();if(HB!=tband())newGreet();const v=verseOfDay(),n=ME?esc((ME.name||'').trim().split(' ')[0]):'',nw=annNew();
@@ -1316,7 +1300,7 @@ return `<button class=udu data-ud="${esc(u.id||s.id)}"><span class="dot${cl}">${
 function planCard(){const w=new Date(S.date+'T00:00').getDay(),p=PLAN[S.date]||{},wk=w==0,lang=wk?p.lang:LANGF[w];
 return sec('Message to the crew','The language of the Mass and a note for the selected day.',dbar()+`<div class="it wide"><div class=lg><span>Language of the Mass</span><b>${lang||'Not set yet'}</b></div>`+(wk?`<div class=seg>${['English','Bisaya','Latin'].map(l=>`<button data-lg="${l}" class="${p.lang==l?'on':''}">${l}</button>`).join('')}</div>`:'')+`<textarea class=nm rows=3 id=pn placeholder="Write a note for the crew">${esc(p.note||'')}</textarea><button class=pr data-x=pnote>Save note</button></div>`)}
 function ustat(){if(!isLd())return udNo();
-let h='<h2 class=ph>Users Status</h2><p class=nt>How the crew at '+esc(S.ch)+' is doing with their tasks.</p>'+perBar();const st=udState();if(st)return h+st;
+let h='<h2 class=ph>Users Status</h2><p class=nt>How the crew at '+esc(S.ch)+' is doing with their tasks.</p>'+perBar()+declCard();const st=udState();if(st)return h+st;
 const c=udCalc(),L=udRoster(c),act=L.filter(r=>r.s.done>0).length,per=(S.up||'7')=='today';let k;
 if(per){const [dn,tt]=udToday(c);k=[[tt?dn+'/'+tt:dn,'Tasks done'],[act+'/'+L.length,'Active crew'],[tt?tt-dn:'-','Still to do']]}else k=[[c.total,'Tasks done'],[act+'/'+L.length,'Active crew'],[c.days+'/'+c.n,'Active days']];
 h+=`<div class=st>${k.map(([b,l])=>`<div><b>${b}</b><small>${l}</small></div>`).join('')}</div>`;
